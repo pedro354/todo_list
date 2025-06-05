@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Tarefas | To-Do App</title>
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <main class="app">
+            <section id="sectionTasks">
+                <div class="container">
+                    <ul id="taskContainer">
+                        <% tasks.forEach( task => { %>
+                            <li class="fade-in">
+                                <a href="/app/<%= task.id  %>">
+                                    <h2>
+                                        <%= task.title %>
+                                    </h2>
+
+                                </a>
+                                <form id="deleteTask" action="/app/<%= task.id  %>/delete" method="post">
+                                    <button class="deleteBtn" id="btnId">Excluir</button>
+                                </form>
+                            </li>
+                </div>
+                <% }) %>
+                    </ul>
+                    <div id="empty" class="empty-message" style="display: none;">🔍 Lista de tarefas
+                        vazia!</div>
+                    </div>
+                    <a href="/app/create">Criar Nova Lista de Tarefas</a>
+            </section>
+        </main>
+        <%- include('../partials/footer') %>
+            <script src="/public/script/api.js"></script>
+</body>
+
+</html>

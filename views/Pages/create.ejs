@@ -1,0 +1,31 @@
+<!-- Criação de tarefas -->
+<!-- Página de lista de tarefas -->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar Nova Lista | To-Do App</title>
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <h1>Criar nova Lista de Tarefas</h1>
+        <main class="app">
+            <section class="formContainer">
+                <form action="/app/new-list-task" method="post">
+                    <div class="container">
+                        <label for="title" class="visually-hidden">Digite o nome da lista</label>
+                        <input type="text" class="task" id="title" name="title" placeholder="Nome da lista">
+                        <button type="submit" class="addTaskBtn" id="addTaskBtn">Criar Nova Lista</button>
+                    </div>
+                </form>
+                <a href="/app">Voltar</a>
+            </section>
+        </main>
+        <%- include('../partials/footer') %>
+            <!-- <script src="/public/script.js"></script> -->
+</body>
+
+</html>

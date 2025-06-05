@@ -1,0 +1,57 @@
+<!-- Mostrando a lista de tarefas -->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Lista da tarefa | To-Do App</title>
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <main class="app">
+            <h2>
+                <%= taskList.title %>
+            </h2>
+            <div class="container">
+
+                <section>
+                    <form action="/app/<%= taskList.id %>/new-task" method="post">
+                        <div>
+                            <input type="text" id="title" placeholder="Digite o titulo da tarefa" name="title">
+                            <button class="btn">Adicionar</button>
+                        </div>
+                    </form>
+                    <ul class="listGroup">
+                        <% taskList.tasks.forEach(task=> { %>
+                            <li class="list <%= task.completed ? 'completed' : '' %>">
+                                <%= task.title %>
+                                    <% if (!task.completed) { %>
+                                        <form action="/app/<%= taskList.id %>/completed/<%= task.id %>" method="POST">
+                                        <button class="btn btn-success">Completar</button>
+                                        </form>
+                                        <% } else { %>
+                                        <form action="/app/<%= taskList.id %>/undo/<%= task.id %>" method="POST">
+                                        <button class="btn btn-danger">Desfazer</button>
+                                        </form>
+                                        <% } %>
+                                        <form action="/app/<%= taskList.id %>/delete/<%= task.id %>" method="POST">
+                                        <button class="btn btn-danger">Excluir</button>
+                                        </form>
+                                        
+                            </li>
+                            <form action="/app/<%= taskList.id %>/delete" method="POST">
+    <button class="btn btn-danger">Excluir Lista</button>
+</form>
+                            <% }) %>
+                    </ul>
+                    <div id="empty" class="empty-message" style="display: none;">🔍 Lista de tarefas vazia!</div>
+                </section>
+            </div>
+        </main>
+        <%- include('../partials/footer') %>
+
+</body>
+
+</html>
