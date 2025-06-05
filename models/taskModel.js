@@ -8,7 +8,7 @@ function initializeTasks() {
         const data = fs.readFileSync("data/tasks.json", "utf-8");
         taskLists = JSON.parse(data);
     } catch (error) {
-        console.log("Erro ao carregar o arquivo:", error);
+        console.log("Erro ao carregar o arquivo:", error, "!");
         taskLists = [];
     }
 }
