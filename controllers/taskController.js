@@ -4,6 +4,7 @@ const taskController = {
     //GET /app
     index: (req, res) => {
         const tasks = taskModel.getAllTasks()
+            console.log("Entrou na rota /app");
         res.render('pages/app', { tasks })
     },
     // GET /app/nova-lista - exibir a pagina do formulario - redenrizar a tela

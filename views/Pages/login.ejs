@@ -1,1 +1,63 @@
-<!-- Ainda a ser montado no futuro -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do App | Login</title>
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<body class="login-body">
+  <%- include('../partials/header') %>
+
+    <div class="login-container">
+      <div class="login-card">
+        <h2>Login</h2>
+            <% if (locals.loginError) { %>
+            <div class="error">
+              <%= loginError %>
+            </div>
+            <% } %>
+
+            <% if (locals.loginSuccess) { %>
+            <div class="success">
+            <%= loginSuccess %>
+            </div>
+            <% } %>
+
+      <div class="login-form">
+                <% if (typeof message !=='undefined' ) { %>
+                  <div class="message <%= message.type %>">
+                    <p>
+                      <%= message.text %>
+                    </p>
+                  </div>
+                  <% } %>
+                    <form action="/auth/login" method="POST">
+                      <label for="email">Email</label>
+                      <input type="email" name="email" id="email" required>
+
+                      <label for="password">Senha</label>
+                      <input type="password" name="password" id="password" required>
+
+                      <div class="containerBtn">
+                        <div class="contentRe">
+                          <a href="">Registrar-se</a>
+                          <span>/</span>
+                          <a href="">Esqueceu a senha?</a>
+
+                        </div>
+                        <button class="enter" type="submit" name="loginType" value="user">Entrar</button>
+                        <button class="guest" type="submit" name="loginType" value="guest">Login como convidado</button>
+
+                      </div>
+                    </form>
+      </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+
+</body>
+
+</html>

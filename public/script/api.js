@@ -1,13 +1,14 @@
-const BASE_URL = "http://localhost:3000/app"; // ou a URL da API quando for produção
+// api.js
+window.base_url = 'http://localhost:3000';
 
-export async function getTasks() {
-    const res = await fetch(BASE_URL);
+ async function getTasks() {
+    const res = await fetch(base_url);
         if (!res.ok) throw new Error('Falha ao buscar tarefa');
     return fetch(env).then(res => res.json());
 }
 
-export async function createTask(title) {
-    const res = await fetch(BASE_URL, {
+ async function createTask(title) {
+    const res = await fetch(base_url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title, completed: false })
@@ -18,8 +19,8 @@ export async function createTask(title) {
     return res.json();
 }
 
-export async function deleteTask(taskId) {
-    const res = await fetch(`${BASE_URL}/${taskId}`, {
+ async function deleteTask(taskId) {
+    const res = await fetch(`${base_url}/${taskId}`, {
         method: 'DELETE',
     })
     if (!res.ok) {
@@ -27,8 +28,4 @@ export async function deleteTask(taskId) {
     }
     return res.json();
 }
-export default {
-    getTasks,
-    createTask,
-    deleteTask
-}
+
