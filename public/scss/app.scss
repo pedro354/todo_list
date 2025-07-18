@@ -1,0 +1,15 @@
+// Variáveis e mixins primeiro
+@use 'utils/variables';
+@use 'utils/mixins';
+
+// Base
+@use 'base/global';
+
+// Componentes
+@use 'components/header';
+@use 'components/footer';
+@use 'components/message';
+@use 'components/login';
+@use 'components/tasks';
+@use 'components/home';
+

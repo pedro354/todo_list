@@ -1,0 +1,23 @@
+// tasks.scss ficam aqui para modelar de acordo com uma imagem q voce enviou
+
+.list-group{
+    border: solid 1px #efef;
+    padding: 0 1rem;
+    width: 100%;
+
+}
+
+.list-group-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+

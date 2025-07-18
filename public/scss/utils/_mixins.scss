@@ -1,0 +1,25 @@
+// codigos reutilizaveis
+@use 'sass:color';
+
+@mixin center-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button-style($bg, $color) {
+  background-color: color.adjust($bg, $lightness: 10%);
+  color: $color;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: color.adjust($bg, $lightness: 20%);
+  }
+}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-     <link rel="stylesheet" href="/public/styles/style.css">
+     <link rel="stylesheet" href="/css/app.css">
 
 <title>Lista de Tarefas | To-Do App</title>
 </head>
@@ -12,29 +12,27 @@
 <body>
     <%- include('../partials/header') %>
         <main class="app">
-            <section id="sectionTasks">
-                <div class="container">
-                    <ul id="taskContainer">
+            <div class="container mt-5" id="sectionTasks">
+                <h1>Lista de Tarefas</h1>
+                    <ul class="list-group" id="taskContainer">
                         <% tasks.forEach( task => { %>
-                            <li class="fade-in">
-                                <a href="/app/<%= task.id  %>">
-                                    <h2>
-                                        <%= task.title %>
-                                    </h2>
-
-                                </a>
+                            <li class="list-group-item">
+                                <article class="task">
+                                    <a class="task-title" href="/app/<%= task.id  %>">
+                                        <h2>
+                                            <%= task.title %>
+                                        </h2>
+                                    </a>
+                                </article>
                                 <form id="deleteTask" action="/app/<%= task.id  %>/delete" method="post">
                                     <button class="deleteBtn" id="btnId">Excluir</button>
                                 </form>
                             </li>
-                </div>
                 <% }) %>
                     </ul>
-                    <div id="empty" class="empty-message" style="display: none;">🔍 Lista de tarefas
-                        vazia!</div>
-                    </div>
+                    <span id="empty" class="empty-message" style="display: none;">🔍 Lista de tarefas vazia!</span>
                     <a href="/app/create">Criar Nova Lista de Tarefas</a>
-            </section>
+                </div>   
         </main>
         <%- include('../partials/footer') %>
 </body>

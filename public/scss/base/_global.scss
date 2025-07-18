@@ -1,0 +1,42 @@
+// global styles
+@use '../utils/variables';
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    flex: 1 0 auto;
+    background-color: variables.$bg-color;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+main {
+    flex: 1 1 auto;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #282828;
+}
+
+ul, li{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+    color: #fff;
+    transition: 0.3s;
+}
+
