@@ -1,21 +1,12 @@
 // global styles
-@use '../utils/variables';
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
 
-html {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
+@include style-html;
 
 body {
     flex: 1 0 auto;
-    background-color: variables.$bg-color;
+    background-color: $bg-color;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -25,7 +16,6 @@ body {
 
 main {
     flex: 1 1 auto;
-    padding: 20px;
     overflow-y: auto;
     background-color: #282828;
 }
@@ -36,7 +26,11 @@ ul, li{
 
 a{
     text-decoration: none;
-    color: #fff;
+    color: $text-light;
     transition: 0.3s;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $text-light;
 }
 

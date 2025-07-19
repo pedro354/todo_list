@@ -12,18 +12,26 @@
 
 <body>
     <%- include('../partials/header') %>
-        <h1>Criar nova Lista de Tarefas</h1>
-        <main class="app">
-            <section class="formContainer">
-                <form action="/app/new-list-task" method="post">
-                    <div class="container">
-                        <label for="title" class="visually-hidden">Digite o nome da lista</label>
+    <main class="app">
+            <div class="user">
+                <span>${Convidado}</span>
+            </div>
+        <div class="container-app mt-5">
+            <h1>Criar nova Lista de Tarefas</h1>
+            <form class="form" action="/app/new-list-task" method="post">
+                <div class="container-group">
+                <div class="content-create">
+                    <label for="title" class="visually-hidden">Digite o nome da lista</label>
                         <input type="text" class="task" id="title" name="title" placeholder="Nome da lista">
-                        <button type="submit" class="addTaskBtn" id="addTaskBtn">Criar Nova Lista</button>
+                        <button type="submit" class="addTaskBtn" id="addTaskBtn">Criar</button>
+                    </div>
                     </div>
                 </form>
+                                    <button class="btn-normal">
                 <a href="/app">Voltar</a>
-            </section>
+                    </button>
+
+            </div>
         </main>
         <%- include('../partials/footer') %>
             <!-- <script src="/public/script.js"></script> -->

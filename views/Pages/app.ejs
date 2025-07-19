@@ -12,7 +12,10 @@
 <body>
     <%- include('../partials/header') %>
         <main class="app">
-            <div class="container mt-5" id="sectionTasks">
+            <div class="user">
+                <span>Bem vindo! ${Convidado}</span>
+            </div>
+            <div class="container-app mt-5" id="sectionTasks">
                 <h1>Lista de Tarefas</h1>
                     <ul class="list-group" id="taskContainer">
                         <% tasks.forEach( task => { %>
@@ -25,16 +28,19 @@
                                     </a>
                                 </article>
                                 <form id="deleteTask" action="/app/<%= task.id  %>/delete" method="post">
-                                    <button class="deleteBtn" id="btnId">Excluir</button>
+                                    <button class="deleteBtn" id="btnId">X</button>
                                 </form>
                             </li>
                 <% }) %>
-                    </ul>
+            </ul>
                     <span id="empty" class="empty-message" style="display: none;">🔍 Lista de tarefas vazia!</span>
-                    <a href="/app/create">Criar Nova Lista de Tarefas</a>
+                    <button class="btn-normal">
+                        <a class="btn-new-task" href="/app/create">Criar Nova Lista de Tarefas</a>
+                    </button>
                 </div>   
         </main>
         <%- include('../partials/footer') %>
 </body>
 
 </html>
+

@@ -1,7 +1,10 @@
 // as variables.scss
 $font-stack: 'Poppins', sans-serif;
-$bg-color: #3c3c3c;
+$bg-home: linear-gradient(270deg, #00e2b5, #01bce6, #00ee9f);
 $bg-login: linear-gradient(135deg, #1b1b2f, #162447);
+$bg-task: #1a1a1a; // fundo da área de tarefas
+$bg-color: #000;
+$bg-app: #0e1320;  // fundo da aplicação
 $primary-color: #556bff;
 $input-bg: #ffffff1f;
 $text-light: #fff;
@@ -9,3 +12,14 @@ $link-color: #8aaaff;
 $btn-secondary: #444;
 $bg-card:  rgba(255, 255, 255, 0.06);
 $box-shadow-card:  rgba(0,0,0,0.3);
+$gray-dark: #2b2b2b;
+$gray-mid: #4d4d4d;
+$gray-light: #555;
+$gray-lighter: #b9b9b9;
+$btn-hover: #5a5a5a;
+$danger: #ff4c4c;
+$header-bg: #0e1320;
+$footer-bg: #0e1320;
+$text-color: #e4e4e4;
+
+

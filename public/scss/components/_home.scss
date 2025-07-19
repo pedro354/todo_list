@@ -1,30 +1,28 @@
 // home(pagina de carregamento)
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-html, body {
-    min-height: 100vh;
-    width: 100%;
-    overflow: hidden;
-}
+@use '../utils/variables.scss' as *;
+@use '../utils/mixins.scss' as *;
 
+@include style-html;
 
-body {
-  background: linear-gradient(270deg, #00e2b5, #01bce6, #00ee9f);
+.home {
+  background: $bg-home;
   background-size: 600% 600%;
   animation: gradientFlow 10s ease infinite;
 }
-
+.home::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.05), transparent 70%);
+  z-index: 0;
+}
 @keyframes gradientFlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-.container{
+.container-home{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,11 +33,11 @@ body {
   position: relative;
 }
 
-  body.fade-out {
+  .home.fade-out {
     opacity: 0;
     transition: opacity 1s ease-out;
   }
-body::before {
+.home::before {
   content: "";
   position: absolute;
   inset: 0;

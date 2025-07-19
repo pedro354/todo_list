@@ -84,6 +84,12 @@ const authController = {
         res.redirect(302, '/app')
 
     },
+    users: (req, res) => {
+        const users = readUsers()
+        const user = users.find(user => user.email === req.session.currentUser.email)
+        res.render('pages/user', {user})
+    },
+
     logout: (req, res) => {
         req.session = null
         res.redirect('/home')

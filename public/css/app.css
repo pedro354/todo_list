@@ -1,4 +1,3 @@
-@import url("./style.css");
 * {
   margin: 0;
   padding: 0;
@@ -6,15 +5,15 @@
   font-family: "Poppins", sans-serif;
 }
 
-html {
+html, body {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
 }
 
 body {
   flex: 1 0 auto;
-  background-color: #3c3c3c;
+  background-color: #000;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -24,7 +23,6 @@ body {
 
 main {
   flex: 1 1 auto;
-  padding: 20px;
   overflow-y: auto;
   background-color: #282828;
 }
@@ -39,47 +37,55 @@ a {
   transition: 0.3s;
 }
 
-header {
+h1, h2, h3, h4, h5, h6 {
+  color: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  font-size: 16px;
+}
+
+html, body {
+  min-height: 100vh;
   width: 100%;
-  height: auto;
-  padding: 0 20px;
+  overflow: hidden;
+}
+
+header {
+  background-color: #0e1320;
+  padding: 1rem 2rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  height: 60px;
 }
-
-header, a {
-  margin: 10px;
-  color: #556bff;
+header h1 {
+  color: #e4e4e4;
+  font-size: 1.5rem;
 }
-
-nav a {
-  text-decoration: none !important;
-  border-bottom: transparent !important;
+header nav {
+  display: flex;
+  gap: 1.5rem;
 }
-
-nav a:hover {
-  border-bottom: 2px solid #556bff !important;
-  padding: 2px 0;
+header nav a {
+  color: #e4e4e4;
+  text-decoration: none;
+  font-weight: 500;
 }
-
-:root {
-  --color-primary: #e4e4e4;
+header nav a:hover {
+  text-decoration: underline;
 }
 
 footer {
-  color: var(--color-primary);
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-  width: 100%;
-  height: var(--footer-height);
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
+  background-color: #0e1320;
+  color: #aaa;
+  text-align: center;
+  padding: 0.6rem;
+  font-size: 0.8rem;
+  margin-top: auto;
 }
 
 .login-body {
@@ -254,24 +260,114 @@ footer {
     transform: translateY(0);
   }
 }
-.list-group {
-  border: solid 1px #eeffee;
-  padding: 0 1rem;
-  width: 100%;
-}
-
-.list-group-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.container {
+.app {
+  background-color: #0e1320;
+  color: #e4e4e4;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
+}
+.app .user {
+  text-align: end;
+  padding: 1rem;
+}
+.app .container-app {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent;
+}
+.app .container-app h1 {
+  color: #e4e4e4;
+  margin-bottom: 1rem;
+}
+.app .container-app .list-group {
+  width: 100%;
+  background-color: #1a1a1a;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+.app .container-app .list-group-item {
+  background-color: rgb(18.35, 18.35, 18.35);
+  margin-bottom: 0.8rem;
+  border-radius: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  color: #e4e4e4;
+}
+.app .container-app .deleteBtn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 18%;
+  background: #555;
+  color: white;
+  font-family: "cursive";
+}
+.app .container-app .deleteBtn:hover {
+  background-color: #ff4c4c;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.app .container-app .btn-normal {
+  background-color: #444;
+  color: #e4e4e4;
+  margin-top: 1rem;
+  height: 2rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: none;
+}
+.app .container-app .btn-normal a {
+  color: inherit;
+  text-decoration: none;
+  width: 100%;
+  display: block;
+}
+.app .container-app .btn-normal:hover {
+  background-color: rgb(24.7, 24.7, 24.7);
+}
+.app .container-group {
+  background-color: #1a1a1a;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+}
+.app .content-create {
+  background-color: rgb(18.35, 18.35, 18.35);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 0.4rem;
+}
+.app .content-create .task {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 1rem 0 0 1rem;
+}
+.app .content-create .addTaskBtn {
+  border: none;
+  border-radius: 0 12rem 12rem 0;
+  padding: 0px;
+  padding: 0.5rem;
+  width: 5rem;
+  background-color: #b9b9b9;
+  cursor: pointer;
+}
+.app .content-create #title:focus {
+  border: solid 2px aqua;
+  outline: none;
+  padding: 0.45rem;
+}
+.app .form {
+  width: 100%;
 }
 
 * {
@@ -287,10 +383,18 @@ html, body {
   overflow: hidden;
 }
 
-body {
+.home {
   background: linear-gradient(270deg, #00e2b5, #01bce6, #00ee9f);
   background-size: 600% 600%;
   animation: gradientFlow 10s ease infinite;
+}
+
+.home::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.05), transparent 70%);
+  z-index: 0;
 }
 
 @keyframes gradientFlow {
@@ -304,7 +408,7 @@ body {
     background-position: 0% 50%;
   }
 }
-.container {
+.container-home {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -315,12 +419,12 @@ body {
   position: relative;
 }
 
-body.fade-out {
+.home.fade-out {
   opacity: 0;
   transition: opacity 1s ease-out;
 }
 
-body::before {
+.home::before {
   content: "";
   position: absolute;
   inset: 0;
