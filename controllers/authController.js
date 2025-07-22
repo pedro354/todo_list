@@ -1,62 +1,34 @@
-const path = require('path')
-const fs = require('fs')
-const userDBPath = path.join(process.cwd(), 'data', 'users.json');
-
-function readUsers() {
-    try {
-        const data = fs.readFileSync(userDBPath, 'utf-8')
-        return JSON.parse(data)
-    } catch (error) {
-        console.error("Erro ao ler users.json", error);
-        return []
-    }
-}
-function writeUsers(users) {
-    try {
-        fs.writeFileSync(userDBPath, JSON.stringify(users, null, 2), 'utf-8');
-    } catch (err) {
-        console.error("Erro ao salvar no users.json:", err);
-    }
-}
-
+const userModel = require('../models/userModel.js')
 const authController = {
     loginPage: (req, res) => {
-        const message = req.session.message;
-        delete req.session.message;
-        const loginError = req.session.loginError;
-        delete req.session.loginError;
-        const loginSuccess = req.session.loginSuccess;
-        delete req.session.loginSuccess;
-        res.render('pages/login', {
-            message,
-            loginError,
-            loginSuccess
-        });
+        const user = req.session.currentUser;
+        res.render('pages/login', { user });
     },
 
     index: (req, res) => {
-        res.render('pages/home')
+        if(!req.session.authenticated){
+            return res.redirect('/auth/login');
+        }
+        const user = req.session.currentUser;
+        res.render('pages/app', {user})
     },
     register: (req, res) => {
-        const { email, password } = req.body
-        const users = readUsers()
+        const { name, email, password } = req.body
 
-        const userAlreadyExists = users.find(user => user.email === email)
-
-        if (userAlreadyExists) {
+        if(userModel.findUserByEmail(email)){
             req.session.message = "Email já cadastrado!"
-            return res.redirect('/auth/login')
+            return res.redirect('/auth/register')
         }
 
-        const newUser = { email, password }
-        users.push(newUser)
-        writeUsers(users)
-
-
+        const newUser = userModel.createUser({ name, email, password })
         req.session.authenticated = true;
-        req.session.currentUser = {email, password};
-        req.session.message = "Cadastro realizado com sucesso!";
-        res.redirect('/app')
+        req.session.currentUser = {
+            name: newUser.name,
+            email: newUser.email,
+            guest: false
+        }
+        req.session.message = "Usuário cadastrado com sucesso!"
+        res.redirect(302, "/app");
     },
 
     login: (req, res) => {
@@ -65,35 +37,41 @@ const authController = {
         // Login como convidado
         if(loginType === 'guest'){
             req.session.authenticated = true;
-            req.session.currentUser = {name: 'Convidado', guest: true}
+            req.session.currentUser = {
+                name: 'Convidado',
+                email: null,
+                guest: true
+            }
             return res.redirect(302, '/app')
         }
         // Login como usuário
-        const users = readUsers()
-        const user = users.find(user => user.email === email && user.password === password)
-
-        if(!user){
+        const user = userModel.findUserByEmail(email)
+        if(!user || user.password !== password){
             req.session.authenticated = false;
             req.session.loginError = "Email ou senha inválidos!";
             return res.redirect('/auth/login');
         }
-        
+        // Verifica se o usuário existe e se a senha está correta        
         req.session.authenticated = true;
-        req.session.currentUser = {email: user.email}
-        req.session.loginSuccess = "Login realizado com sucesso!"
-        res.redirect(302, '/app')
 
-    },
-    users: (req, res) => {
-        const users = readUsers()
-        const user = users.find(user => user.email === req.session.currentUser.email)
-        res.render('pages/user', {user})
+        req.session.currentUser = {
+            name: user.name,
+            email: user.email,
+            guest: false
+        }
+        req.session.loginSuccess = "Login realizado com sucesso!";
+        res.redirect(302, '/app');
     },
 
-    logout: (req, res) => {
-        req.session = null
-        res.redirect('/home')
-    }
+logout: (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Erro ao encerrar sessão:', err);
+            return res.status(500).send("Erro ao sair");
+        }
+        res.redirect('/home');
+    });
+}
 }
 
-module.exports = authController
+module.exports = authController;

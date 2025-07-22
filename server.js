@@ -18,9 +18,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'segredo-muito-seguro',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false,
+    cookie: { 
+        maxAge: 1000 * 60 * 60 * 24
+     } // true se estiver usando HTTPS
 }));
-
 app.use(router)
 
 app.use((req, res) => {

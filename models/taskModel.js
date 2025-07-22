@@ -2,7 +2,6 @@ const fs = require('node:fs');
 
 
 let taskLists = []
-
 function initializeTasks() {
     try {
         const data = fs.readFileSync("data/tasks.json", "utf-8");

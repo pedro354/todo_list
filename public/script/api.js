@@ -10,6 +10,7 @@ window.base_url = 'http://localhost:3000';
  async function createTask(title) {
     const res = await fetch(base_url, {
         method: 'POST',
+        // credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title, completed: false })
     })
@@ -21,6 +22,7 @@ window.base_url = 'http://localhost:3000';
 
  async function deleteTask(taskId) {
     const res = await fetch(`${base_url}/${taskId}`, {
+    // credentials: 'include',
         method: 'DELETE',
     })
     if (!res.ok) {

@@ -6,50 +6,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Lista da tarefa | To-Do App</title>
-      <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/app.css">
 
 </head>
 
 <body>
     <%- include('../partials/header') %>
         <main class="app">
-            <h2>
-                <%= taskList.title %>
-            </h2>
-            <div class="container">
-
-                <section>
-                    <form action="/app/<%= taskList.id %>/new-task" method="post">
-                        <div>
-                            <input type="text" id="title" placeholder="Digite o titulo da tarefa" name="title">
-                            <button class="btn">Adicionar</button>
+            <div class="user">
+            <% if (user && !user.guest) { %>
+                <span>Bem vindo, <%= user.name  %></span>
+            <% } else { %>
+                <span>Olá, Convidado!</span>
+                <% } %>
+            </div>
+            <div class="container-app mt-5">
+                <h1><%= taskList.title %></h1>
+                <form class="form" action="/app/<%= taskList.id %>/new-task" method="post">
+                    <div class="container-group">
+                        <div class="content-create">
+                            <label class="visually-hidden" for="title">Título da tarefa</label>
+                            <input class="task" type="text" id="title" placeholder="Digite o titulo da tarefa" name="title">
+                            <button class="addTaskBtn" >Adicionar</button>
                         </div>
-                    </form>
-                    <ul class="listGroup">
-                        <% taskList.tasks.forEach(task=> { %>
-                            <li class="list <%= task.completed ? 'completed' : '' %>">
-                                <%= task.title %>
-                                    <% if (!task.completed) { %>
-                                        <form action="/app/<%= taskList.id %>/completed/<%= task.id %>" method="POST">
-                                        <button class="btn btn-success">Completar</button>
-                                        </form>
-                                        <% } else { %>
+                    </div>
+                </form>
+                <ul class="list-group">
+                    <% taskList.tasks.forEach(task=> { %>
+                        <li class="list-group-item subTask <%= task.completed ? 'completed' : '' %>">
+                            <%= task.title %>
+                            <div class="groupBtn">
+                                <% if (!task.completed) { %>
+                                    <form action="/app/<%= taskList.id %>/completed/<%= task.id %>" method="POST">
+                                        <button class="completedBtn">Completar</button>
+                                    </form>
+                                    <% } else { %>
                                         <form action="/app/<%= taskList.id %>/undo/<%= task.id %>" method="POST">
-                                        <button class="btn btn-danger">Desfazer</button>
+                                            <button class="deleteBtn">Desfazer</button>
                                         </form>
                                         <% } %>
-                                        <form action="/app/<%= taskList.id %>/delete/<%= task.id %>" method="POST">
-                                        <button class="btn btn-danger">Excluir</button>
-                                        </form>
-                                        
-                            </li>
-                            <form action="/app/<%= taskList.id %>/delete" method="POST">
-    <button class="btn btn-danger">Excluir Lista</button>
-</form>
-                            <% }) %>
+                                            <form action="/app/<%= taskList.id %>/delete/<%= task.id %>" method="POST">
+                                                <button class="deleteBtn">Excluir</button>
+                                            </form>
+
+                            </div>
+
+                        </li>
+                        <% }) %>
                     </ul>
-                    <div id="empty" class="empty-message" style="display: none;">🔍 Lista de tarefas vazia!</div>
-                </section>
+                    <div class="deleteBtnAll">
+                        <form action="/app/<%= taskList.id %>/delete" method="POST">
+                            <button class="deleteBtnAll btn-danger">Excluir toda a lista</button>
+                        </form>
+                    </div>
+                <div id="empty" class="empty-message" style="display: none;">🔍 Lista de tarefas vazia!</div>
             </div>
         </main>
         <%- include('../partials/footer') %>

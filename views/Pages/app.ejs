@@ -13,7 +13,11 @@
     <%- include('../partials/header') %>
         <main class="app">
             <div class="user">
-                <span>Bem vindo! ${Convidado}</span>
+            <% if (user && !user.guest) { %>
+                <span>Bem vindo, <%= user.name  %></span>
+            <% } else { %>
+                <span>Olá, Convidado!</span>
+                <% } %>
             </div>
             <div class="container-app mt-5" id="sectionTasks">
                 <h1>Lista de Tarefas</h1>

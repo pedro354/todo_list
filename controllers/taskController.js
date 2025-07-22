@@ -4,15 +4,18 @@ const taskController = {
     //GET /app
     index: (req, res) => {
         const tasks = taskModel.getAllTasks()
+        const user = req.session.currentUser;
             console.log("Entrou na rota /app");
-        res.render('pages/app', { tasks })
+        res.render('pages/app', { tasks, user })
     },
     // GET /app/nova-lista - exibir a pagina do formulario - redenrizar a tela
     create: (req, res) => {
-        res.render('pages/create')
+        const user = req.session.currentUser
+        res.render('pages/create', { user });
     },
         //POST /app/nova-lista - destinado a salvar o model 
     save: (req, res) => {
+        const user = req.session.currentUser
         const { title } = req.body
         taskModel.createTask(title)
         res.redirect('/app')
@@ -21,10 +24,11 @@ const taskController = {
     show: (req, res) => {
         const { listId } = req.params;
         const taskList = taskModel.getTaskListById(listId);
+        const user = req.session.currentUser;
         if(!taskList) {
             return res.status(404).send('Lista não encontrada')
         }
-        res.render('pages/show', { taskList })
+        res.render('pages/show', { taskList, user });
     },
     // POST /app/:id/nova-tarefa
     addTask: (req, res) => {
