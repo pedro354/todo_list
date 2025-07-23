@@ -4,6 +4,7 @@ function Logger(req, res, next) {
     const statusEmoji = 
     statusCode >= 500 ? '🔥' :
     statusCode >= 400 ? '🚨' :
+    statusCode >= 401 ? '👮' :
     statusCode >= 300 ? '🔗' :
     statusCode >= 200 ? '👍' : '🤷';
     console.log(`${statusEmoji} [${date}] ${req.method} ${req.url} ${req.ip} - Status: ${statusCode}`);

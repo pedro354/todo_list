@@ -86,6 +86,9 @@ footer {
   padding: 0.6rem;
   font-size: 0.8rem;
   margin-top: auto;
+  border-radius: 5px;
+  animation: fadeIn;
+  animation-duration: 2s;
 }
 
 .login-body {
@@ -116,7 +119,7 @@ footer {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 400px;
-  animation: fadeInUp 1s ease;
+  animation: fadeIn 3s ease;
 }
 .login-container .login-card h2 {
   text-align: center;
@@ -219,16 +222,6 @@ footer {
     background-position: 0% 50%;
   }
 }
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .message {
   padding: 10px 15px;
   margin: 10px 0;
@@ -260,6 +253,15 @@ footer {
     transform: translateY(0);
   }
 }
+.error {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  color: #9f0909;
+  font-weight: bold;
+}
+
 .app {
   background-color: #0e1320;
   color: #e4e4e4;
@@ -372,6 +374,10 @@ footer {
   outline: none;
   padding: 0.45rem;
 }
+.app .content-create .visually-hidden {
+  width: 12rem;
+  text-align: center;
+}
 .app .subTask {
   padding: 0.5rem 1rem !important;
   font-size: larger;
@@ -436,7 +442,7 @@ html, body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  width: 100%;
+  max-width: 100%;
   padding: 100px;
   position: relative;
 }
@@ -458,6 +464,7 @@ html, body {
   color: #f0f0f0;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
   transition: all 0.4s ease;
+  font-size: 2rem;
 }
 
 .loader {
@@ -475,7 +482,8 @@ html, body {
   color: #f0f0f0;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
   transition: all 0.4s ease;
-  white-space: nowrap;
+  white-space: wrap;
+  text-align: center;
 }
 
 .cursor {
@@ -575,6 +583,294 @@ html, body {
   left: auto;
   right: 15%;
   animation-delay: 0.3s;
+}
+
+.register-body {
+  height: 100%;
+  background: linear-gradient(135deg, #1b1b2f, #162447);
+  background-size: 200% 200%;
+  animation: gradientMove 10s ease infinite;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.register-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Segoe UI", sans-serif;
+}
+.register-container .register-card {
+  background-color: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  animation: fadeInUp 1s ease;
+}
+.register-container .register-card h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 500;
+  color: #fff;
+}
+.register-container .register-card label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+.register-container .register-card input {
+  background: rgba(255, 255, 255, 0.1215686275);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  font-size: 1rem;
+  transition: background 0.3s;
+  color: #fff;
+}
+.register-container .register-card input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 0 2px #00ffae;
+}
+.register-container .register-card .links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+.register-container .register-card .links a {
+  color: #8aaaff;
+  text-decoration: none;
+}
+.register-container .register-card .links a:hover {
+  text-decoration: underline;
+}
+.register-container .register-card .actions {
+  display: flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.register-container .register-card .actions .btn-register {
+  background-color: rgb(136, 151.4, 255);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}
+.register-container .register-card .actions .btn-register:hover {
+  background-color: rgb(187, 195.8, 255);
+}
+.register-container .register-card .actions .btn-guest {
+  background-color: rgb(93.5, 93.5, 93.5);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}
+.register-container .register-card .actions .btn-guest:hover {
+  background-color: #777777;
+}
+.register-container .register-card .actions .middle-actions {
+  font-size: 0.9rem;
+  width: 100%;
+  text-align: end;
+}
+.register-container footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.85rem;
+}
+.register-container .char {
+  color: #ffffff;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.message {
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  animation: fadein 0.4s ease-in-out;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+html, body {
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 1000px) {
+  .app {
+    padding: 0 5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  .app .content-create {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: wrap !important;
+    gap: 10px;
+  }
+  .app .addTaskBtn {
+    width: 100% !important;
+    padding: 10px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 10px !important;
+  }
+  .app .task {
+    border-radius: 10px !important;
+  }
+  .app .user {
+    font-size: 1.5rem;
+    text-align: center !important;
+    font-family: cursive, sans-serif;
+  }
+}
+@media screen and (max-width: 650px) {
+  .app {
+    padding: 0 2rem;
+    width: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  .app .content-create {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: wrap !important;
+    gap: 10px;
+  }
+  .app .addTaskBtn {
+    width: 100% !important;
+    padding: 10px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 10px !important;
+  }
+  .app .task {
+    border-radius: 10px !important;
+  }
+  .app .user {
+    font-size: 1.5rem;
+    text-align: center !important;
+    font-family: cursive, sans-serif;
+  }
+}
+@media screen and (max-width: 500px), (max-width: 400px) {
+  header {
+    padding: 10px;
+    font-size: 0.7rem;
+  }
+  .app {
+    padding: 0 2rem;
+    text-align: center;
+  }
+  .user {
+    font-size: 1.5rem;
+    text-align: center !important;
+    font-family: cursive, sans-serif;
+  }
+  .content-create {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: wrap !important;
+    gap: 10px;
+  }
+  .addTaskBtn {
+    width: 100% !important;
+    padding: 10px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 10px !important;
+  }
+  .task {
+    border-radius: 10px !important;
+  }
 }
 
 /*# sourceMappingURL=app.css.map */

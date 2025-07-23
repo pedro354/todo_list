@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="register-body">
+    <div class="register-container">
+        <div class="register-card">
+            <h2>Register</h2>
+            <% if (locals.registerError) { %>
+            <div class="error">
+                <%= registerError %>
+            </div>
+            <% } %>
+            <div class="register-form">
+                <% if (message) { %>
+                 <div class="message <%= message.type %>">
+                    <p>
+                        <%= message.text %>
+                    </p>
+                 </div>
+                <% } %>
+                <form action="/auth/register" method="post">
+                    <label for="name">Nome: </label>
+                    <input type="text" name="name" id="name" required>
+                    <label for="email">Email: </label>
+                    <input type="email" name="email" id="email" required>
+                    <label for="password">Senha: </label>
+                    <input type="password" name="password" id="password" required>
+                    <label for="confirmPassword">Confirmar Senha: </label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" required>
+                    <div class="actions">
+                        <button class="btn-register" type="submit">Register</button>
+                        <div class="middle-actions">
+                            <a href="/auth/login">Já tem uma conta? Faça login</a>
+                            <span class="char">/</span>
+                            <a href="">Esqueceu a senha?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

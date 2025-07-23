@@ -11,9 +11,8 @@ app.set('views', path.join(__dirname, 'views'))
 
 
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public'))); 
+app.use(express.json());
 
 app.use(session({
     secret: 'segredo-muito-seguro',
@@ -21,8 +20,15 @@ app.use(session({
     saveUninitialized: false,
     cookie: { 
         maxAge: 1000 * 60 * 60 * 24
-     } // true se estiver usando HTTPS
+    } // true se estiver usando HTTPS
 }));
+app.use((req, res, next) => {
+    res.locals.session = req.session.mesage;
+    delete req.session.message;
+    next();
+});
+app.use(express.static(path.join(__dirname, 'public'))); 
+
 app.use(router)
 
 app.use((req, res) => {

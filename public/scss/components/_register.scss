@@ -1,7 +1,7 @@
 @use '../utils/variables' as *;
 @use '../utils/mixins' as *;
 
-.login-body {
+.register-body {
   height: 100%;
   background: $bg-login;
   background-size: 200% 200%;
@@ -14,13 +14,13 @@
 }
 
 
-.login-container {
+.register-container {
   height: 100vh;
   
   @include center-flex;
   font-family: 'Segoe UI', sans-serif;
 
-  .login-card {
+  .register-card {
     background-color: $bg-card;
       backdrop-filter: blur(10px);
   padding: 40px 30px;
@@ -28,7 +28,7 @@
     box-shadow: 0 10px 25px $box-shadow-card;
     width: 100%;
     max-width: 400px;
-    animation: fadeIn 3s ease;
+    animation: fadeInUp 1s ease;
 
     h2 {
   text-align: center;
@@ -82,7 +82,7 @@
       @include center-flex;
       gap: 1rem;
 
-      .btn-login {
+      .btn-register {
         @include button-style($primary-color, white);
         flex: 1;
       }
@@ -105,6 +105,9 @@
     color: #aaa;
     font-size: 0.85rem;
   }
+  .char{
+    color: #ffffff;
+  }
 }
 @keyframes gradientMove {
   0% { background-position: 0% 50%; }
@@ -112,6 +115,16 @@
   100% { background-position: 0% 50%; }
 }
 
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .message {
   padding: 10px 15px;
   margin: 10px 0;
@@ -136,12 +149,4 @@
 @keyframes fadein {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-.error {
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 10px;
-  color: #9f0909;
-  font-weight: bold;
 }

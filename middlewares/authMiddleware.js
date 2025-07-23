@@ -1,9 +1,20 @@
 const authMiddleware = (req, res, next) => {
-    const user = req.session.currentUser;
-    if(req.session.authenticated || (user && user.guest)) {
+    console.log('==== Verificação de Sessão ====');
+    console.log('Auth:', req.session.authenticated);
+    console.log('Guest:', req.session.currentUser?.guest);
+
+    if (req.session.authenticated || req.session.currentUser?.guest) {
+        console.log('✅ Acesso liberado!');
         return next();
-    }    console.log("Bloqueado pelo middleware");
+    }
+
+    console.log('⛔ Bloqueado, redirecionando para login');
+    
     res.redirect('/auth/login');
-}
+
+};
+
+
+
 
 module.exports = authMiddleware;

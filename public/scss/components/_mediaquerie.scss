@@ -1,0 +1,118 @@
+// mediaqueries
+@use '../utils/variables.scss' as *;
+@use '../utils/mixins.scss' as *;
+
+@include style-html;
+
+@media screen and (max-width: 1000px) {
+  .app {
+    padding: 0 5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+
+          .content-create{
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        flex: wrap!important;
+        gap: 10px;
+    }
+    .addTaskBtn{
+        width: 100%!important;
+        padding: 10px;
+        font-size: 1rem;
+        text-align: center;
+                border-radius: 10px!important;
+
+    }
+    .task{
+        border-radius: 10px!important;
+    }
+    .user{
+        font-size: 1.5rem;
+        text-align: center!important;
+        font-family: cursive, sans-serif;
+    }
+
+  }
+    
+}
+
+@media screen and (max-width: 650px){
+    .app{
+    padding: 0 2rem;
+    width: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  
+      .content-create{
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        flex: wrap!important;
+        gap: 10px;
+    }
+    .addTaskBtn{
+        width: 100%!important;
+        padding: 10px;
+        font-size: 1rem;
+        text-align: center;
+                border-radius: 10px!important;
+
+    }
+    .task{
+        border-radius: 10px!important;
+    }
+    .user{
+        font-size: 1.5rem;
+        text-align: center!important;
+        font-family: cursive, sans-serif;
+    }
+    }
+
+}
+
+
+@media screen and (max-width: 500px), (max-width: 400px) {
+
+    header{
+    padding: 10px;
+    font-size: 0.7rem;
+    }
+    .app{
+        padding: 0 2rem;
+        text-align: center;
+    }
+    .user{
+        font-size: 1.5rem;
+        text-align: center!important;
+        font-family: cursive, sans-serif;
+    }
+    .content-create{
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        flex: wrap!important;
+        gap: 10px;
+    }
+    .addTaskBtn{
+        width: 100%!important;
+        padding: 10px;
+        font-size: 1rem;
+        text-align: center;
+                border-radius: 10px!important;
+
+    }
+    .task{
+        border-radius: 10px!important;
+    }
+
+}

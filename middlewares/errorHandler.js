@@ -6,6 +6,7 @@ function errorHandler(err, req, res, next) {
         res.status(statusCode).json({
             title: statusCode === 400 ? 'Bad Request' :
                    statusCode === 404 ? 'Not Found' :
+                    statusCode === 401 ? 'Unauthorized' :
                    'Internal Server Error',
             message: err.message || "O estagiário tropeçou no servidor... foi mal 😅",
             error: err,
@@ -13,6 +14,7 @@ function errorHandler(err, req, res, next) {
         })
         } else {
         const viewError  = statusCode === 400 ? 'errors/400' :
+        statusCode === 401 ? 'errors/401' :
                           statusCode === 404 ? 'errors/404' :
                           'errors/500'
         res.status(statusCode).render(viewError, {
