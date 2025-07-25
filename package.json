@@ -4,9 +4,8 @@
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-  "dev": "nodemon server.js --ignore data/usuarios.json",
-      "sass": "sass public/scss/app.scss public/css/app.css --watch",
-      "type": "module"
+    "dev": "nodemon server.js",
+    "sass": "sass public/scss/app.scss public/css/app.css --watch"
   },
   "keywords": [],
   "author": "",
@@ -42,6 +41,7 @@
     "pstree.remy": "^1.1.8",
     "readdirp": "^3.6.0",
     "semver": "^7.7.1",
+    "session-file-store": "^1.5.0",
     "simple-update-notifier": "^2.0.0",
     "supports-color": "^5.5.0",
     "to-regex-range": "^5.0.1",

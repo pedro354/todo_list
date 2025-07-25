@@ -9,50 +9,38 @@
 </head>
 
 <body class="login-body">
-
-    <div class="login-container">
-      <div class="login-card">
-        <h2>Login</h2>
-            <% if (locals.loginError) { %>
-            <div class="error">
-              <%= loginError %>
-            </div>
-            <% } %>
-
-            <% if (locals.loginSuccess) { %>
-            <div class="success">
-            <%= loginSuccess %>
-            </div>
-            <% } %>
-
-      <div class="login-form">
+  <div class="login-container">
+    <div class="login-card">
 <% if (message) { %>
-  <div class="message <%= message.type %>">
-    <p><%= message.text %></p>
+  <div class="alert <%= message.type %>">
+    <%= message.text %>
   </div>
 <% } %>
+      <h2>Login</h2>
+<br>
+              <div class="login-form">
                     <form action="/auth/login" method="POST">
                       <label for="email">Email</label>
-                      <input type="email" name="email" id="email" required>
+                      <input type="email" name="email" id="email">
 
                       <label for="password">Senha</label>
-                      <input type="password" name="password" id="password" required>
+                      <input type="password" name="password" id="password">
 
                       <div class="actions">
                         <div class="middle-actions">
                           <a href="/auth/register">Registrar-se</a>
                           <span>/</span>
-                          <a href="">Esqueceu a senha?</a>
+                          <a href="/auth/forgetPassword">Esqueceu a senha?</a>
 
                         </div>
                         <button class="btn-login" type="submit" name="loginType" value="user">Entrar</button>
-                        <button class="btn-guest" type="submit" name="loginType" value="guest">Login como convidado</button>
-
+                        <button class="btn-guest" type="submit" name="loginType" value="guest">Login como
+                          convidado</button>
                       </div>
                     </form>
-      </div>
+              </div>
     </div>
-            <script type="module" src="/script/app.js"></script>
+    <script type="module" src="/script/app.js"></script>
 
     <%- include('../partials/footer') %>
 

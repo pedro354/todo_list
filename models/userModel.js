@@ -32,6 +32,18 @@ function createUser({name, email, password}) {
     writeUsers(users);
     return newUser;
 }
+function saveUsers(updatedUsers) {
+    const users = readUsers();
+    const index = users.findIndex(user => user.userId === updatedUsers.userId);
+
+    if(index !== -1){
+        users[index] = updatedUsers;
+        writeUsers(users);
+    } else {
+        console.error("Erro ao salvar no users.json:", err);
+        
+    }
+}
 
 function deletedUser(userId) {
     const users = readUsers();
@@ -42,6 +54,7 @@ function deletedUser(userId) {
 module.exports = {
     readUsers,
     writeUsers,
+    saveUsers,
     findUserByEmail,
     createUser,
     deletedUser

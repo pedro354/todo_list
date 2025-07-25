@@ -1,4 +1,8 @@
-function notFound(req, res, next) {
+const errorController = {
+    unauthorized: (req, res) =>{
+        res.status(401).render('errors/401')
+    },
+    notFound: (req, res) =>{
     res.status(404)
 
     const thisApi = req.originalUrl.startsWith('/router/api')
@@ -13,5 +17,10 @@ function notFound(req, res, next) {
             message: `A página ${req.originalUrl} não foi encontrada!`
         });
         }
-}
-export default notFound
+    },
+    internalServerError: (req, res) =>{
+        res.status(500).render('errors/500')
+    }
+};
+
+module.exports = errorController;

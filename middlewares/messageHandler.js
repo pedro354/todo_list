@@ -1,7 +1,7 @@
 function messageHandler(req, res, next) {
-    res.locals.message = req.session.message;
+  res.locals.message = req.session.message || null;
     delete req.session.message;
-    next();
+  next();
 }
 
 module.exports = messageHandler;
