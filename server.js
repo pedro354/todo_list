@@ -19,11 +19,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: { 
-        maxAge: 1000 * 60 * 60 * 24
-    } // true se estiver usando HTTPS
+    maxAge: 1000 * 60 * 60 // 1 hora, por exemplo
+    }
 }));
 app.use((req, res, next) => {
-    res.locals.session = req.session.mesage;
+    res.locals.session = req.session.message;
     delete req.session.message;
     next();
 });

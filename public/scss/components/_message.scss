@@ -1,0 +1,22 @@
+.alert {
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease;
+
+    &.success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    &.error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    &.info {
+        background-color: #cce5ff;
+        color: #004085;
+    }
+}

@@ -24,18 +24,25 @@ function findUserByEmail(email) {
     return users.find(user => user.email === email);
 }
 
-function createUser({ name, email, password }) {
+function createUser({name, email, password}) {
     const users = readUsers();
-    const newUser = { name, email, password };
+    const userId = Date.now().toString();
+    const newUser = {userId, name, email, password };
     users.push(newUser);
     writeUsers(users);
     return newUser;
 }
 
-
+function deletedUser(userId) {
+    const users = readUsers();
+    const updatedUsers = users.filter(user => user.userId !== userId);
+    
+    writeUsers(updatedUsers);
+}
 module.exports = {
     readUsers,
     writeUsers,
     findUserByEmail,
-    createUser
+    createUser,
+    deletedUser
 }

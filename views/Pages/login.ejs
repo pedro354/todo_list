@@ -26,13 +26,11 @@
             <% } %>
 
       <div class="login-form">
-                <% if (typeof message !=='undefined' ) { %>
-                  <div class="message <%= message.type %>">
-                    <p>
-                      <%= message.text %>
-                    </p>
-                  </div>
-                  <% } %>
+<% if (message) { %>
+  <div class="message <%= message.type %>">
+    <p><%= message.text %></p>
+  </div>
+<% } %>
                     <form action="/auth/login" method="POST">
                       <label for="email">Email</label>
                       <input type="email" name="email" id="email" required>
@@ -54,6 +52,7 @@
                     </form>
       </div>
     </div>
+            <script type="module" src="/script/app.js"></script>
 
     <%- include('../partials/footer') %>
 

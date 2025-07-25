@@ -22,7 +22,7 @@
             </div>
             <div class="container-app mt-5">
                 <h1><%= taskList.title %></h1>
-                <form class="form" action="/app/<%= taskList.id %>/new-task" method="post">
+                <form data-list-id="<%= taskList.id  %>" class="form" action="/app/<%= taskList.id %>/new-task" method="post">
                     <div class="container-group">
                         <div class="content-create">
                             <label class="visually-hidden" for="title">Título da tarefa</label>
@@ -31,6 +31,8 @@
                         </div>
                     </div>
                 </form>
+                                <div id="empty-container" style="display: none;" class="empty-msg"></div>
+
                 <ul class="list-group">
                     <% taskList.tasks.forEach(task=> { %>
                         <li class="list-group-item subTask <%= task.completed ? 'completed' : '' %>">
@@ -59,9 +61,9 @@
                             <button class="deleteBtnAll btn-danger">Excluir toda a lista</button>
                         </form>
                     </div>
-                <div id="empty" class="empty-message" style="display: none;">🔍 Lista de tarefas vazia!</div>
             </div>
         </main>
+            <script type="module" src="/script/app.js"></script>
         <%- include('../partials/footer') %>
 
 </body>

@@ -1,26 +1,40 @@
-const { unauthorizedMiddleware } = require('../middlewares/authMiddleware');
+const taskModel = require('../models/taskModel');
 const userModel = require('../models/userModel');
 const authController = {
     loginPage: (req, res) => {
-        const user = req.session.currentUser;
-        const loginError = req.session.loginError;
-        const loginSuccess = req.session.loginSuccess;
-        delete req.session.loginError;
-        delete req.session.loginSuccess;
-        res.render('pages/login', { user, loginError, loginSuccess });
+    const user = req.session.currentUser;
+    const loginError = req.session.loginError;
+    const loginSuccess = req.session.loginSuccess;
+    let message = req.session.message;
+
+    // Limpa mensagens de sessão
+    delete req.session.loginError;
+    delete req.session.loginSuccess;
+    delete req.session.message;
+
+            
+
+        if(req.query.msg === 'deleted') {
+            message = {
+                type: 'success',
+                text: 'Tarefa deletada com sucesso!'
+            }
+            return res.redirect('/app');
+        }
+        res.render('pages/login', { user, loginError, loginSuccess, message });
     },
     registerPage: (req, res) => {
-        const user = req.session.currentUser;
+        const userId = req.session.userId;
         const message = req.session.message;
         delete req.session.message;
-        res.render('pages/register', { user, message });
+        res.render('pages/register', { userId, message });
     },
     index: (req, res) => {
         if (!req.session.authenticated) {
             return res.redirect('/auth/login');
         }
         const user = req.session.currentUser;
-        res.render('pages/app', { user })
+        res.render('pages/app', { user, tasks })
     },
     register: (req, res) => {
 
@@ -33,10 +47,6 @@ const authController = {
                 }
                 return res.redirect('/auth/register');
             }
-            if(name && email && password) {
-                users.push({ name, email, password });
-                userModel.writeUsers(users);
-            }
 
             req.session.message = {
                 type: 'error',
@@ -48,6 +58,7 @@ const authController = {
 
         req.session.authenticated = true;
         req.session.currentUser = {
+            id: newUser.userId,
             name: newUser.name,
             email: newUser.email,
             guest: false
@@ -60,7 +71,7 @@ const authController = {
     },
 
     login: (req, res) => {
-        const { email, password, loginType } = req.body
+        const {email, password, loginType } = req.body
 
         // Login como convidado
         if (loginType === 'guest') {
@@ -90,16 +101,13 @@ const authController = {
         req.session.authenticated = true;
 
         req.session.currentUser = {
+            id: user.userId ,
             name: user.name,
             email: user.email,
             guest: false
         }
         req.session.loginSuccess = "Login realizado com sucesso!";
         res.redirect(302, '/app');
-
-        if(!req.session.authenticated) {
-            return res.status(401).rendirect('/auth/login');
-        }
     },
 
     logout: (req, res) => {
@@ -111,6 +119,25 @@ const authController = {
             res.redirect('/auth/login');
         });
     },
+    deleteAccount: (req, res) => {
+        const userId = req.session.currentUser?.id;
+        
+        if(!userId){
+            req.session.message = {
+                type: 'error',
+                text: 'Não foi possível excluir sua conta!'
+            }
+
+            return res.redirect('/auth/login');
+        }
+        taskModel.deleteTaskByUserId(userId);
+        userModel.deletedUser(userId);
+        req.session.destroy(() => {
+        res.redirect('/auth/login?msg=deleted');
+        });
+    }
+
 }
 
 module.exports = authController;
+

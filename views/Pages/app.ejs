@@ -18,7 +18,11 @@
             <% } else { %>
                 <span>Olá, Convidado!</span>
                 <% } %>
+                <form action="/auth/delete" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar sua conta?')">
+      <button class="deleteBtn" type="submit">Deletar Conta</button>
+    </form>
             </div>
+
             <div class="container-app mt-5" id="sectionTasks">
                 <h1>Lista de Tarefas</h1>
                     <ul class="list-group" id="taskContainer">
@@ -32,18 +36,22 @@
                                     </a>
                                 </article>
                                 <form id="deleteTask" action="/app/<%= task.id  %>/delete" method="post">
-                                    <button class="deleteBtn" id="btnId">X</button>
+                                    <button class="deleteBtn" id="deleteBtn">X</button>
                                 </form>
                             </li>
                 <% }) %>
+                            <div id="empty-container" style="display: none;" class="empty-msg"></div>
+
             </ul>
-                    <span id="empty" class="empty-message" style="display: none;">🔍 Lista de tarefas vazia!</span>
-                    <button class="btn-normal">
+            <button class="btn-normal">
                         <a class="btn-new-task" href="/app/create">Criar Nova Lista de Tarefas</a>
                     </button>
-                </div>   
+                </div>  
         </main>
+        <script type="module" src="script/app.js"></script>
+        
         <%- include('../partials/footer') %>
+
 </body>
 
 </html>

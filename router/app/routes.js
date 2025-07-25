@@ -7,20 +7,18 @@ const router = express.Router();
 router.get('/', (req, res) => res.render('pages/home'));
 
 // Listas
-router.get('/app', taskController.index)
-router.get('/app/create', taskController.create);
-router.post('/app/new-list-task', taskController.save);
-router.get('/app/:listId', taskController.show);
-router.post('/app/:listId/delete', taskController.deleteList);
+router.get('/app', authMiddleware, taskController.index)
+router.get('/app/create', authMiddleware, taskController.create);
+router.post('/app/new-list-task', authMiddleware, taskController.save);
+router.get('/app/:listId', authMiddleware, taskController.show);
+// Subtarefas
+router.get('/app/:listId/subtasks', authMiddleware, taskController.subTask);
+// Excluir lista
+router.post('/app/:listId/delete', authMiddleware, taskController.deleteList);
 // Tarefas
-router.post('/app/:listId/new-task', taskController.addTask);
-router.post('/app/:listId/completed/:taskId', taskController.completeTask);
-router.post('/app/:listId/undo/:taskId', taskController.undoTask);
-router.post('/app/:listId/delete/:taskId', taskController.deleteTask);
-// 
-
-
+router.post('/app/:listId/new-task', authMiddleware, taskController.addTask);
+router.post('/app/:listId/completed/:taskId', authMiddleware, taskController.completeTask);
+router.post('/app/:listId/undo/:taskId', authMiddleware, taskController.undoTask);
+router.post('/app/:listId/delete/:taskId', authMiddleware, taskController.deleteTask);
 
 module.exports = router;
-
-// até a inserção do PostreSQL, ficara sem authMiddleware

@@ -3,9 +3,11 @@ const taskModel = require("../models/taskModel")
 const taskController = {
     //GET /app
     index: (req, res) => {
-        const tasks = taskModel.getAllTasks()
         const user = req.session.currentUser;
-            console.log("Entrou na rota /app");
+        const tasks = taskModel.getAllTasks().filter(task => task.userId === user.id);
+        if(!user || !user.id) {
+            return res.redirect('/login')
+        }
         res.render('pages/app', { tasks, user })
     },
     // GET /app/nova-lista - exibir a pagina do formulario - redenrizar a tela
@@ -13,22 +15,28 @@ const taskController = {
         const user = req.session.currentUser
         res.render('pages/create', { user });
     },
-        //POST /app/nova-lista - destinado a salvar o model 
+    //POST /app/nova-lista - destinado a salvar o model 
     save: (req, res) => {
-        const user = req.session.currentUser
         const { title } = req.body
-        taskModel.createTask(title)
+        const user = req.session.currentUser;
+        taskModel.createTask(title, user.id);
         res.redirect('/app')
     },
-        // GET /posts/:id
+    // GET /posts/:id
     show: (req, res) => {
         const { listId } = req.params;
         const taskList = taskModel.getTaskListById(listId);
         const user = req.session.currentUser;
-        if(!taskList) {
+        if (!taskList) {
             return res.status(404).send('Lista não encontrada')
         }
         res.render('pages/show', { taskList, user });
+    },
+    subTask: (req, res) => {
+        const listId = req.body.listId || req.params.listId;
+        const taskList = taskModel.getTaskListById(listId);
+        if (!taskList) return res.status(404).send('Lista não encontrada');
+        res.json(taskList.tasks);
     },
     // POST /app/:id/nova-tarefa
     addTask: (req, res) => {
@@ -43,8 +51,8 @@ const taskController = {
         taskModel.completeTask(listId, taskId);
         res.redirect(`/app/${listId}`);
     },
-        // POST /app/:listId/desfazer/:taskId
-        undoTask: (req, res) => {
+    // POST /app/:listId/desfazer/:taskId
+    undoTask: (req, res) => {
         const { listId, taskId } = req.params;
         taskModel.undoTask(listId, taskId);
         res.redirect(`/app/${listId}`);
@@ -68,3 +76,4 @@ const taskController = {
 }
 
 module.exports = taskController
+

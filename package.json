@@ -4,8 +4,9 @@
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js",
-    "sass": "sass public/scss/app.scss public/css/app.css --watch"
+  "dev": "nodemon server.js --ignore data/usuarios.json",
+      "sass": "sass public/scss/app.scss public/css/app.css --watch",
+      "type": "module"
   },
   "keywords": [],
   "author": "",
