@@ -11,8 +11,13 @@
 
 <body>
     <%- include('../partials/header') %>
-        <main class="app">
-            <div class="user">
+    <main class="app">
+        <% if (message) { %>
+      <div class="alert <%= message.type %>">
+        <p><%= message.text %></p>
+      </div>
+    <% } %>
+        <div class="user">
             <% if (user && !user.guest) { %>
                 <span>Bem vindo, <%= user.name  %></span>
             <% } else { %>

@@ -1,3 +1,4 @@
+const { text } = require("express");
 const taskModel = require("../models/taskModel")
 
 const taskController = {
@@ -8,7 +9,8 @@ const taskController = {
         if(!user || !user.id) {
             return res.redirect('/login')
         }
-        res.render('pages/app', { tasks, user })
+
+        res.render('pages/app', { tasks, user });
     },
     // GET /app/nova-lista - exibir a pagina do formulario - redenrizar a tela
     create: (req, res) => {
@@ -20,7 +22,14 @@ const taskController = {
         const { title } = req.body
         const user = req.session.currentUser;
         taskModel.createTask(title, user.id);
-        res.redirect('/app')
+
+        // res.redirect('/app');
+        res.render('pages/app', { tasks: taskModel.getAllTasks(), user,
+            message: {
+                type: 'success',
+                text: 'Tarefa criada com sucesso!'
+            }
+         });
     },
     // GET /posts/:id
     show: (req, res) => {
@@ -30,7 +39,18 @@ const taskController = {
         if (!taskList) {
             return res.status(404).send('Lista não encontrada')
         }
-        res.render('pages/show', { taskList, user });
+
+        const message = req.session.message;
+        delete req.session.message;
+
+        // res.render('pages/show', { taskList, user, message });
+        res.render('pages/show', { taskList, user,
+            message: {
+                type: 'success',
+                text: 'Tarefa criada com sucesso!'
+            }
+         });
+
     },
     subTask: (req, res) => {
         const listId = req.body.listId || req.params.listId;
@@ -43,13 +63,21 @@ const taskController = {
         const { listId } = req.params;
         const { title } = req.body;
         taskModel.addTask(listId, title);
+
+        req.session.mesage = {
+            type: 'success',
+            text: 'Tarefa adicionada com sucesso!'
+        }
         res.redirect(`/app/${listId}`);
+        
     },
     // POST /app/:listId/completar/:taskId
     completeTask: (req, res) => {
         const { listId, taskId } = req.params;
         taskModel.completeTask(listId, taskId);
         res.redirect(`/app/${listId}`);
+
+        
     },
     // POST /app/:listId/desfazer/:taskId
     undoTask: (req, res) => {

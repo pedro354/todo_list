@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(session({
     secret: 'segredo-muito-seguro',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     store: new FileStore({
         path: './data/sessions',
         retries: 1

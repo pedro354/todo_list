@@ -1,5 +1,5 @@
 const fs = require('node:fs');
-const { writeUsers, readUsers } = require('./userModel')
+const { type } = require('node:os');
 
 let taskLists = []
 // Carregar as listas

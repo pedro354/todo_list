@@ -13,4 +13,3 @@ async function renderTasks() {
 
 
 document.addEventListener('DOMContentLoaded', renderTasks);
-

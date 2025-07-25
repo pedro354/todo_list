@@ -45,6 +45,22 @@ label {
   color: #fff;
 }
 
+button {
+  background-color: rgb(136, 151.4, 255);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}
+button:hover {
+  background-color: rgb(187, 195.8, 255);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -114,7 +130,38 @@ footer {
   color: #004085;
 }
 
-.login-body {
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  z-index: 9999;
+  opacity: 0.95;
+  animation: fadeInUp 0.3s ease;
+}
+
+.toast.success {
+  background-color: #28a745;
+}
+
+.toast.error {
+  background-color: #dc3545;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 0.95;
+  }
+}
+.login-body, .password-body {
   height: 100%;
   background: linear-gradient(135deg, #1b1b2f, #162447);
   background-size: 200% 200%;
@@ -126,7 +173,7 @@ footer {
   font-family: "Segoe UI", sans-serif;
 }
 
-.login-container {
+.login-container, .password-container {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -134,7 +181,7 @@ footer {
   align-items: center;
   font-family: "Segoe UI", sans-serif;
 }
-.login-container .login-card {
+.login-container .login-card, .login-container .password-card, .password-container .login-card, .password-container .password-card {
   background-color: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(10px);
   padding: 40px 30px;
@@ -144,19 +191,19 @@ footer {
   max-width: 400px;
   animation: fadeIn 3s ease;
 }
-.login-container .login-card h2 {
+.login-container .login-card h2, .login-container .password-card h2, .password-container .login-card h2, .password-container .password-card h2 {
   text-align: center;
   margin-bottom: 30px;
   font-weight: 500;
   color: #fff;
 }
-.login-container .login-card label {
+.login-container .login-card label, .login-container .password-card label, .password-container .login-card label, .password-container .password-card label {
   display: block;
   margin-bottom: 5px;
   font-size: 0.9rem;
   color: #ccc;
 }
-.login-container .login-card input {
+.login-container .login-card input, .login-container .password-card input, .password-container .login-card input, .password-container .password-card input {
   background: rgba(255, 255, 255, 0.1215686275);
   border-radius: 10px;
   margin-bottom: 20px;
@@ -167,24 +214,24 @@ footer {
   transition: background 0.3s;
   color: #fff;
 }
-.login-container .login-card input:focus {
+.login-container .login-card input:focus, .login-container .password-card input:focus, .password-container .login-card input:focus, .password-container .password-card input:focus {
   outline: none;
   background: rgba(255, 255, 255, 0.18);
   box-shadow: 0 0 0 2px #00ffae;
 }
-.login-container .login-card .links {
+.login-container .login-card .links, .login-container .password-card .links, .password-container .login-card .links, .password-container .password-card .links {
   display: flex;
   justify-content: space-between;
   font-size: 0.9rem;
 }
-.login-container .login-card .links a {
+.login-container .login-card .links a, .login-container .password-card .links a, .password-container .login-card .links a, .password-container .password-card .links a {
   color: #8aaaff;
   text-decoration: none;
 }
-.login-container .login-card .links a:hover {
+.login-container .login-card .links a:hover, .login-container .password-card .links a:hover, .password-container .login-card .links a:hover, .password-container .password-card .links a:hover {
   text-decoration: underline;
 }
-.login-container .login-card .actions {
+.login-container .login-card .actions, .login-container .password-card .actions, .password-container .login-card .actions, .password-container .password-card .actions {
   display: flex;
   display: flex;
   flex-direction: column;
@@ -192,7 +239,7 @@ footer {
   align-items: center;
   gap: 1rem;
 }
-.login-container .login-card .actions .btn-login {
+.login-container .login-card .actions .btn-login, .login-container .password-card .actions .btn-login, .password-container .login-card .actions .btn-login, .password-container .password-card .actions .btn-login {
   background-color: rgb(136, 151.4, 255);
   color: white;
   border: none;
@@ -204,10 +251,10 @@ footer {
   transition: background-color 0.3s ease;
   flex: 1;
 }
-.login-container .login-card .actions .btn-login:hover {
+.login-container .login-card .actions .btn-login:hover, .login-container .password-card .actions .btn-login:hover, .password-container .login-card .actions .btn-login:hover, .password-container .password-card .actions .btn-login:hover {
   background-color: rgb(187, 195.8, 255);
 }
-.login-container .login-card .actions .btn-guest {
+.login-container .login-card .actions .btn-guest, .login-container .password-card .actions .btn-guest, .password-container .login-card .actions .btn-guest, .password-container .password-card .actions .btn-guest {
   background-color: rgb(93.5, 93.5, 93.5);
   color: white;
   border: none;
@@ -219,15 +266,15 @@ footer {
   transition: background-color 0.3s ease;
   flex: 1;
 }
-.login-container .login-card .actions .btn-guest:hover {
+.login-container .login-card .actions .btn-guest:hover, .login-container .password-card .actions .btn-guest:hover, .password-container .login-card .actions .btn-guest:hover, .password-container .password-card .actions .btn-guest:hover {
   background-color: #777777;
 }
-.login-container .login-card .actions .middle-actions {
+.login-container .login-card .actions .middle-actions, .login-container .password-card .actions .middle-actions, .password-container .login-card .actions .middle-actions, .password-container .password-card .actions .middle-actions {
   font-size: 0.9rem;
   width: 100%;
   text-align: end;
 }
-.login-container footer {
+.login-container footer, .password-container footer {
   margin-top: 2rem;
   text-align: center;
   color: #aaa;

@@ -1,4 +1,3 @@
-const { text } = require('express');
 const taskModel = require('../models/taskModel');
 const userModel = require('../models/userModel');
 const authController = {
@@ -17,7 +16,7 @@ const authController = {
             return res.redirect('/auth/login');
         }
         const user = req.session.currentUser;
-        res.render('pages/app', { user, tasks })
+        res.render('pages/app', { user, tasks, message})
     },
     register: (req, res) => {
         const { name, email, password, confirmPassword } = req.body;
