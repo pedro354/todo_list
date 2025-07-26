@@ -52,7 +52,7 @@ const authController = {
             type: 'success',
             text: 'Usuário cadastrado com sucesso!'
         };
-        res.redirect(302, "/app");
+        res.redirect(302, "/auth/login");
     },
 
     login: (req, res) => {

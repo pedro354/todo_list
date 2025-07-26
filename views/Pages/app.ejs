@@ -13,7 +13,7 @@
     <%- include('../partials/header') %>
     <main class="app">
         <% if (message) { %>
-      <div class="alert <%= message.type %>">
+      <div id="toast" class="toast <%= message.type %>">
         <p><%= message.text %></p>
       </div>
     <% } %>
@@ -53,7 +53,7 @@
                     </button>
                 </div>  
         </main>
-        <script type="module" src="script/app.js"></script>
+        <script type="module" src="script/app.js" defer></script>
         
         <%- include('../partials/footer') %>
 

@@ -1,6 +1,6 @@
 // api.js
-
 export async function getTasksApi() {
+    try {
     const res = await fetch('/api/tasks', {
         method: 'GET',
         credentials: 'include',
@@ -9,11 +9,19 @@ export async function getTasksApi() {
         }
     });
 
-    if (!res.ok) {
-        throw new Error('Erro na resposta da API');
-    }
+        if (!res.ok || !contentType.includes('application/json')) {
+            const errorText = await res.text();
+            console.error('Resposta inesperada:', errorText);
+            throw new Error('Resposta não é JSON');
+        }
+    const data = await res.json();
+    return data;
 
-    return res.json();
+
+} catch (error) {
+        console.error('Erro ao obter tarefas:', error);
+        return [];
+    }
 }
 
 export async function newTaskApi(task) {

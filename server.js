@@ -15,6 +15,7 @@ app.set('views', path.join(__dirname, 'views'))
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public'))); 
 app.use(session({
     secret: 'segredo-muito-seguro',
     resave: false,
@@ -28,7 +29,8 @@ app.use(session({
 app.use(messageHandler);
 app.use(logger);
 // arquivos estáticos
-app.use(express.static(path.join(__dirname, 'public'))); 
+app.use('/script', express.static(path.join(__dirname, 'public/script')));
+
 // rotas principais
 app.use(router);
 // tratamento de erros

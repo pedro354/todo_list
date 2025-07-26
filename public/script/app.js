@@ -2,7 +2,7 @@
 import { message } from './dom.js';
 import { getTasksApi } from './api.js';
 
-async function renderTasks() {
+export async function renderTasks() {
     try {
         const tasks = await getTasksApi();
         message(tasks);

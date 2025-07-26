@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
+  <!-- <link rel="preload" href="/css/app.css" as="style" onload="this.onload=null;this.rel='stylesheet'"> -->
+<link rel="preload" href="/css/app.css" as="style">
+<link rel="stylesheet" href="/css/app.css">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <noscript> <link rel="stylesheet"  href="/css/app.css"></noscript>
   <title>To-Do App | Login</title>
-  <link rel="stylesheet" href="/css/app.css">
 </head>
 
 <body class="login-body">
@@ -40,7 +44,7 @@
                     </form>
               </div>
     </div>
-    <script type="module" src="/script/app.js"></script>
+<script type="module" src="/script/dom.js" defer></script>
 
     <%- include('../partials/footer') %>
 

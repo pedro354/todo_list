@@ -1,9 +1,10 @@
+// dom.js
 export function message(tasks) {
     const emptyContainer = document.getElementById('empty-container');
 
     if (!emptyContainer) {
-        console.warn('Elemento #empty-container não encontrado no DOM.');
-        return;
+    console.warn('⚠️ #empty-container ausente. Ignorando mensagem.');
+            return;
     }
 
 
@@ -27,3 +28,6 @@ const isSubtaskList = tasks.length > 0 && Object.hasOwn(tasks[0], 'tasks');
     }
 }
 
+window.addEventListener('load', () =>{
+    document.body.classList.add('loader')
+})
