@@ -3,7 +3,7 @@
 
 // Aplica background e fonte globalmente para telas de login e recuperação
 .login-body, .password-body {
-  min-height: 100vh;
+  min-height: 100%;
   background: $bg-login;
   background-size: 200% 200%;
   display: flex;

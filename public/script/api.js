@@ -5,10 +5,10 @@ export async function getTasksApi() {
         method: 'GET',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+         'Content-Type': 'application/json'
         }
     });
-
+        const contentType = res.headers.get('Content-Type');
         if (!res.ok || !contentType.includes('application/json')) {
             const errorText = await res.text();
             console.error('Resposta inesperada:', errorText);

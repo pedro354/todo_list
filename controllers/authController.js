@@ -1,5 +1,7 @@
 const taskModel = require('../models/taskModel');
 const userModel = require('../models/userModel');
+
+
 const authController = {
     loginPage: (req, res) => {
     const user = req.session.currentUser;
@@ -16,6 +18,11 @@ const authController = {
             return res.redirect('/auth/login');
         }
         const user = req.session.currentUser;
+        const message = req.session.message;
+        delete req.session.message;
+        const tasks = user.guest ? [] : taskModel.getTaskListById(user.userId);
+
+
         res.render('pages/app', { user, tasks, message})
     },
     register: (req, res) => {
@@ -62,6 +69,7 @@ const authController = {
         if (loginType === 'guest') {
             req.session.authenticated = true;
             req.session.currentUser = {
+                id: 'guest',
                 name: 'Convidado',
                 email: null,
                 guest: true

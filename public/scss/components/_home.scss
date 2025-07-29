@@ -8,10 +8,9 @@
   background: $bg-home;
   background-size: 600% 600%;
   animation: gradientFlow 10s ease infinite;
-}
-.home::before {
-  content: "";
-  position: absolute;
+  .home::before {
+    content: "";
+    position: absolute;
   inset: 0;
   background: radial-gradient(circle at center, rgba(0, 0, 0, 0.05), transparent 70%);
   z-index: 0;
@@ -23,20 +22,20 @@
 }
 
 .container-home{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    max-width: 100%;
-    padding: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  max-width: 100%;
+  padding: 100px;
   position: relative;
 }
 
-  .home.fade-out {
-    opacity: 0;
-    transition: opacity 1s ease-out;
-  }
+.home.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
 .home::before {
   content: "";
   position: absolute;
@@ -52,17 +51,17 @@
   
 }
 .loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
   bottom: 10%;
-
+  
 }
 #typing-container {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 2rem;
   color: #f0f0f0;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
   transition: all 0.4s ease;
@@ -71,20 +70,20 @@ position: absolute;
 }
 
 .cursor{
-    display: inline-block;
-    width: 2px;
-    background-color: #2fff99;
-    animation: blink 0.6s steps(2, start) infinite;
-    margin-left: 4px;
+  display: inline-block;
+  width: 2px;
+  background-color: #2fff99;
+  animation: blink 0.6s steps(2, start) infinite;
+  margin-left: 4px;
 }   
 
 @keyframes blink {
-    to{
-        visibility: hidden;
-    }
+  to{
+    visibility: hidden;
+  }
 }
 .wrapper {
-      display: block;
+  display: block;
   width: 200px;
   height: 60px;
   position: relative;
@@ -96,8 +95,8 @@ position: absolute;
   height: 20px;
   position: absolute;
   border-radius: 50%;
-background-color: #fafafa; /* Mais acinzentado */
-box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  background-color: #fafafa; /* Mais acinzentado */
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   left: 15%;
   transform-origin: 50%;
@@ -111,7 +110,7 @@ box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
     border-radius: 50px 50px 25px 25px;
     transform: scaleX(1.7);
   }
-
+  
   40% {
     height: 20px;
     border-radius: 50%;
@@ -152,12 +151,12 @@ box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
   0% {
     transform: scaleX(1.5);
   }
-
+  
   40% {
     transform: scaleX(1);
     opacity: .7;
   }
-
+  
   100% {
     transform: scaleX(.2);
     opacity: .4;
@@ -173,5 +172,6 @@ box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
   left: auto;
   right: 15%;
   animation-delay: .3s;
+}
 }
 

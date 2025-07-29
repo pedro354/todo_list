@@ -28,6 +28,20 @@ const isSubtaskList = tasks.length > 0 && Object.hasOwn(tasks[0], 'tasks');
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const message = document.querySelector('.msg');
+    if (message) {
+        setTimeout(() => {
+            message.style.opacity = 0;
+            message.style.transition = 'opacity 1s ease-in-out';
+        }, 3000);
+    }
+});
+
 window.addEventListener('load', () =>{
-    document.body.classList.add('loader')
+    if (document.body.classList.contains('home')) {
+    document.body.classList.add('loader') 
+    } else {
+    document.body.classList.remove('loader') 
+    }
 })

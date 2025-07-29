@@ -4,38 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-     <link rel="stylesheet" href="/css/app.css">
-
-<title>Lista de Tarefas | To-Do App</title>
+    <link rel="stylesheet" href="/css/app.css">
+    
+    <title>Lista de Tarefas | To-Do App</title>
 </head>
 
-<body>
+<body class="app">
     <%- include('../partials/header') %>
-    <main class="app">
+    <main class="container-app">
         <% if (message) { %>
-      <div id="toast" class="toast <%= message.type %>">
-        <p><%= message.text %></p>
-      </div>
-    <% } %>
-        <div class="user">
-            <% if (user && !user.guest) { %>
-                <span>Bem vindo, <%= user.name  %></span>
-            <% } else { %>
-                <span>Olá, Convidado!</span>
-                <% } %>
-                <form action="/auth/delete" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar sua conta?')">
-      <button class="deleteBtn" type="submit">Deletar Conta</button>
-    </form>
+            <div id="toast" class="toast msg <%= message.type %>">
+                <p><%= message.text %></p>
             </div>
-
-            <div class="container-app mt-5" id="sectionTasks">
-                <h1>Lista de Tarefas</h1>
+            <% } %>
+            <div class="user">
+                <% if (!user.guest) { %>
+                    <span>Bem vindo, <%= user.name  %></span>
+                    <% } else { %>
+                        <span>Olá, Convidado!</span>
+                        <% } %>
+                        <form action="/auth/delete" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar sua conta?')">
+                            <button class="deleteBtn" type="submit">Deletar Conta</button>
+                        </form>
+                    </div>
+                    
+                    <h1 class="text">Lista de Tarefas</h1>
+                    <div class="mt-5" id="sectionTasks">
                     <ul class="list-group" id="taskContainer">
                         <% tasks.forEach( task => { %>
                             <li class="list-group-item">
                                 <article class="task">
                                     <a class="task-title" href="/app/<%= task.id  %>">
-                                        <h2>
+                                        <h2 class="text">
                                             <%= task.title %>
                                         </h2>
                                     </a>
@@ -45,9 +45,9 @@
                                 </form>
                             </li>
                 <% }) %>
-                            <div id="empty-container" style="display: none;" class="empty-msg"></div>
-
+                
             </ul>
+            <div id="empty-container" style="display: none;" class="empty-msg"></div>
             <button class="btn-normal">
                         <a class="btn-new-task" href="/app/create">Criar Nova Lista de Tarefas</a>
                     </button>

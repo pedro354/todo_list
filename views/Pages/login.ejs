@@ -16,7 +16,7 @@
   <div class="login-container">
     <div class="login-card">
 <% if (message) { %>
-  <div class="alert <%= message.type %>">
+  <div class="alert msg <%= message.type %>">
     <%= message.text %>
   </div>
 <% } %>
@@ -38,7 +38,7 @@
 
                         </div>
                         <button class="btn-login" type="submit" name="loginType" value="user">Entrar</button>
-                        <button class="btn-guest" type="submit" name="loginType" value="guest">Login como
+                          <button class="btn-guest" type="submit" name="loginType" value="guest">Login como
                           convidado</button>
                       </div>
                     </form>

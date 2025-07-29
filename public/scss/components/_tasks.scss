@@ -2,44 +2,32 @@
 @use '../utils/variables.scss' as *;
 @use '../utils/mixins.scss' as *;
 @use 'sass:color';
-// app.ejs
-.app {
-  background-color: $bg-app;
-  
-  color: $text-color;
-  display: flex;
-  flex-direction: column;
 
-  .user {
-text-align: end;
+// app.ejs
+.user {
+  text-align: end;
   padding: 1rem;
   display: flex;
   flex-direction: row;
   gap: 1rem;
   justify-content: end;
   align-items: center;
-  }
+}
+.mt-5 {
+  margin: 1rem auto;
+  text-align: start;
+}
+.app {
+  background-color: $bg-app;
+  width: 100%;
+  color: $text-color;
+  display: flex;
+  flex-direction: column;
+    align-items: center;
 
-  form{
-    display: block;
-
-    .deleteBtn{
-      background-color: #444;
-      border: none;
-      width: 100%;
-      padding: 0.75rem;
-      color: #fff;
-      border-radius: 5px;
-    }
-  }
-  
   .container-app {
     width: 100%;
     max-width: 800px;
-    margin: 2rem auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     background-color: transparent;
 
     h1 {
@@ -51,7 +39,7 @@ text-align: end;
       width: 100%;
       background-color: $bg-task;
       border-radius: 0.5rem;
-        margin: inherit;
+      margin: inherit;
     }
 
     .list-group-item {
@@ -66,14 +54,17 @@ text-align: end;
 
     .deleteBtn {
       padding: 10px 16px;
-      border: none;
-      border-radius: 10px;
       background: $gray-light;
-      color: white;
       font-family: 'cursive';
-        max-width: 100%;
+      max-width: 100%;
+      border: none;
+      width: 100%;
+      color: $text-color;
+      border-radius: 5px;
+
     }
-   .deleteBtn:hover {
+
+    .deleteBtn:hover {
       background-color: #ff4c4c;
       cursor: pointer;
       transition: background-color 0.3s;
@@ -88,99 +79,99 @@ text-align: end;
       font-family: 'cursive';
     }
 
- 
+
     .btn-normal {
       background-color: #444;
       color: $text-color;
       margin-top: 1rem;
-  height: 2rem;
-        width: 100%;
+      width: 100%;
       border-radius: 0.5rem;
       border: none;
 
-      a {
-        color: inherit;
-        text-decoration: none;
-          width: 100%;
-  display: block;
-      }
+    }
 
-      &:hover {
-        background-color: color.scale($bg-task, $lightness: -5%);
-      }
+    .btn-new-task {
+      color: inherit;
+      text-decoration: none;
+      width: 100%;
+      display: block;
+      @include center-flex;
+      height: 2rem;
+
+    }
+
+
+    .container-group {
+      background-color: $bg-task;
+      border-radius: 0.5rem;
+      width: 100%;
+    }
+
+    .content-create {
+      background-color: color.adjust($bg-task, $lightness: -3%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 0.4rem;
+      padding: 1rem;
+    }
+
+    .task {
+      display: block;
+      width: 100%;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 1rem 0 0 1rem;
+    }
+    .text{
+      text-align: left;
+    }
+    .addTaskBtn {
+      border: none;
+      border-radius: 0 12rem 12rem 0;
+      padding: 0.5rem;
+      width: 5rem;
+      background-color: $gray-lighter;
+      cursor: pointer;
+    }
+
+    #title:focus {
+      border: solid 2px aqua;
+      outline: none;
+      padding: 0.45rem;
+    }
+
+    .visually-hidden {
+      width: 12rem;
+      text-align: center;
+    }
+
+    .subTask {
+      padding: 0.5rem 1rem;
+      font-size: larger;
+    }
+
+    .groupBtn {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .deleteBtnAll {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .empty-msg {
+      text-align: center;
+      margin: 20px auto;
+      color: #777;
+      font-style: italic;
+      font-size: 1.2rem;
+      animation: fadeIn 0.3s ease-in-out;
     }
   }
-
-
-  .container-group {
-  background-color: $bg-task;
-  border-radius: 0.5rem;
-  width: 100%;
 }
-
-.content-create {
-  background-color: color.adjust($bg-task, $lightness: -3%);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 0.4rem;
-    padding: 1rem;
-
-  .task {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 1rem 0 0 1rem;
-  }
-  .addTaskBtn {
-  border: none;
-  border-radius: 0 12rem 12rem 0;
-  padding: 0px;
-    padding: 0.5rem;
-  width: 5rem;
-  background-color: $gray-lighter;
-  cursor: pointer;
-  }
-  #title:focus {
-  border: solid 2px aqua;
-  outline: none;
-    padding: 0.45rem;
-}
-.visually-hidden {
-  width: 12rem;
-  text-align: center;
-}
-}
-  
-
-  .subTask{
-  padding: 0.5rem 1rem !important;
-  font-size: larger;
-  }
-  .groupBtn {
-  display: flex;
-  gap: 1rem;
-}
-  .deleteBtnAll{
-    width: 100%;
-      padding: 10px;
-      background: transparent!important;
-        border: none;
-  cursor: pointer;
-  color: #fff;
-  }
-  .form {
-  width: 100%;
-}
-}
-
-.empty-msg {
-    text-align: center;
-    margin: 20px auto;
-    color: #777;
-    font-style: italic;
-    font-size: 1.2rem;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
