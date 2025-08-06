@@ -1,5 +1,5 @@
 // app.js
-import { message } from './dom.js';
+import { message, tooglerStatus } from './dom.js';
 import { getTasksApi } from './api.js';
 
 export async function renderTasks() {
@@ -9,7 +9,11 @@ export async function renderTasks() {
     } catch (error) {
         console.error('Erro ao carregar tarefas: ', error);
     }
+    
 }
 
 
-document.addEventListener('DOMContentLoaded', renderTasks);
+document.addEventListener('DOMContentLoaded', () => {
+    renderTasks(),
+    tooglerStatus()
+});

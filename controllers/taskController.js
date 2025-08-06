@@ -1,107 +1,99 @@
-const { text } = require("express");
-const taskModel = require("../models/taskModel")
+const SubtaskModel = require("../models/SubtaskModel");
+const TaskModel = require("../models/taskModel");
 
 const taskController = {
-    //GET /app
-    index: (req, res) => {
-        const user = req.session.currentUser;
-        const tasks = taskModel.getAllTasks().filter(task => task.userId === user.id);
-        if(!user || !user.id) {
-            return res.redirect('/login')
-        }
 
-        res.render('pages/app', { tasks, user });
+    index: async (req, res) => {
+        const user = req.session.currentUser;
+        const tasks = await TaskModel.findAllTasks();
+        res.render('pages/app', {tasks, user})
     },
-    // GET /app/nova-lista - exibir a pagina do formulario - redenrizar a tela
-    create: (req, res) => {
-        const user = req.session.currentUser
-        res.render('pages/create', { user });
+    create: async (req, res) => {
+        const user = req.session.currentUser;
+        res.render('pages/create', { user })
     },
-    //POST /app/nova-lista - destinado a salvar o model 
-    save: (req, res) => {
+    save: async (req, res) => { 
+        try {
         const { title } = req.body
-        const user = req.session.currentUser;
-        taskModel.createTask(title, user.id);
+        const userId = req.session.currentUser.id;
+        await TaskModel.create({title, userId});
 
-        // res.redirect('/app');
-        res.render('pages/app', { tasks: taskModel.getAllTasks(), user,
+        res.redirect('/app');
+    } catch (error) {
+        console.error("Erro ao criar a tarefa: ", error);
+        res.render('pages/create', {
+            tasks: [],
+            message: {
+                type: 'error',
+                text: 'Erro ao criar a tarefa!'
+            }
+        });
+        
+    }
+    },
+    show: async (req, res) => {
+        const taskId = req.params.taskId;
+        const user = req.session.currentUser;
+        const task = await TaskModel.findTaskById(taskId);
+        const subtasks = await SubtaskModel.findSubtasksByTaskId(taskId);
+        
+        try {
+
+        if(!task) {
+            return res.status(404).render('pages/show', {
+            user,
+            task,
+            subtasks: [] ,
+                message: {
+                    type: 'error',
+                    text: 'Tarefa não encontrada.'
+                }
+            });
+        }
+        
+            return res.render('pages/show', {
+            user,
+            task,
+            subtasks,
             message: {
                 type: 'success',
-                text: 'Tarefa criada com sucesso!'
+                text: 'Tarefa encontrada com sucesso!'
             }
-         });
-    },
-    // GET /posts/:id
-    show: (req, res) => {
-        const { listId } = req.params;
-        const taskList = taskModel.getTaskListById(listId);
-        const user = req.session.currentUser;
-        if (!taskList) {
-            return res.status(404).send('Lista não encontrada')
-        }
+        });
 
-        const message = req.session.message;
-        delete req.session.message;
-
-        // res.render('pages/show', { taskList, user, message });
-        res.render('pages/show', { taskList, user,
+    } catch (error) {
+        console.error("Erro ao buscar a tarefa: ", error);
+        return res.status(500).render('pages/show', {
+            user,
             message: {
-                type: 'success',
-                text: 'Tarefa criada com sucesso!'
+                type: 'error',
+                text: 'Erro ao buscar a tarefa.'
             }
-         });
-
+        });
+      }
     },
-    subTask: (req, res) => {
-        const listId = req.body.listId || req.params.listId;
-        const taskList = taskModel.getTaskListById(listId);
-        if (!taskList) return res.status(404).send('Lista não encontrada');
-        res.json(taskList.tasks);
-    },
-    // POST /app/:id/nova-tarefa
-    addTask: (req, res) => {
-        const { listId } = req.params;
-        const { title } = req.body;
-        taskModel.addTask(listId, title);
-
-        req.session.mesage = {
-            type: 'success',
-            text: 'Tarefa adicionada com sucesso!'
+    // deleta tarefa
+    delete: async (req, res) => {
+        const { taskId } = req.params;
+        
+        try {
+            const tasks = await TaskModel.findTaskById(taskId);
+            if(!tasks) throw new Error('Tarefa não encontrada');
+            await TaskModel.delete(taskId);
+        res.redirect('/app');
+        } catch (error) {
+        console.error("Erro ao deletar a tarefa: ", error);
+        res.status(500).render('pages/500', {
+            tasks: null,
+            message: {
+                type: 'error',
+                text: 'Erro ao deletar a tarefa.'
+            }
+        
+        })
         }
-        res.redirect(`/app/${listId}`);
-        
-    },
-    // POST /app/:listId/completar/:taskId
-    completeTask: (req, res) => {
-        const { listId, taskId } = req.params;
-        taskModel.completeTask(listId, taskId);
-        res.redirect(`/app/${listId}`);
-
-        
-    },
-    // POST /app/:listId/desfazer/:taskId
-    undoTask: (req, res) => {
-        const { listId, taskId } = req.params;
-        taskModel.undoTask(listId, taskId);
-        res.redirect(`/app/${listId}`);
-    },
-
-    // POST /app/:id/excluir
-    deleteList: (req, res) => {
-        // obter o id da rota desestruturando 
-        const { listId } = req.params
-        // chamando um metodo
-        taskModel.deleteList(listId)
-        res.redirect(`/app`)
-
-    },
-    deleteTask: (req, res) => {
-        const { listId, taskId } = req.params
-        taskModel.deleteTask(listId, taskId)
-        res.redirect(`/app/${listId}`)
     }
 
 }
-
 module.exports = taskController
 

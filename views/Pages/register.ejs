@@ -19,7 +19,7 @@
                 <% } %>
                 <form action="/auth/register" method="post">
                     <label for="name">Nome: </label>
-                    <input type="text" name="name" id="name" >
+                    <input type="text" name="username" id="name" >
                     <label for="email">Email: </label>
                     <input type="email" name="email" id="email" >
                     <label for="password">Senha: </label>
@@ -38,7 +38,6 @@
             </div>
         </div>
     </div>
-            <script type="module" src="script/dom.js" defer></script>
     <%- include('../partials/footer') %>
 </body>
 </html>

@@ -7,7 +7,7 @@
   const backspaceSpeed = 30;
   const waitBeforeDelete = 1000;
   const waitBeforeType = 300;
-  const fadeOutDelay = 1000;
+  const fadeOutDelay = 500;
 
   let textIndex = 0;
   let charIndex = 0;

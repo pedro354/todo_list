@@ -1,37 +1,52 @@
-const taskModel = require("../models/taskModel")
+const SubtaskModel = require("../models/SubtaskModel")
+const TaskModel = require("../models/taskModel")
 
 const taskApiController = {
-    getTasks: (req, res) => {
+    getTasks: async (req, res) => {
         try {
-            const tasks = taskModel.getAllTasks()
+            const tasks = await TaskModel.findAllTasks()
             res.status(200).json(tasks)
         } catch (error) {
             res.status(400).json({ message: "Erro ao buscar tarefas" })
         }
     },
-    createTask: (req, res) => {
+    createTask: async (req, res) => {
         try {
-            const { title } = req.body
-            const newTask = taskModel.createTask(title)
+            const { title, user_id } = req.body
+            const newTask = await TaskModel.createTask(title, user_id)
             res.status(200).json(newTask)
         } catch (error) {
             res.status(400).json({ message: "Erro ao criar tarefa" })
         }
     },
-    deleteTask: (req, res) => {
+    update: async (req, res) => {
+        const { id } = req.params        
+        const { title, status } = req.body
+        
+        if (!id) return res.status(400).json({ message: "ID da subtarefa não informado!" });
         try {
-            const { listId, taskId } = req.params;
-            taskModel.deleteTask(listId, taskId);
+            const updateSubTask = await SubtaskModel.update(id, {title, status})
+            console.log('body', req.body);
+            res.status(200).json({success: true, task: updateSubTask })
+        } catch (error) {
+            console.error(error)
+            res.status(400).json({ message: "Erro ao atualizar tarefa" })            
+        }
+    },
+    deleteTask: async (req, res) => {
+        try {
+            const { taskId } = req.params;
+            await TaskModel.deleteTask(taskId);
             res.status(200).json({ message: "Tarefa deletada com sucesso" });
         } catch (error) {
             console.error(error);
             res.status(400).json({ message: "Erro ao deletar tarefa" });
         }
     },
-    deleteList: (req, res) => {
+    deleteList: async (req, res) => {
         try {
             const { listId } = req.params
-            taskModel.deleteList(listId)
+            await TaskModel.deleteList(listId)
             res.status(200).json({ message: "Lista deletada com sucesso" })
         } catch (error) {
             res.status(400).json({ message: "Erro ao deletar lista" })

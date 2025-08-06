@@ -1,61 +1,57 @@
-const path = require('path')
-const fs = require('fs')
-const userDBPath = path.join(process.cwd(), 'data', 'users.json');
+const { query } = require("../database/db");
 
-function readUsers() {
-    try {
-        const data = fs.readFileSync(userDBPath, 'utf-8')
-        return JSON.parse(data)
-    } catch (error) {
-        console.error("Erro ao ler users.json", error);
-        return []
+class UserModel {
+    constructor(userRow){
+        this.id = userRow.id;
+        this.username = userRow.username;
+        this.email = userRow.email;
+        this.password = userRow.password;
     }
-}
-function writeUsers(users) {
-    try {
-        fs.writeFileSync(userDBPath, JSON.stringify(users, null, 2), 'utf-8');
-    } catch (err) {
-        console.error("Erro ao salvar no users.json:", err);
+    static async findAll(){
+        const result = await query('SELECT * FROM users');
+        return result.rows.map((row) => new UserModel(row));
     }
-}
-
-function findUserByEmail(email) {
-    const users = readUsers();
-    return users.find(user => user.email === email);
-}
-
-function createUser({name, email, password}) {
-    const users = readUsers();
-    const userId = Date.now().toString();
-    const newUser = {userId, name, email, password };
-    users.push(newUser);
-    writeUsers(users);
-    return newUser;
-}
-function saveUsers(updatedUsers) {
-    const users = readUsers();
-    const index = users.findIndex(user => user.userId === updatedUsers.userId);
-
-    if(index !== -1){
-        users[index] = updatedUsers;
-        writeUsers(users);
-    } else {
-        console.error("Erro ao salvar no users.json:", err);
-        
+    static async findById(id){
+        const result = await query('SELECT * FROM users WHERE id = $1', [id]);
+        if(!result.rows[0]) return null;
+        return new UserModel(result.rows[0]);
     }
-}
+    static async findUserByEmail(email){
+        const result = await query('SELECT * FROM users WHERE email = $1', [email]);
+        if(!result.rows[0]) return null;
+        return new UserModel(result.rows[0]);
+    }
+    static async createUser(attributes){
+        const usersExists = await query('SELECT * FROM users WHERE email = $1', [attributes.email]);
+        if(usersExists.rows[0]) throw new Error('Email já cadastrado');
+        const result = await query(
+            `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *;`,
+            [attributes.username, attributes.email, attributes.password]);
+        return new UserModel(result.rows[0]); 
+    }
+static async updateUser(userId, newAttributes) {
+    const result = await query(`SELECT * FROM users WHERE id = $1;`, [userId]);
+    if (!result.rows[0]) return null;
 
-function deletedUser(userId) {
-    const users = readUsers();
-    const updatedUsers = users.filter(user => user.userId !== userId);
+    const user = new UserModel(result.rows[0]);
+
+    const { username, email, password } = newAttributes;
+    user.username = username;
+    user.email = email;
+    user.password = password;
     
-    writeUsers(updatedUsers);
+    await query(
+        `UPDATE users SET username = $1, email = $2, password = $3 WHERE id = $4;`,
+        [user.username, user.email, user.password, user.id]
+    );
+
+    return user;
 }
-module.exports = {
-    readUsers,
-    writeUsers,
-    saveUsers,
-    findUserByEmail,
-    createUser,
-    deletedUser
+    static async deleteUser(userId){
+        const result = await query('DELETE FROM users WHERE id = $1 RETURNING *', [userId]);
+        if(!result.rows[0]) return null;
+        return result.rowCount > 0;
+    }
 }
+
+module.exports = UserModel;

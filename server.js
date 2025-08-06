@@ -19,12 +19,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'segredo-muito-seguro',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: new FileStore({
-        path: './data/sessions',
+        path: './database/sessions',
         retries: 1
     }),
-    cookie: { maxAge: 1000 * 60 * 60 } // 1 hora, por exemplo
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } 
 }));
 app.use(messageHandler);
 app.use(logger);

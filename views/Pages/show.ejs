@@ -22,16 +22,16 @@
                 <% } %>
                     <div class="user">
                         <% if (!user.guest) { %>
-                            <span>Bem vindo, <%= user.name %></span>
+                            <span>Bem vindo, <%= user.username %></span>
                             <% } else { %>
                                 <span>Olá, Convidado!</span>
                                 <% } %>
                     </div>
                     <div class="mt-5">
                         <h1>
-                            <%= taskList.title %>
+                            <%= task.title %>
                         </h1>
-                        <form data-list-id="<%= taskList.id  %>" action="/app/<%= taskList.id %>/new-task"
+                        <form data-list-id="<%= task.id  %>" action="/app/<%= task.id %>/new-task"
                             method="post">
                             <div class="container-group">
                                 <div class="content-create">
@@ -45,32 +45,22 @@
                         <div id="empty-container" style="display: none;" class="empty-msg"></div>
 
                         <ul class="list-group">
-                            <% taskList.tasks.forEach(task=> { %>
-                                <li class="list-group-item subTask <%= task.completed ? 'completed' : '' %>">
-                                    <%= task.title %>
+                            <% subtasks.forEach(subtask=> { %>
+                            <li class="list-group-item subTask" data-id="<%= subtask.id %>">
+                            <p data-subtask-id="<%= subtask.id %>" class="subtitle" data-title="<%= subtask.title %>"><%= subtask.title %></p>
                                         <div class="groupBtn">
-                                            <% if (!task.completed) { %>
-                                                <form action="/app/<%= taskList.id %>/completed/<%= task.id %>"
-                                                    method="POST">
-                                                    <button class="completedBtn">Completar</button>
-                                                </form>
-                                                <% } else { %>
-                                                    <form action="/app/<%= taskList.id %>/undo/<%= task.id %>"
-                                                        method="POST">
-                                                        <button class="deleteBtn">Desfazer</button>
-                                                    </form>
-                                                    <% } %>
-                                                        <form action="/app/<%= taskList.id %>/delete/<%= task.id %>"
-                                                            method="POST">
-                                                            <button class="deleteBtn">Excluir</button>
-                                                        </form>
+                                            <button class="status <%= subtask.status === 'completed' ? 'completed' : ''  %>"><%= subtask.status === 'completed' ? 'Concluída' : 'Pendente'  %></button>
+                                <form id="deletesubtask" action="/app/<%= subtask.id  %>/delete" method="post">
+                                    <input type="hidden" name="taskId" value="<%= task.id %>">
+                                    <button class="deleteBtn">Excluir</button>
+                                </form>
                                         </div>
                                 </li>
                                 <% }) %>
                         </ul>
                         <div class="deleteBtnAll">
-                            <form action="/app/<%= taskList.id %>/delete" method="POST">
-                                <button class="deleteBtnAll btn-danger">Excluir toda a lista</button>
+                            <form  action="/app/<%= task.id %>/delete-all-subtasks" method="POST">
+                                <button class="deleteBtn">Excluir tudo!</button>
                             </form>
                         </div>
                     </div>

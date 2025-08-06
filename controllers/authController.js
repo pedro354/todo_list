@@ -1,68 +1,102 @@
-const taskModel = require('../models/taskModel');
-const userModel = require('../models/userModel');
-
+const TaskModel = require('../models/taskModel');
+const UserModel = require('../models/userModel');
 
 const authController = {
-    loginPage: (req, res) => {
-    const user = req.session.currentUser;
+
+    loginPage:  (req, res) => {
+    const user = req.session.currentUser || null;
     res.render('pages/login', { user });
     },
-    registerPage: (req, res) => {
-        const userId = req.session.userId;
-        const message = req.session.message;
+    registerPage: async (req, res) => {
+        const message = await req.session.message;
         delete req.session.message;
-        res.render('pages/register', { userId, message });
+        res.render('pages/register', { message });
     },
-    index: (req, res) => {
+    index: async (req, res) => {
         if (!req.session.authenticated) {
             return res.redirect('/auth/login');
         }
+        
         const user = req.session.currentUser;
+        console.log("Usuário logado:", user);
         const message = req.session.message;
         delete req.session.message;
-        const tasks = user.guest ? [] : taskModel.getTaskListById(user.userId);
-
-
+        const tasks = user.guest ? [] : await TaskModel.findTasksByUserId(user.id);
         res.render('pages/app', { user, tasks, message})
     },
-    register: (req, res) => {
-        const { name, email, password, confirmPassword } = req.body;
+    register: async (req, res) => {
 
-            if (!name || !email || !password || !confirmPassword) {
+        try {
+            
+            const { username, email, password, confirmPassword } = req.body;
+            console.log("Dados recebidos", req.body);
+            
+    
+                if (!username || !email || !password || !confirmPassword) {
+                    console.log("Erro ao cadastrar usuário: Campos obrigatórios não preenchidos.");
+                return res.render('pages/register', {
+                    user: null,
+                    message: {
+                        type: 'error',
+                        text: 'Todos os campos são obrigatórios!'
+                    }
+                });
+                
+            }
+            const exists = await UserModel.findUserByEmail(email);
+            console.log("Usuário já existe?", exists);
+            
+                if (exists) {
+                return res.render('pages/register', {
+                    user: null,
+                    message: {
+                        type: 'error',
+                        text: 'Email já cadastrado!'
+                    }
+                });
+            }
+            if (password !== confirmPassword) {
+                return res.render('pages/register', {
+                    user: null,
+                    message: {
+                        type: 'error',
+                        text: 'As senhas não conferem!'
+                    }
+                });
+            }
+
+                const newUser = await UserModel.createUser({ username, email, password });
+                console.log("Novo usuário criado:", newUser);
+                
+                req.session.authenticated = true;
+                req.session.currentUser = {
+                    id: newUser.userId,
+                    username: newUser.username,
+                    email: newUser.email,
+                    guest: false
+                }
+                req.session.message = {
+                    type: 'success',
+                    text: 'Usuário cadastrado com sucesso!'
+                };
+                res.redirect(302, "/auth/login");
+
+            
+        } catch (error) {
+            console.log("Erro no register:", error);
+            
             return res.render('pages/register', {
                 user: null,
                 message: {
                     type: 'error',
-                    text: 'Todos os campos são obrigatórios!'
+                    text: 'Erro ao cadastrar usuário!'
                 }
             });
         }
-            if (userModel.findUserByEmail(email)) {
-            return res.render('pages/register', {
-                user: null,
-                message: {
-                    type: 'error',
-                    text: 'Email já cadastrado!'
-                }
-            });
-        }
-        const newUser = userModel.createUser({ name, email, password });
-
-        req.session.authenticated = true;
-        req.session.currentUser = {
-            id: newUser.userId,
-            name: newUser.name,
-            email: newUser.email,
-            guest: false
-        }
-        req.session.message = {
-            type: 'success',
-            text: 'Usuário cadastrado com sucesso!'
-        };
-        res.redirect(302, "/auth/login");
     },
 
-    login: (req, res) => {
+    login: async (req, res) => {
+        console.log("Login recebido:", req.body);
         const {email, password, loginType } = req.body
 
         // Login como convidado
@@ -74,43 +108,64 @@ const authController = {
                 email: null,
                 guest: true
             }
+            console.log("usuario logado como convidado:", req.session.currentUser);
             return res.redirect(302, '/app')
         }
+        
         // 
-            if (!email || !password) {
+        if (!email || !password) {
+            console.log("Campos faltando");
             return res.render('pages/login', {
                 user: null,
-                message: {
-                    type: 'error',
-                    text: 'Todos os campos são obrigatórios!'
-                }
+                message: { type: 'error', text: 'Todos os campos são obrigatórios!' }
             });
         }
+        
+        try {
+        
+        const user = await UserModel.findUserByEmail(email);
+        console.log("Usuário encontrado:", user);
+        
+        if(!user){
+            console.log("Email não encontrado");
+            return res.render('pages/login', {
+                user: null,
+                message: { type: 'error', text: 'Email não encontrado!' }
+            })
 
-        const user = userModel.findUserByEmail(email)
+        }
+
         if (!user || user.password !== password) {
+            console.log("Email ou senha inválidos!");
+            
             return res.render('pages/login', {
-                user: null,
-                message: {
-                type: 'error',
-                text: 'Email ou senha inválidos!'
-                }
+            user: null,
+            message: { type: 'error', text: 'Email ou senha inválidos!' }
             });
         }
 
+        console.log("Login realizado com sucesso!");
+    
         req.session.authenticated = true;
         req.session.currentUser = {
-            id: user.userId ,
-            name: user.name,
+            id: user.id,
+            username: user.username,
             email: user.email,
             guest: false
         }
-
-        req.session.message = {
-            type: 'success',
-            text: 'Login realizado com sucesso!'
-        }
+        console.log(req.session);
+        
         res.redirect(302, '/app');
+        
+    } catch (error) {
+        console.log("Erro no login:", error);
+        req.session.message = {
+            type: 'error',
+            text: 'Erro ao fazer login!'
+        }
+        res.redirect('/auth/login');
+
+    }
     },
     loginForm: (req, res) => {
   console.log("Mensagem disponível na view:", res.locals.message);
@@ -126,7 +181,7 @@ const authController = {
             res.redirect('/auth/login');
         });
     },
-    deleteAccount: (req, res) => {
+    deleteAccount: async (req, res) => {
         const userId = req.session.currentUser?.id;
         
         if(!userId){
@@ -137,8 +192,8 @@ const authController = {
 
             return res.redirect('/auth/login');
         }
-        taskModel.deleteTaskByUserId(userId);
-        userModel.deletedUser(userId);
+       await TaskModel.deleteAllTasksByUser(userId);
+       await UserModel.deleteUser(userId);
         req.session.destroy(() => {
         res.redirect('/auth/login?msg=deleted');
         });
@@ -186,7 +241,7 @@ const authController = {
                 }
             });
         }
-        const user = userModel.findUserByEmail(email);
+        const user = UserModel.findUserByEmail(email);
         if(!user){
             return res.render('pages/resetPassword', {
                 email,
@@ -197,7 +252,7 @@ const authController = {
             });
         }
         user.password = password;
-        userModel.saveUsers(user);
+        UserModel.saveUser(user);
         req.session.message = {
             type: 'success',
             message: 'Senha alterada com sucesso!'

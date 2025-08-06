@@ -19,7 +19,7 @@
             <% } %>
             <div class="user">
                 <% if (!user.guest) { %>
-                    <span>Bem vindo, <%= user.name  %></span>
+                    <span>Bem vindo, <%= user.username || user.name  %></span>
                     <% } else { %>
                         <span>Olá, Convidado!</span>
                         <% } %>
@@ -40,7 +40,7 @@
                                         </h2>
                                     </a>
                                 </article>
-                                <form id="deleteTask" action="/app/<%= task.id  %>/delete" method="post">
+                                <form id="deleteTask" action="/app/<%= task.id  %>" method="post">
                                     <button class="deleteBtn" id="deleteBtn">X</button>
                                 </form>
                             </li>
@@ -53,7 +53,9 @@
                     </button>
                 </div>  
         </main>
-        <script type="module" src="script/app.js" defer></script>
+        <script type="module" src="script/app.js" defer >
+            
+        </script>
         
         <%- include('../partials/footer') %>
 

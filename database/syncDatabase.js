@@ -1,49 +1,43 @@
 const { query } = require("./db");
 
-async function syncDatabase(){
+async function syncDatabase() {
+    // Relacionamento 1:1
     await query(`
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            username VARCHAR(255) UNIQUE NOT NULL,
-            email VARCHAR(255) UNIQUE NOT NULL,
-            password VARCHAR(255) NOT NULL
-        );
-    `);
+CREATE TABLE IF NOT EXISTS users (
+id SERIAL PRIMARY KEY,
+username VARCHAR(255) UNIQUE NOT NULL,
+email VARCHAR(255) UNIQUE NOT NULL,
+password VARCHAR(255) NOT NULL
+);
+`)
+// Relacionamento 1:N
     await query(`
-        CREATE TABLE IF NOT EXISTS tasks (
-            id SERIAL PRIMARY KEY,
-            title VARCHAR(255) NOT NULL,
-            status VARCHAR(255) NOT NULL,
-            user_id INT references users(id) ON DELETE CASCADE,
-            parent_task_id INT,
-            FOREIGN KEY (parent_task_id) REFERENCES tasks(id) ON DELETE CASCADE
-        );
-    `);
-    console.log('Created "users" and "tasks" tables');
+CREATE TABLE IF NOT EXISTS tasks (
+id SERIAL PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+user_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+`)
+// Relacionamento 1:N
+    await query(`
+CREATE TABLE IF NOT EXISTS subtasks (
+id SERIAL PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+status subtask_status NOT NULL DEFAULT 'pending');
+`)
+// Relacionamento 1:N
+    await query(`
+CREATE TABLE IF NOT EXISTS task_subtasks (
+  task_id INT NOT NULL,
+  subtask_id INT NOT NULL,
+  PRIMARY KEY (task_id, subtask_id),
+  FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+  FOREIGN KEY (subtask_id) REFERENCES subtasks(id) ON DELETE CASCADE
+);`)
 
-    await query(`
-        INSERT INTO users (username, email, password)
-        VALUES ('admin', 'admin@example.com', 'admin')
-        ON CONFLICT (username) DO NOTHING;
-    `);
-    await query(`
-        INSERT INTO tasks (title, status, user_id) VALUES
-            ('Task 1', 'pending', 1),
-            ('Task 2', 'completed', 1),
-            ('Task 3', 'pending', 1),
-            ('Task 4', 'pending', 1),
-            ('Task 5', 'pending', 1)
-    `);
-        console.log('Created "admin" user and "Task 1", "Task 2", "Task 3" tasks para exemplo' );
+    console.log('Created "users", "tasks" and "subtasks" tables');
 
-    await query(`
-        UPDATE tasks SET
-        parent_task_id = 1
-        WHERE id IN (3, 4);
-    `);
-    console.log('Updated "Task 3" and "Task 4" to be children of "Task 1"');
-
-        
     process.exit(0);
 }
 
