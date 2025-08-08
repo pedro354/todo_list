@@ -1,8 +1,10 @@
 const express = require('express');
 const authController = require('../../controllers/authController');
 const errorController = require('../../controllers/errorController');
+const authMiddleware = require('../../middlewares/authMiddleware');
 const router = express.Router();
 
+router.use(authMiddleware); // Protege tudo abaixo com sessão + token
 router.get('/login', authController.loginPage);
 router.post('/login', authController.login);
 router.get('/register', authController.registerPage);

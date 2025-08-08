@@ -1,6 +1,7 @@
 const { query, getClient } = require("../database/db");
 
 class SubtaskModel {
+    // constructor que recebe um objeto com as propriedades do subtask
     constructor(subtaskRow){
         this.id = subtaskRow.id;
         this.title = subtaskRow.title;
@@ -8,12 +9,13 @@ class SubtaskModel {
         this.task_id = subtaskRow.taskId;
         this.subtask_id = subtaskRow.subtaskId;
     }
-
+    // Busca todos os subtasks de uma task
     static async findSubtasksById(id) {
     const result = await query(
         `SELECT * FROM subtasks WHERE id = $1`, [id])
         return result.rows.map(row => new SubtaskModel(row));
     }
+    // Busca todos os subtasks por id da tarefa
     static async findSubtasksByTaskId(taskId) {
     const result = await query(
         `SELECT subtasks.* FROM subtasks
@@ -22,7 +24,8 @@ class SubtaskModel {
         [taskId]
     );
     return result.rows.map(row => new SubtaskModel(row));
-}
+    }
+    // Cria um subtask 
     static async createSubtask({title, taskId, status}) {
         const client = await getClient();
 
@@ -51,6 +54,7 @@ class SubtaskModel {
             client.release();
         }
     }
+    // Atualiza um subtask
     static async update(id, attributes ){
         const client = await getClient();
         try {
@@ -85,6 +89,7 @@ class SubtaskModel {
         client.release();
     }
     }
+    // Deleta um subtask
     static async delete(subtaskId) {
         const client = await getClient();
         try {
@@ -109,6 +114,7 @@ class SubtaskModel {
             client.release();
         }
     }
+    // Deleta todos os subtasks de uma task
     static async deleteAllbyTaskId(taskId) {
         const client = await getClient();
         try {

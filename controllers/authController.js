@@ -1,5 +1,7 @@
 const TaskModel = require('../models/taskModel');
 const UserModel = require('../models/userModel');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const authController = {
 
@@ -25,7 +27,7 @@ const authController = {
         res.render('pages/app', { user, tasks, message})
     },
     register: async (req, res) => {
-
+        
         try {
             
             const { username, email, password, confirmPassword } = req.body;
@@ -64,8 +66,30 @@ const authController = {
                     }
                 });
             }
+            
+            const regexVerification = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/
+            const messageText =` <strong>A senha precisa ter no minímo:</strong><br>
+                        - <span class="valid-item">8 caracteres</span><br>
+                        - <span class="valid-item">1 letra maiúscula</span><br>
+                        - <span class="valid-item">1 caractere especial</span><br>
+                        - <span class="valid-item">1 número</span>`
 
-                const newUser = await UserModel.createUser({ username, email, password });
+            if (!regexVerification.test(password)) {
+                return res.render('pages/register', {
+                    user: null,
+                    message: {
+                        type: 'error',
+                        text: messageText
+                    }
+                });
+            }
+            // Criar o novo usuário com a senha criptografada
+            const newUser = await UserModel.createUser({
+                username,
+                email,
+                password
+            });
+
                 console.log("Novo usuário criado:", newUser);
                 
                 req.session.authenticated = true;
@@ -103,7 +127,7 @@ const authController = {
         if (loginType === 'guest') {
             req.session.authenticated = true;
             req.session.currentUser = {
-                id: 'guest',
+                id: 0,
                 name: 'Convidado',
                 email: null,
                 guest: true
@@ -112,7 +136,7 @@ const authController = {
             return res.redirect(302, '/app')
         }
         
-        // 
+        // verificar se o usuário existe
         if (!email || !password) {
             console.log("Campos faltando");
             return res.render('pages/login', {
@@ -122,7 +146,7 @@ const authController = {
         }
         
         try {
-        
+
         const user = await UserModel.findUserByEmail(email);
         console.log("Usuário encontrado:", user);
         
@@ -132,20 +156,23 @@ const authController = {
                 user: null,
                 message: { type: 'error', text: 'Email não encontrado!' }
             })
-
+            
         }
 
-        if (!user || user.password !== password) {
-            console.log("Email ou senha inválidos!");
-            
+        const senhaConfere = await bcrypt.compare(password, user.password);
+
+        if (!senhaConfere) {
+            console.log("Senha inválida!");
             return res.render('pages/login', {
-            user: null,
-            message: { type: 'error', text: 'Email ou senha inválidos!' }
+                user: null,
+                message: { type: 'error', text: 'Email ou senha inválidos!' }
             });
         }
-
-        console.log("Login realizado com sucesso!");
-    
+        const token = jwt.sign(
+            { id: user.id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '2h' }
+        );
         req.session.authenticated = true;
         req.session.currentUser = {
             id: user.id,
@@ -153,7 +180,10 @@ const authController = {
             email: user.email,
             guest: false
         }
-        console.log(req.session);
+        req.session.token = token;
+            console.log("Login realizado com sucesso!");
+            console.log(req.session);
+        
         
         res.redirect(302, '/app');
         

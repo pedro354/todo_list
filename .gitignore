@@ -1,3 +1,27 @@
-/database/
+# Dependências
 /node_modules/
+
+# Arquivos sensíveis e configs locais
 .env
+.env.local
+
+# Banco de dados (caso tenha arquivos locais, tipo SQLite ou migrações não versionadas)
+/database/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Cache
+.cache/
+dist/
+build/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor (VS Code, por exemplo)
+.vscode/
+.idea/

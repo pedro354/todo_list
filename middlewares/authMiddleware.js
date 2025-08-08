@@ -1,17 +1,37 @@
+const jwt = require('jsonwebtoken');
 const authMiddleware = (req, res, next) => {
     console.log('==== Verificação de Sessão ====');
     console.log('Auth:', req.session.authenticated);
     console.log('Guest:', req.session.currentUser?.guest);
 
-    if (req.session.authenticated || req.session.currentUser?.guest) {
-        console.log('✅ Acesso liberado!');
+    const rotasPermitidas = ['/login', '/auth/login', '/register', '/auth/register'];
+
+    if(rotasPermitidas.includes(req.path)) {
         return next();
     }
 
-    console.log('⛔ Bloqueado, redirecionando para login');
-    
-    res.redirect('/auth/login');
+    if(req.session && req.session.token){
+        return next();
+    }
 
+    if (req.session.authenticated || req.session.currentUser?.guest) {
+        const token = req.session.token;
+
+        if (token) {
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                req.user = decoded;
+                console.log('Token decodificado:', decoded);
+            } catch (error) {
+                console.error('Erro ao decodificar o token:', error);
+                return res.redirect('/auth/login');
+            }
+        }
+        console.log('✅ Acesso liberado via sessão!');
+        return next();
+    }
+    console.log('⛔ Bloqueado, redirecionando para login');
+    res.redirect('/auth/login');
 };
 
 module.exports = authMiddleware;
