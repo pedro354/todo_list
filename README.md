@@ -10,6 +10,14 @@ Estilização responsiva e leve com animações suaves na tela de login, e códi
 
 ---
 
+## 📋 Como usar
+
+Primeiro faça o registro, e logue para começar a usar. Crie sua primeira tarefa, e adicione subtarefas para torná-la mais complexa clicando no titulo da tarefa. Funções como adicionar, concluir e deletar. 
+
+Se quiser deletar toda contada, basta clicar no botão de deletar na tela no topo da tela.
+
+---
+
 ## 🚀 Tecnologias
 
 - Node.js

@@ -30,4 +30,31 @@ header {
       }
     }
   }
+.btn-logout, .btn-task {
+  background: transparent;
+  border: none; /* Remove borda padrão do button */
+  padding: 5px 0px;
+  font-weight: 100;
+  color: inherit; /* Herda cor do pai */
+  font-size: inherit; /* Herda tamanho da fonte */
+  font-family: inherit; /* Herda fonte */
+  cursor: pointer; /* Mostra que é clicável */
+  text-decoration: none; /* Remove underline dos links */
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  transition: all 0.3s ease; /* Transição suave */
 }
+
+.btn-logout:hover, 
+.btn-task:hover {
+  text-decoration: none;
+  border-bottom: 2px solid $text-color;
+  /* Removido: animation: ease-in 0.5s transition both; - sintaxe incorreta */
+}
+
+/* Se quiser uma animação específica, pode fazer assim: */
+
+.btn-logout:hover, 
+.btn-task:hover {
+  animation: borderSlide 0.3s ease-in-out;
+}}

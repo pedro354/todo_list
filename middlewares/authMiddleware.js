@@ -10,13 +10,15 @@ const authMiddleware = (req, res, next) => {
         return next();
     }
 
-    if(req.session && req.session.token){
-        return next();
+    if (!req.session.authenticated) {
+    return res.status(401).render('errors/401', {
+        user: null,
+        message: { type: 'error', text: 'Não autorizado' }
+    });
     }
 
     if (req.session.authenticated || req.session.currentUser?.guest) {
         const token = req.session.token;
-
         if (token) {
             try {
                 const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -31,7 +33,8 @@ const authMiddleware = (req, res, next) => {
         return next();
     }
     console.log('⛔ Bloqueado, redirecionando para login');
-    res.redirect('/auth/login');
+    return res.status(401).render('errors/401', { message: 'Não autorizado' });
 };
+
 
 module.exports = authMiddleware;

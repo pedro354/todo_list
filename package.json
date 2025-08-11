@@ -2,11 +2,14 @@
   "name": "todo-list",
   "version": "1.0.0",
   "main": "script.js",
+  
+  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
     "sass": "sass public/scss/app.scss public/css/app.css --watch --style=compressed"
   },
+  "ignore": ["*.log", "logs/*", "temp/*", "uploads/*", "*.db", "*.sqlite"],
   "keywords": [],
   "author": "",
   "license": "ISC",

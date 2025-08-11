@@ -1,3 +1,5 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
 // message
 .alert {
     padding: 1rem;
@@ -50,4 +52,62 @@
     transform: translateY(0);
     opacity: 0.95;
   }
+}
+
+.tooltip-container {
+  position: relative;
+  transition: all 0.2s;
+  font-size: 12px;
+  padding: 0.30rem 0;
+  box-sizing: border-box;
+  color: $tooltip-color;
+}
+
+.tooltip {
+position: absolute;
+  width: 100%;
+  opacity: 0;
+  transition: all .2s;
+  background: #303030;
+  color: #fff;
+  border-radius: .5rem;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  top: 4.2rem;
+  transform: translateX(-50%) translateY(-100%) scale(1);
+  left: 15.2rem;
+  z-index: 99999;
+}
+.tooltip::before {
+  position: absolute;
+  content: "";
+  height: 0.6em;
+  width: 0.6em;
+  bottom: 3rem;
+  left: 0;
+  transform: translate(-50%) rotate(45deg);
+  background: $tooltip-bg;
+  border-bottom-right-radius: 0.175rem;
+}
+
+.tooltip-container:hover .tooltip {
+opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(-100%) scale(1);
+  margin: 10px 11.5rem;
+  padding: .5rem;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+}
+.msgPass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.valid-item {
+  text-align: initial;
 }

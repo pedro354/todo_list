@@ -23,7 +23,16 @@
                     <label for="email">Email: </label>
                     <input type="email" name="email" id="email" >
                     <label for="password">Senha: </label>
-                    <input type="password" name="password" id="password" >
+                    <div class="tooltip-container">
+  <span class="tooltip">
+  <strong>A senha precisa ter no minímo:</strong>
+<span class="valid-item">- 8 caracteres</span>
+<span class="valid-item">- 1 letra maiúscula</span>
+<span class="valid-item">- 1 letra minuscula</span>
+<span class="valid-item">- 1 caractere especial</span>
+<span class="valid-item">- 1 número</span></span>
+                      <input  type="password" name="password" id="password">
+</div>
                     <label for="confirmPassword">Confirmar Senha: </label>
                     <input type="password" name="confirmPassword" id="confirmPassword" >
                     <div class="actions">

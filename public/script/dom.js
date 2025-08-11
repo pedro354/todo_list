@@ -74,4 +74,32 @@ export function tooglerStatus(){
         })
     })
 }
+    
 
+const lineText = "Carregando Lista de Tarefas...";
+const typingSpeed = 35;
+const fadeOutDelay = 300;
+
+let charIndex = 0;
+
+function nextPage() {
+  document.body.classList.add("fade-out");
+  setTimeout(() => {
+    window.location.href = "/auth/login";
+  }, fadeOutDelay);
+}
+
+function typeText() {
+  const elText = document.getElementById("text");
+  elText.textContent = lineText.substring(0, charIndex + 1);
+  charIndex++;
+
+  if (charIndex < lineText.length) {
+    setTimeout(typeText, typingSpeed);
+  } else {
+    // espera um pouco e já troca
+    setTimeout(nextPage, 800);
+  }
+}
+
+window.addEventListener("DOMContentLoaded", typeText)
