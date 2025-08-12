@@ -1,9 +1,3 @@
-Perfeito 😎
-Então aqui está a **versão refeita e atualizada do seu README.md** com tudo da Fase 8 (JWT, `.env`, proteção de rotas, endpoints autenticados e descrição mais organizada).
-
----
-
-````markdown
 # 📝 Projeto Todo List
 
 ![Badge Status](https://img.shields.io/badge/Status-Done-green)
@@ -54,8 +48,6 @@ cd todo_list
 
 # Instale as dependências
 npm install
-
-````
 
 ### 🔐 Configure o arquivo `.env` com as credenciais:
 
