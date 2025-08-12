@@ -25,3 +25,6 @@ Thumbs.db
 # Editor (VS Code, por exemplo)
 .vscode/
 .idea/
+
+# .gitignore
+.gitignore
