@@ -8,7 +8,7 @@ const messageHandler = require('./middlewares/messageHandler');
 const router = require('./router');
 const logger  = require('./middlewares/logger');
 const errorController = require('./controllers/errorController');
-const { default: errorHandler } = require('./middlewares/errorHandler');
+const errorHandler = require('./middlewares/errorHandler');
 // instanciando o servidor
 const app = express();
 // configurações
