@@ -1,5 +1,5 @@
 const SubtaskModel = require("../models/SubtaskModel")
-const TaskModel = require("../models/taskModel")
+const TaskModel = require("../models/TaskModel")
 
 const taskApiController = {
     getTasks: async (req, res) => {

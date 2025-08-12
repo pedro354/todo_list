@@ -1,9 +1,8 @@
-const TaskModel = require('../models/taskModel');
-const UserModel = require('../models/userModel');
+const UserModel = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { validationEmail } = require('../public/script/utls');
-const authMiddleware = require('../middlewares/authMiddleware');
+const TaskModel = require('../models/TaskModel');
 
 const authController = {
 
