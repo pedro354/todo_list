@@ -39,7 +39,7 @@ app.use(router);
 app.use(errorController.notFound);
 app.use(errorHandler)
 // servidor
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>  {console.log(`Servidor http://localhost:${PORT}`)})
 
 module.exports = app;
