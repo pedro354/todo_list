@@ -1,32 +1,40 @@
+Perfeito 😎
+Então aqui está a **versão refeita e atualizada do seu README.md** com tudo da Fase 8 (JWT, `.env`, proteção de rotas, endpoints autenticados e descrição mais organizada).
+
+---
+
+````markdown
 # 📝 Projeto Todo List
 
 ![Badge Status](https://img.shields.io/badge/Status-Done-green)
 
-Projeto fullstack desenvolvido com Node.js, Express.js e PostgreSQL, seguindo o modelo SPA com rotas controladas no backend. A renderização das views é feita de forma dinâmica com EJS, e toda a aplicação utiliza arquitetura RESTful com separação clara entre controllers, models e views.
-
-O sistema permite cadastro de usuários, criação de tarefas e subtarefas vinculadas, controle de autenticação e mensagens de feedback. O banco de dados foi modelado e integrado com transações seguras (BEGIN, COMMIT, ROLLBACK) para garantir integridade nas operações mais sensíveis.
-
-Estilização responsiva e leve com animações suaves na tela de login, e código organizado para facilitar manutenção e escalabilidade.
+Projeto fullstack desenvolvido com **Node.js**, **Express.js** e **PostgreSQL**, seguindo o padrão **MVC** e arquitetura **RESTful**.  
+O sistema oferece **cadastro e login de usuários com JWT**, criação e gerenciamento de tarefas e subtarefas, autenticação e autorização de rotas, feedback visual ao usuário e interface responsiva estilizada com **Sass**.
 
 ---
 
-## 📋 Como usar
+## 📋 Funcionalidades
 
-Primeiro faça o registro, e logue para começar a usar. Crie sua primeira tarefa, e adicione subtarefas para torná-la mais complexa clicando no titulo da tarefa. Funções como adicionar, concluir e deletar. 
-
-Se quiser deletar toda contada, basta clicar no botão de deletar na tela no topo da tela.
+- Registro e login de usuários com **JWT**
+- Proteção de rotas para usuários autenticados
+- Criação, edição, conclusão e exclusão de tarefas
+- Subtarefas vinculadas a tarefas
+- Mensagens de erro e sucesso no frontend
+- Exclusão completa de conta e dados associados
+- Operações seguras no banco com transações (`BEGIN`, `COMMIT`, `ROLLBACK`)
+- Interface responsiva e leve com animações
 
 ---
 
 ## 🚀 Tecnologias
 
-- Node.js
-- Express.js
-- PostgreSQL
-- EJS
-- HTML/CSS + JavaScript
-- Sass
-- pg (driver do PostgreSQL)
+- **Node.js** + **Express.js**
+- **PostgreSQL** + **pg**
+- **EJS** (renderização de views)
+- **HTML/CSS** + **JavaScript**
+- **Sass**
+- **JWT** para autenticação
+- **dotenv** para variáveis de ambiente
 
 ---
 
@@ -34,8 +42,6 @@ Se quiser deletar toda contada, basta clicar no botão de deletar na tela no top
 
 - [Node.js](https://nodejs.org/en/) instalado
 - [PostgreSQL](https://www.postgresql.org/download/) instalado e rodando
-
-> 💡 O projeto usa PostgreSQL como banco de dados relacional. Você pode usar o script `database/syncDatabase.js` para criar as tabelas automaticamente após configurar o `.env`.
 
 ---
 
@@ -48,15 +54,23 @@ cd todo_list
 
 # Instale as dependências
 npm install
-```
+````
 
-### 🔐 Configure o arquivo `.env` com as credenciais do banco de dados:
+### 🔐 Configure o arquivo `.env` com as credenciais:
 
 ```env
 DATABASE_URL="postgres://seu_usuario:sua_senha@localhost:5432/db_todolist"
+JWT_SECRET="sua_chave_secreta"
+JWT_EXPIRES="1d"
+PORT=3000
 ```
 
-### ⛓️ Sincronize as tabelas no banco:
+> O **JWT\_SECRET** deve ser uma string segura.
+> **JWT\_EXPIRES** define o tempo de expiração do token (ex.: `1d`, `2h`).
+
+---
+
+### ⛓️ Sincronize o banco de dados:
 
 ```bash
 node database/syncDatabase.js
@@ -64,43 +78,85 @@ node database/syncDatabase.js
 
 ---
 
+## 🔑 Autenticação e Proteção de Rotas
+
+O sistema usa **JWT (JSON Web Token)** para autenticação.
+Ao fazer login, o usuário recebe um token que deve ser enviado nas requisições às rotas protegidas.
+
+**Como enviar o token no frontend ou via API:**
+
+```http
+Authorization: Bearer <seu_token>
+```
+
+Se o token estiver ausente ou inválido, a API retornará **401 Unauthorized**.
+
+---
+
+## 📡 Endpoints da API
+
+### 🔓 Público
+
+* **POST** `/auth/register` → Cria novo usuário
+  **body:** `{ "email": "", "password": "" }`
+* **POST** `/auth/login` → Autentica e retorna token
+  **body:** `{ "email": "", "password": "" }`
+
+### 🔒 Protegidos (JWT obrigatório)
+
+* **GET** `/tasks` → Lista tarefas do usuário
+* **POST** `/tasks` → Cria tarefa
+  **body:** `{ "title": "", "description": "" }`
+* **PUT** `/tasks/:id` → Edita tarefa
+* **PATCH** `/tasks/:id/complete` → Marca como concluída
+* **DELETE** `/tasks/:id` → Remove tarefa
+* **POST** `/tasks/:id/subtasks` → Adiciona subtarefa
+  **body:** `{ "title": "" }`
+* **DELETE** `/subtasks/:id` → Remove subtarefa
+* **DELETE** `/user/delete` → Exclui conta e todas as tarefas
+
+---
+
 ## 🧪 Testes Manuais
 
-- [x] Criar tarefa
-- [x] Editar tarefa
-- [x] Marcar tarefa como concluída
-- [x] Deletar tarefa
-- [x] Subtarefas funcionando
-- [x] Autenticação por email e senha
-- [x] Validação de mensagens de erro e sucesso
-- [x] Tarefas por usuário logado
+* [x] Registro e login com JWT
+* [x] Proteção de rotas funcionando
+* [x] CRUD de tarefas
+* [x] CRUD de subtarefas
+* [x] Exclusão de conta
+* [x] Mensagens de feedback
+* [x] Operações seguras no banco
+
+---
+
+## 📁 Estrutura de Pastas
+
+```
+├── controllers/    # Lógica de controle (views e API separadas)
+├── models/         # Interação com o banco
+├── routes/         # Rotas de views e APIs
+├── views/          # Templates EJS
+├── public/         # Arquivos estáticos (CSS, JS, imagens)
+├── database/       # Scripts SQL e sync
+├── middleware/     # Middlewares de autenticação
+└── .env            # Configurações privadas
+```
 
 ---
 
 ## 🌐 Deploy
 
-🚧 Em andamento! A versão online será disponibilizada em breve.
+🚧 Em andamento!
 
-<!-- TODO: Adicionar link do deploy quando finalizado -->
-
----
-
-## 📁 Organização de Pastas
-
-- `routes/` → Rotas da aplicação (views e APIs separadas)
-- `controllers/` → Lógica de controle
-- `models/` → Acesso e manipulação do banco de dados
-- `views/` → Templates EJS
-- `public/` → Estilos, scripts e imagens
-- `database/` → Scripts para estrutura e sincronização do banco
+<!-- TODO: Adicionar link quando pronto -->
 
 ---
 
 ## 💬 Comentários Finais
 
-Projeto desenvolvido como prática de arquitetura MVC + banco de dados relacional, com foco em organização, clareza de código e reusabilidade.
+Projeto desenvolvido como prática de **Node.js + PostgreSQL + JWT** com foco em organização, segurança e escalabilidade.
+Código limpo, rotas separadas e autenticação robusta garantem fácil manutenção e expansão.
 
 ---
-![GitHub](https://img.shields.io/badge/Made%20by-Pedro%20Silva-blue)
 
-> Feito com café ☕, código 💻 e força de vontade 💪 por Pedro
+![GitHub](https://img.shields.io/badge/Made%20by-Pedro%20Silva-blue)
