@@ -1,5 +1,5 @@
-import dns from 'dns'; //importa o modulo dns
-export function validationEmail(dominio) {
+const dns = require('node:dns');
+async function validationEmail(dominio) {
     const domainProhibited = ['email.com', 'teste.com', 'example.com']
     if (domainProhibited.includes(dominio)) {
       return false;
@@ -14,3 +14,5 @@ export function validationEmail(dominio) {
     });
   });
 }
+
+module.exports = validationEmail;
