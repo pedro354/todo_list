@@ -1,4 +1,4 @@
-export default function logger(req, res, next) {
+function logger(req, res, next) {
     const date = new Date().toLocaleString();
     const statusCode = res.statusCode;
     const statusEmoji = 
@@ -11,3 +11,4 @@ export default function logger(req, res, next) {
     next();
 }
 
+export default logger;
