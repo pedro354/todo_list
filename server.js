@@ -6,7 +6,7 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const messageHandler = require('./middlewares/messageHandler');
 const router = require('./router');
-const { default: logger } = require('./middlewares/logger');
+const logger  = require('./middlewares/logger');
 const errorController = require('./controllers/errorController');
 const { default: errorHandler } = require('./middlewares/errorHandler');
 // instanciando o servidor
