@@ -40,7 +40,10 @@ app.use(router);
 app.use(errorController.notFound);
 app.use(errorHandler)
 // servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => { console.log(`Servidor http://localhost:${PORT}`) })
+
+if(require.main === module) {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Servidor Inciado em http://localhost:${PORT}/`));
+}
 
 module.exports = app;
