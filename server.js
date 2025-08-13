@@ -3,8 +3,8 @@ dotenv.config();
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const FileStore = require('session-file-store')(session);
 const messageHandler = require('./middlewares/messageHandler');
+const pgSession = require('connect-pg-simple')(session);
 const router = require('./router');
 const logger  = require('./middlewares/logger');
 const errorController = require('./controllers/errorController');
@@ -18,16 +18,18 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public'))); 
+
 app.use(session({
+    store: new pgSession({
+        conString: process.env.DATABASE_URL,
+        tableName: 'user_sessions'
+    }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new FileStore({
-        path: './database/sessions',
-        retries: 1
-    }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24 } 
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
+
 app.use(messageHandler);
 app.use(logger);
 // arquivos estáticos
