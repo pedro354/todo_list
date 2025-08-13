@@ -5,10 +5,9 @@ const express = require('express');
 const path = require('path');
 
 const session = require('express-session');
-
+const router = require('./router');
 const messageHandler = require('./middlewares/messageHandler');
 const pgSession = require('connect-pg-simple')(session);
-const router = require('./router/index');
 const logger = require('./middlewares/logger');
 const errorController = require('./controllers/errorController');
 const errorHandler = require('./middlewares/errorHandler');
@@ -35,9 +34,6 @@ app.use(session({
 
 app.use(messageHandler);
 app.use(logger);
-// arquivos estáticos
-app.use('/script', express.static(path.join(__dirname, 'public/script')));
-
 // rotas principais
 app.use(router);
 // tratamento de erros
@@ -48,4 +44,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`Servidor http://localhost:${PORT}`) })
 
 module.exports = app;
-

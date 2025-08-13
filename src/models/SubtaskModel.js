@@ -1,4 +1,4 @@
-const { query, getClient } = require("../database/db");
+const { query, getClient } = require("../../database/db");
 
 class SubtaskModel {
     // constructor que recebe um objeto com as propriedades do subtask

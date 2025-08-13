@@ -1,4 +1,4 @@
-const { query, getClient } = require("../database/db");
+const { query, getClient } = require("../../database/db");
 const bcrypt = require('bcrypt');
 class UserModel {
     // Mapeia os dados da linha do banco para o objeto da classe

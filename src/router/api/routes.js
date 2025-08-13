@@ -1,6 +1,6 @@
 const express = require('express');
-const taskApiController = require("../../controllers/taskApiController");
 const authMiddleware = require('../../middlewares/authMiddleware');
+const taskApiController = require('../../controllers/taskApiController');
 
 const router = express.Router();
 router.use(authMiddleware)
