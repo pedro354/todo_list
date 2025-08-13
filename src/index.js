@@ -5,12 +5,12 @@ const express = require('express');
 const path = require('path');
 
 const session = require('express-session');
-const router = require('./router');
+const router = require('../router');
 const messageHandler = require('./middlewares/messageHandler');
 const pgSession = require('connect-pg-simple')(session);
 const logger = require('./middlewares/logger');
 const errorController = require('./controllers/errorController');
-const errorHandler = require('./middlewares/errorHandler');
+const errorHandler = require('../middlewares/errorHandler');
 // instanciando o servidor
 const app = express();
 // configurações
