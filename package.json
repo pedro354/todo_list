@@ -2,21 +2,16 @@
   "name": "todo-list",
   "version": "1.0.0",
   "main": "script.js",
+  
+  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "sass": "sass public/scss/app.scss public/css/app.css --watch --style=compressed",
-    "sync": "node database/syncDatabase.js"
+      "start": "node index.js",
+    "dev": "nodemon index.js",
+    "sass": "sass public/scss/app.scss public/css/app.css --watch --style=compressed"
+    
   },
-  "ignore": [
-    "*.log",
-    "logs/*",
-    "temp/*",
-    "uploads/*",
-    "*.db",
-    "*.sqlite"
-  ],
+  "ignore": ["*.log", "logs/*", "temp/*", "uploads/*", "*.db", "*.sqlite"],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -33,7 +28,6 @@
     "braces": "^3.0.3",
     "chokidar": "^3.6.0",
     "concat-map": "^0.0.1",
-    "connect-pg-simple": "^10.0.0",
     "debug": "^4.4.0",
     "dotenv": "^17.2.1",
     "ejs": "^3.1.10",
