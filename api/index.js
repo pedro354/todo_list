@@ -26,7 +26,7 @@ app.set('views', path.join(__dirname, '/views'))
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 // Servindo arquivos estáticos
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join('public')))
 
 // configuração do cookie-session
 const cookieSession = require('cookie-session');
@@ -46,6 +46,9 @@ app.use(errorController.notFound);
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000;
+const PORT_RENDER = process.env.PORT_RENDER || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}/`);
+    console.log(`Server is running on port ${PORT_RENDER}`);
+
 });
