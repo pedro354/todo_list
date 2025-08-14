@@ -26,7 +26,7 @@ app.set('views', path.join(__dirname, 'views'))
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 // Servindo arquivos estáticos
-app.use(express.static(path.join('public')))
+app.use(express.static(path.join(__dirname, 'public')));
 
 // configuração do cookie-session
 const cookieSession = require('cookie-session');
