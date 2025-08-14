@@ -23,8 +23,10 @@ app.use(cors(corsOptions));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'))
 // Servindo arquivos estáticos
+app.use(express.static(path.join('./public')));
+app.use('/script', express.static(path.join('./script')));
+
 // middlewares
-app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({ extended: true }));
 // configuração do cookie-session
 const cookieSession = require('cookie-session');
