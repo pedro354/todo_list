@@ -15,6 +15,7 @@ app.set('views', path.join(__dirname, '/views'))
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
+app.use('/script', express.static(path.join(__dirname, 'script')));
 // ✅ COOKIE SESSION (ainda melhor):
 const cookieSession = require('cookie-session');
 
