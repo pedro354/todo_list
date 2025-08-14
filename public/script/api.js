@@ -1,10 +1,8 @@
 
 // api.js
-const API_BASE_URL = "https://todo-list-2cfs.onrender.com"
-
 export async function getTasksApi() {
     try {
-    const res = await fetch(`${API_BASE_URL}/api/tasks`, {
+    const res = await fetch('/api/tasks', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -25,7 +23,7 @@ export async function getTasksApi() {
 
 export async function newTaskApi(task) {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/lists/${task.listId}/tasks`, {
+        const res = await fetch(`/api/lists/${task.listId}/tasks`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -48,7 +46,7 @@ export async function updateSubtaskApi(id, status, title = null) {
     console.log("body: ", body);
     
     try {
-        const res = await fetch(`${API_BASE_URL}/api/tasks/subtasks/${id}`,{
+        const res = await fetch(`/api/tasks/subtasks/${id}`,{
             method: 'PUT',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
