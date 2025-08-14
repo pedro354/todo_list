@@ -16,12 +16,12 @@
     "*.db",
     "*.sqlite"
   ],
-  
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "vercel": "^41.0.2"
   },
   "dependencies": {
     "animate.css": "^4.1.1",
@@ -34,6 +34,7 @@
     "chokidar": "^3.6.0",
     "concat-map": "^0.0.1",
     "connect-pg-simple": "^10.0.0",
+    "cookie-session": "^2.1.1",
     "debug": "^4.4.0",
     "dotenv": "^17.2.1",
     "ejs": "^3.1.10",
@@ -61,8 +62,7 @@
     "supports-color": "^5.5.0",
     "to-regex-range": "^5.0.1",
     "touch": "^3.1.1",
-    "undefsafe": "^2.0.5",
-    "vercel": "^44.7.3"
+    "undefsafe": "^2.0.5"
   },
   "repository": {
     "type": "git",

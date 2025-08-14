@@ -1,12 +1,42 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
+const path = require('path');
+const router = require('./routes');
+const messageHandler = require('./middlewares/messageHandler');
+const logger = require('./middlewares/logger');
+const errorController = require('./controllers/errorController');
+const errorHandler = require('./middlewares/errorHandler');
+// instanciando o servidor
 const app = express();
+// configurações
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'))
+// middlewares
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.send('Hello Vercel!');
-});
+// ✅ COOKIE SESSION (ainda melhor):
+const cookieSession = require('cookie-session');
 
-app.get('*', (req, res) => {
-  res.status(404).send('Rota não encontrada');
-});
+app.use(cookieSession({
+    name: 'session',
+    keys: [process.env.SESSION_SECRET],
+    maxAge: 1000 * 60 * 60 * 24
+}));
+app.use(messageHandler);
+app.use(logger);
+// rotas principais
+app.use(router);
+// tratamento de erros
+app.use(errorController.notFound);
+app.use(errorHandler)
+// servidor
+
+if(require.main === module) {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Servidor Inciado em http://localhost:${PORT}/`));
+}
 
 module.exports = app;

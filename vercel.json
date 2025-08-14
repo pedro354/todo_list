@@ -1,6 +1,8 @@
 {
-  "version": 2,
-  "routes": [
-      { "src": "/(.*)", "dest": "src/index.js" }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/src/index.js"
+    }
   ]
 }
