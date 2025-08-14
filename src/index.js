@@ -15,9 +15,17 @@ app.set('views', path.join(__dirname, '/views'))
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'))
-app.use('/script', express.static(path.join(__dirname, 'script')));
+app.use('/css', express.static(path.join(__dirname, 'public/css')));
+app.use('/script', express.static(path.join(__dirname, 'public/script')));
 // ✅ COOKIE SESSION (ainda melhor):
 const cookieSession = require('cookie-session');
+
+const vercelFrontEndUrl = "https://todo-list-2cfs.onrender.com";
+const corsOptions = {
+    origin: [vercelFrontEndUrl, 'http://localhost:3000'],
+    Credential: true,
+}
+app.use(cors(corsOptions));
 
 app.use(cookieSession({
     name: 'session',
