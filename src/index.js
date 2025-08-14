@@ -45,10 +45,9 @@ app.use(router);
 app.use(errorController.notFound);
 app.use(errorHandler)
 
-const PORT = process.env.PORT
-const URL_RENDER = process.env.NEXT_PUBLIC_API_URL || PORT;
+const PORT = process.env.PORT;
+const URL_RENDER = process.env.NEXT_PUBLIC_API_URL;
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}/`);
     console.log(`Server is running on port ${URL_RENDER}`);
-
 });
