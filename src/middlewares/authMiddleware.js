@@ -4,7 +4,7 @@ const authMiddleware = (req, res, next) => {
     console.log('Auth:', req.session.authenticated);
     console.log('Guest:', req.session.currentUser?.guest);
 
-    const rotasPermitidas = ['/login', '/auth/login', '/register', '/auth/register'];
+    const rotasPermitidas = ['/login', '/auth/login', '/register', '/auth/register', '/'];
 
     if(rotasPermitidas.includes(req.path)) {
         return next();
