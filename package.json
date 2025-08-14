@@ -21,7 +21,7 @@
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.1.10",
-    "vercel": "^41.0.2"
+    "vercel": "^41.7.8"
   },
   "dependencies": {
     "animate.css": "^4.1.1",

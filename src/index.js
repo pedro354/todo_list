@@ -12,7 +12,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const app = express();
 
 // configurações para o cors
-const vercelFrontEndUrl = "https://todo-list-gold-chi.vercel.app";
+const vercelFrontEndUrl = `https://todo-list-gold-chi.vercel.app/`
 const corsOptions = {
     origin: [vercelFrontEndUrl, 'http://localhost:3000'],
     credentials: true,
