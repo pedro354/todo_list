@@ -21,13 +21,11 @@ app.use(cors(corsOptions));
 
 // configurações
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'))
-
+app.set('views', path.join(__dirname, '/views'))
+// Servindo arquivos estáticos
 // middlewares
 app.use(express.urlencoded({ extended: true }));
-// Servindo arquivos estáticos
-app.use(express.static(path.join('public')));
-
+app.use(express.static(path.join(__dirname, '/public')));
 // configuração do cookie-session
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
