@@ -32,7 +32,8 @@ app.use(errorController.notFound);
 app.use(errorHandler)
 // servidor
 
-    const PORT = process.env.PORT || 'https://todo-list-2cfs.onrender.com';
-    app.listen(PORT, () => console.log(`Servidor Inciado em http://localhost:${PORT}`));
-
+const PORT = process.env.PORT || 3000 && process.env.RENDER_PORT;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 module.exports = app;
