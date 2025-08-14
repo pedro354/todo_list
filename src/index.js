@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const express = require('express');
 const path = require('path');
-const routes = require('./routes');
+const router = require('./routes');
 const messageHandler = require('./middlewares/messageHandler');
 const logger = require('./middlewares/logger');
 const errorController = require('./controllers/errorController');
@@ -11,12 +11,11 @@ const errorHandler = require('./middlewares/errorHandler');
 const app = express();
 // configurações
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, '/views'))
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static('public'))
 // ✅ COOKIE SESSION (ainda melhor):
 const cookieSession = require('cookie-session');
 
@@ -28,10 +27,13 @@ app.use(cookieSession({
 app.use(messageHandler);
 app.use(logger);
 // rotas principais
-app.use(routes);
+app.use(router);
 // tratamento de erros
 app.use(errorController.notFound);
 app.use(errorHandler)
 // servidor
+
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Servidor Inciado em http://localhost:${PORT}`));
 
 module.exports = app;

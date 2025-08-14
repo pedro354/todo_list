@@ -4,8 +4,8 @@ const subtaskController = require('../../controllers/subtaskController');
 const authMiddleware = require('../../middlewares/authMiddleware');
 const router = express.Router();
 // Página inicial
-
 router.get('/', (req, res) => res.render('pages/home'));
+
 // tarefas
 router.use(authMiddleware);
 router.get('/app', taskController.index);

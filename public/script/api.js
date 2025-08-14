@@ -10,11 +10,7 @@ export async function getTasksApi() {
         }
     });
         const contentType = res.headers.get('Content-Type');
-        if (!res.ok || !contentType.includes('application/json')) {
-            const errorText = await res.text();
-            console.error('Resposta inesperada:', errorText);
-            throw new Error('Resposta não é JSON');
-        }
+        if (!res.ok || !contentType.includes('application/json')) return null;
     const data = await res.json();
     return data;
 
