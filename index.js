@@ -12,11 +12,11 @@ const errorHandler = require('./src/middlewares/errorHandler');
 const app = express();
 
 // configurações para o cors
-const vercelFrontEndUrl = `https://todo-list-gold-chi.vercel.app/`
 const corsOptions = {
-    origin: [vercelFrontEndUrl, 'http://localhost:3000'],
-    credentials: true,
-}
+  origin: ['https://todo-list-gold-chi.vercel.app'],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(cors(corsOptions));
 
 // configurações
@@ -35,6 +35,12 @@ app.use(cookieSession({
 }));
 app.use(messageHandler);
 app.use(logger);
+
+app.use((err, req, res, next)=>{
+    console.error('Error: ', err);
+    res.status(500).send('Internal Server Error');
+    
+})
 
 // Rotas
 app.use(router);
