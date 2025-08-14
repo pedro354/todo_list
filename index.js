@@ -2,11 +2,11 @@ require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const path = require('path');
-const router = require('./routes');
-const messageHandler = require('./middlewares/messageHandler');
-const logger = require('./middlewares/logger');
-const errorController = require('./controllers/errorController');
-const errorHandler = require('./middlewares/errorHandler');
+const router = require('./src/routes');
+const messageHandler = require('./src/middlewares/messageHandler');
+const logger = require('./src/middlewares/logger');
+const errorController = require('./src/controllers/errorController');
+const errorHandler = require('./src/middlewares/errorHandler');
 
 // instanciando o servidor
 const app = express();
@@ -21,7 +21,7 @@ app.use(cors(corsOptions));
 
 // configurações
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '/views'))
+app.set('views', path.join(__dirname, 'src/views'))
 // Servindo arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 // middlewares
