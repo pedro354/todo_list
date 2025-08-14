@@ -12,7 +12,6 @@ export async function renderTasks() {
     
 }
 
-
 document.addEventListener('DOMContentLoaded', () => {
     renderTasks(),
     tooglerStatus()
