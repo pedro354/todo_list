@@ -24,8 +24,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'))
 // Servindo arquivos estáticos
 app.use(express.static(path.join('./public')));
-app.use('/script', express.static(path.join('./script')));
-
+app.use('/script', express.static(path.join(__dirname, 'public/script')));
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 // configuração do cookie-session

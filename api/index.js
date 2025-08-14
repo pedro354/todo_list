@@ -1,4 +1,4 @@
-const API_URL = "https://todo-list-pedro354-pedros-projects-32c0bb0a.vercel.app/"
+const API_URL = "https://todo-list-gold-chi.vercel.app/"
 
 export default async function getAll() {
     const response = await fetch(API_URL);
