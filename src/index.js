@@ -14,7 +14,6 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'))
 // middlewares
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 app.use(express.static('public'))
 // ✅ COOKIE SESSION (ainda melhor):
 const cookieSession = require('cookie-session');
