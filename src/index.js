@@ -12,7 +12,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const app = express();
 
 // configurações para o cors
-const vercelFrontEndUrl = "https://todo-list-2cfs.onrender.com";
+const vercelFrontEndUrl = "https://todo-list-gold-chi.vercel.app";
 const corsOptions = {
     origin: [vercelFrontEndUrl, 'http://localhost:3000'],
     credentials: true,
@@ -45,10 +45,10 @@ app.use(router);
 app.use(errorController.notFound);
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 3001;
-const PORT_RENDER = process.env.PORT_RENDER || 3001;
+const PORT = process.env.PORT
+const URL_RENDER = process.env.NEXT_PUBLIC_API_URL || PORT;
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}/`);
-    console.log(`Server is running on port ${PORT_RENDER}`);
+    console.log(`Server is running on port ${URL_RENDER}`);
 
 });
