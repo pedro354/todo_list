@@ -1,6 +1,6 @@
 
 // api.js
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_BASE_URL = "https://todo-list-2cfs.onrender.com"
 
 export async function getTasksApi() {
     try {
