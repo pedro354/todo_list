@@ -11,7 +11,7 @@ const authMiddleware = (req, res, next) => {
     }
 
     if (!req.session.authenticated) {
-    return res.status(401).render('errors/401', {
+    return res.status(401).render('/errors/401', {
         user: null,
         message: { type: 'error', text: 'Não autorizado' }
     });
@@ -33,7 +33,7 @@ const authMiddleware = (req, res, next) => {
         return next();
     }
     console.log('⛔ Bloqueado, redirecionando para login');
-    return res.status(401).render('errors/401', { message: 'Não autorizado' });
+    return res.status(401).render('/errors/401', { message: 'Não autorizado' });
 };
 
 
