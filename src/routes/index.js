@@ -7,8 +7,8 @@ const authRoutes = require('./auth/routes');
 const userRoutes = require('./user/routes');
 
 
-router.use('/api', apiRoutes);
 router.use('/', appRoutes);
+router.use('/api', apiRoutes);
 router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
 module.exports = router;

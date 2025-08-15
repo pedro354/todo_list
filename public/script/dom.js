@@ -1,4 +1,9 @@
 import { updateSubtaskApi } from "./api.js";
+const lineText = "Carregando Lista de Tarefas...";
+const typingSpeed = 35;
+const fadeOutDelay = 300;
+
+let charIndex = 0;
 
 // dom.js
 export function message(tasks) {
@@ -27,24 +32,23 @@ const isSubtaskList = tasks.length > 0 && Object.hasOwn(tasks[0], 'tasks');
     }
 }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const message = document.querySelector('.msg');
-        if (message) {
-            setTimeout(() => {
-                message.style.opacity = 0;
-                message.style.transition = 'opacity 1s ease-in-out';
-            }, 3000);
-        }
-    });
-    
-    window.addEventListener('load', () =>{
-        if (document.body.classList.contains('home')) {
-        document.body.classList.add('loader') 
-        } else {
-        document.body.classList.remove('loader') 
-        }
-    })
+export function messageHandler(){
+    const message = document.querySelector('.msg');
+    if (message) {
+        setTimeout(() => {
+            message.style.opacity = 0;
+            message.style.transition = 'opacity 1s ease-in-out';
+        }, 3000);
+    }
+}
 
+export function loader(){
+        if (document.body.classList.contains('home')) {
+        document.body.classList.add('loader')
+    } else {
+        document.body.classList.remove('loader')
+    }
+}
 
 export function tooglerStatus(){
     const statusBtn = document.querySelectorAll('.status');
@@ -76,21 +80,16 @@ export function tooglerStatus(){
 }
     
 
-const lineText = "Carregando Lista de Tarefas...";
-const typingSpeed = 35;
-const fadeOutDelay = 300;
-
-let charIndex = 0;
-
-function nextPage() {
+export function nextPage() {
   document.body.classList.add("fade-out");
   setTimeout(() => {
     window.location.href = "/auth/login";
   }, fadeOutDelay);
 }
 
-function typeText() {
+export function typeText() {
   const elText = document.getElementById("text");
+  if(!elText) return;
   elText.textContent = lineText.substring(0, charIndex + 1);
   charIndex++;
 
@@ -101,5 +100,3 @@ function typeText() {
     setTimeout(nextPage, 800);
   }
 }
-
-window.addEventListener("DOMContentLoaded", typeText)

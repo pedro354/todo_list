@@ -1,5 +1,5 @@
 // app.js
-import { message, tooglerStatus } from './dom.js';
+import { loader, message, messageHandler, nextPage, tooglerStatus, typeText } from './dom.js';
 import { getTasksApi } from './api.js';
 
 export async function renderTasks() {
@@ -13,6 +13,15 @@ export async function renderTasks() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderTasks(),
-    tooglerStatus()
+    messageHandler();
+    tooglerStatus();
+
+    if(document.body.classList.contains('home')){
+        typeText();
+        window.addEventListener('load', loader)
+    }else{
+        nextPage();
+    }
+
+
 });
