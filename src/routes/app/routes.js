@@ -1,13 +1,13 @@
 const express = require('express');
 const taskController = require('../../controllers/taskController');
 const subtaskController = require('../../controllers/subtaskController');
-// const authMiddleware = require('../../middlewares/authMiddleware');
+const authMiddleware = require('../../middlewares/authMiddleware');
 const router = express.Router();
 // Página inicial
 router.get('/', (req, res) => res.render('pages/home'));
 
 // tarefas
-// router.use(authMiddleware);
+router.use(authMiddleware);
 router.get('/app', taskController.index);
 router.get('/app/create', taskController.create);
 router.post('/app/new-list-task', taskController.save);

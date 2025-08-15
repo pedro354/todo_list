@@ -4,6 +4,10 @@ const TaskModel = require("../models/TaskModel");
 const taskController = {
 
     index: async (req, res) => {
+        res.render('/')
+    },
+
+    read: async (req, res) => {
         const user = req.session.currentUser;
         const tasks = await TaskModel.findAllTasks();
         res.render('pages/app', {tasks, user})
