@@ -15,9 +15,9 @@ const app = express();
 
 // configurações
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, './views'));
+app.set('views', path.join(__dirname, 'views'));
 // Servindo arquivos estáticos
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 // configurações para o cors
 const corsOptions = {
   origin: ['https://todo-list-gold-chi.vercel.app'],
