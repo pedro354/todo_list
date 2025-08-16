@@ -1,7 +1,7 @@
 import { updateSubtaskApi } from "./api.js";
-const lineText = "Carregando Lista de Tarefas...";
-const typingSpeed = 35;
-const fadeOutDelay = 300;
+let lineText = "Carregando Lista de Tarefas...";
+let typingSpeed = 35;
+let fadeOutDelay = 300;
 
 let charIndex = 0;
 
@@ -14,7 +14,7 @@ export function message(tasks) {
             return;
     }
     // Checa se a estrutura contém listas com subtasks ou é só uma lista simples
-const isSubtaskList = tasks.length > 0 && Object.hasOwn(tasks[0], 'tasks');
+    const isSubtaskList = tasks.length > 0 && Object.hasOwn(tasks[0], 'tasks');
 
     let isEmpty;
 

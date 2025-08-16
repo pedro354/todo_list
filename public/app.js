@@ -1,7 +1,7 @@
-import { loader, message, messageHandler, tooglerStatus, typeText } from './dom.js';
-import { getTasksApi } from './api.js';
+import { getTasksApi } from './script/api.js';
+import { loader, message, messageHandler, tooglerStatus, typeText } from './script/dom.js';
 
-export async function renderTasks() {
+ async function renderTasks() {
     try {
         const tasks = await getTasksApi();
         message(tasks);
@@ -10,6 +10,8 @@ export async function renderTasks() {
     }
     
 }
+
+export { renderTasks };
 
 document.addEventListener('DOMContentLoaded', () => {
     messageHandler();
