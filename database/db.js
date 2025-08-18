@@ -5,8 +5,8 @@ let connectionString = process.env.DATABASE_URL;
 
 if(!connectionString){
     if(process.env.NODE_ENV === 'production'){
-    connectionString = `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@postgres.railway.internal:${process.env.PGPORT}/${process.env.PGDATABASE}`;
-  } else {
+        connectionString = `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
+      } else {
     // Quando estiver local, usa a pública
     connectionString = `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
     }
@@ -14,9 +14,12 @@ if(!connectionString){
 
 const pool = new Pool({
     connectionString: connectionString,
-    ssl: {
+    ssl: process.env.NODE_ENV === 'production' ?  {
         rejectUnauthorized: false
-    }
+    } : false,
+    max: 10,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000
 })
 
 async function query(queryString, params, callback) {

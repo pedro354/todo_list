@@ -19,11 +19,10 @@ app.set('views', path.join(__dirname, 'views/'));
 // Servindo arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 // configurações para o cors
+// ✅ CORS simplificado (mesmo domínio)
 const corsOptions = {
-  origin: ['https://todo-list-puce-eight-85.vercel.app', 'https://todo-list-2cfs.onrender.com', 'https://todolist-production-aff9.up.railway.app/auth/login'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: true, // Permite mesmo domínio
+    credentials: true,
 };
 app.use(cors(corsOptions));
 
