@@ -1,4 +1,4 @@
-import { updateSubtaskApi } from "./api.js";
+import { updateSubtaskApi } from "./api.mjs";
 let lineText = "Carregando Lista de Tarefas...";
 let typingSpeed = 35;
 let fadeOutDelay = 300;

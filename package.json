@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'No build needed for frontend'",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "start": "node index.js",
     "sass": "sass public/scss/app.scss public/css/app.css --watch --style=compressed"
   },
-  "src": "index.js", "use": "@vercel/node",
   "ignore": [
     "*.log",
     "logs/*",
