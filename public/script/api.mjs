@@ -1,4 +1,4 @@
-const API_URL = "https://todo-list-puce-eight-85.vercel.app";
+const API_URL = "https://todo-list-2cfs.onrender.com";
 
 // api.js
 export async function getTasksApi() {
@@ -50,8 +50,7 @@ export async function updateSubtaskApi(id, status, title = null) {
     if(title != null){
         body.title = title;
     }
-    console.log("body: ", body);
-    
+   
     try {
         const res = await fetch(`${API_URL}/api/tasks/subtasks/${id}`,{
             method: 'PUT',
