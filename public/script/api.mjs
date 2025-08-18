@@ -10,8 +10,14 @@ export async function getTasksApi() {
          'Content-Type': 'application/json'
         }
     });
-        const contentType = res.headers.get('Content-Type');
-        if (!res.ok || !contentType.includes('application/json')) return null;
+    if(res.status === 204){
+        return [];
+    }
+
+    const contentType = res.headers.get('Content-Type');
+    if (!res.ok || !contentType.includes('application/json')) {
+        return null;
+    };
     const data = await res.json();
     return data;
 

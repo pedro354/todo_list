@@ -20,10 +20,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 // configurações para o cors
 const corsOptions = {
-  origin: ['https://todo-list-gold-chi.vercel.app', 'https://todo-list-2cfs.onrender.com', 'https://todolist-production-aff9.up.railway.app/auth/login'],
+  origin: ['https://todo-list-puce-eight-85.vercel.app', 'https://todo-list-2cfs.onrender.com', 'https://todolist-production-aff9.up.railway.app/auth/login'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 app.use(cors(corsOptions));
 
@@ -41,7 +41,6 @@ app.use(messageHandler);
 app.use(logger);
 // Rotas
 app.use(router);
-
 app.use((err, req, res, next)=>{
     console.error('Error: ', err);
     res.status(500).send('Internal Server Error');
