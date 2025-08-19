@@ -1,9 +1,18 @@
+// api.js
 export async function getTasksApi() {
     try {
-    const data = await apiRequest(`/api/tasks`, {
-        method: 'GET'
+    const res = await fetch('/api/tasks', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+         'Content-Type': 'application/json'
+        }
     });
-    return data || [];
+        const contentType = res.headers.get('Content-Type');
+        if (!res.ok || !contentType.includes('application/json')) return null;
+    const data = await res.json();
+    return data;
+
 
 } catch (error) {
         console.error('Erro ao obter tarefas:', error);
@@ -13,10 +22,14 @@ export async function getTasksApi() {
 
 export async function newTaskApi(task) {
     try {
-        const data = await apiRequest(`/api/lists/${task.listId}/tasks`, {
-            method: 'POST',
-            body: JSON.stringify(task)
+        const res = await fetch(`/api/lists/${task.listId}/tasks`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
     });
+    const data = await res.json();
     return data;
     } catch (error) {
         console.error('Erro ao criar nova tarefa:', error);
@@ -29,12 +42,17 @@ export async function updateSubtaskApi(id, status, title = null) {
     if(title != null){
         body.title = title;
     }
-   
+    console.log("body: ", body);
+    
     try {
-        const data = await apiRequest(`/api/tasks/subtasks/${id}`,{
+        const res = await fetch(`/api/tasks/subtasks/${id}`,{
             method: 'PUT',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         })
+        
+        const data = await res.json();
         return data;
     } catch (error) {
         console.error('Erro ao atualizar tarefa:', error);
