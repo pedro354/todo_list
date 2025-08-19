@@ -1,4 +1,4 @@
-// ===== SERVIDOR - CORS CORRIGIDO PARA HTML PURO =====
+// ===== SERVIDOR (RENDER) - CORS PARA VERCEL =====
 
 require('dotenv').config();
 const cors = require('cors');
@@ -14,30 +14,48 @@ const { testConnection } = require('./database/db');
 
 const app = express();
 
-// ✅ CORS LIBERADO PARA DESENVOLVIMENTO LOCAL
+// ✅ CORS CONFIGURADO ESPECIFICAMENTE PARA VERCEL
 const corsOptions = {
     origin: function (origin, callback) {
-        // Lista de origins permitidas
         const allowedOrigins = [
+            // ✅ Substitua pela sua URL do Vercel
+            'https://seu-todo-app.vercel.app',
+            'https://todo-list-puce-eight-85.vercel.app', // ✅ Sua URL atual
+            
+            // ✅ Outros domínios Vercel (caso tenha preview)
+            /https:\/\/.*\.vercel\.app$/,
+            
+            // ✅ Domínio customizado (se tiver)
+            process.env.FRONTEND_URL,
+            
+            // ✅ Para desenvolvimento local (caso teste)
             'http://localhost:3000',
-            'http://127.0.0.1:5500',    // ✅ Live Server
-            'http://localhost:5500',    // ✅ Live Server alternativo
-            'http://127.0.0.1:3000',    // ✅ Local dev
-            'null',                     // ✅ File:// protocol
-            undefined                   // ✅ Sem origin (Postman, etc)
+            'http://127.0.0.1:5500'
         ];
         
-        // ✅ Em desenvolvimento, aceita QUALQUER origin
-        if (process.env.NODE_ENV !== 'production') {
-            console.log('🔓 CORS: Permitindo origin:', origin);
+        console.log('🔍 CORS Origin:', origin);
+        
+        // ✅ Sem origin (requests diretos/Postman)
+        if (!origin) {
+            console.log('✅ CORS: Permitindo request sem origin');
             return callback(null, true);
         }
         
-        // Em produção, só origins específicas
-        if (!origin || allowedOrigins.includes(origin)) {
+        // ✅ Verifica origins permitidas
+        const isAllowed = allowedOrigins.some(allowedOrigin => {
+            if (typeof allowedOrigin === 'string') {
+                return origin === allowedOrigin;
+            } else if (allowedOrigin instanceof RegExp) {
+                return allowedOrigin.test(origin);
+            }
+            return false;
+        });
+        
+        if (isAllowed) {
+            console.log('✅ CORS: Origin permitida');
             callback(null, true);
         } else {
-            console.log('❌ CORS bloqueado:', origin);
+            console.log('❌ CORS: Origin bloqueada:', origin);
             callback(new Error('Não permitido pelo CORS'));
         }
     },
@@ -45,12 +63,13 @@ const corsOptions = {
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: [
         'Origin',
-        'X-Requested-With', 
-        'Content-Type', 
+        'X-Requested-With',
+        'Content-Type',
         'Accept',
         'Authorization',
         'Cookie',
-        'Set-Cookie'
+        'Set-Cookie',
+        'Access-Control-Allow-Credentials'
     ],
     exposedHeaders: ['Set-Cookie'],
     preflightContinue: false,
@@ -59,13 +78,15 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// ✅ MIDDLEWARE para logs detalhados
+// ✅ Middleware para logs detalhados
 app.use((req, res, next) => {
-    console.log(`📡 ${req.method} ${req.path} - Origin: ${req.get('Origin')}`);
+    console.log(`📡 ${req.method} ${req.path}`);
+    console.log(`🌍 Origin: ${req.get('Origin')}`);
+    console.log(`🔑 User-Agent: ${req.get('User-Agent')?.substring(0, 50)}...`);
     next();
 });
 
-// Configurações
+// Configurações básicas
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views/'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -74,48 +95,67 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Configuração de sessão corrigida
+// ✅ Configuração de sessão para produção (Vercel + Render)
 app.use(cookieSession({
     name: 'session',
     keys: [process.env.SESSION_SECRET || 'fallback-secret'],
-    maxAge: 24 * 60 * 60 * 1000,
-    secure: false, // ✅ FALSE para desenvolvimento
-    httpOnly: false, // ✅ FALSE para JS puro acessar
-    sameSite: 'lax' // ✅ LAX para desenvolvimento
+    maxAge: 24 * 60 * 60 * 1000, // 24 horas
+    secure: true, // ✅ TRUE para HTTPS (Vercel/Render)
+    httpOnly: false, // ✅ FALSE para JS acessar
+    sameSite: 'none' // ✅ NONE para cross-origin (Vercel→Render)
 }));
 
 app.use(messageHandler);
 app.use(logger);
 
-// ✅ Health check
+// ✅ Health check melhorado
 app.get('/health', (req, res) => {
     res.status(200).json({
         status: 'OK',
         timestamp: new Date().toISOString(),
         environment: process.env.NODE_ENV,
-        cors: 'enabled'
+        cors: 'enabled for Vercel',
+        origin: req.get('Origin')
     });
 });
 
-// ✅ Teste de CORS específico
-app.get('/test-cors', (req, res) => {
+// ✅ Teste específico para Vercel
+app.get('/test-vercel', (req, res) => {
+    const origin = req.get('Origin');
+    const isVercel = origin && origin.includes('vercel.app');
+    
     res.json({
-        message: 'CORS funcionando!',
-        origin: req.get('Origin'),
-        headers: req.headers,
-        timestamp: new Date().toISOString()
+        message: 'Teste Vercel + Render',
+        origin: origin,
+        isVercelOrigin: isVercel,
+        corsWorking: true,
+        timestamp: new Date().toISOString(),
+        headers: {
+            'Access-Control-Allow-Origin': origin,
+            'Access-Control-Allow-Credentials': 'true'
+        }
     });
 });
 
-// Rotas
+// Rotas principais
 app.use(router);
 
 // Tratamento de erros
 app.use((err, req, res, next) => {
-    console.error('❌ Server Error:', err);
-    res.status(500).json({ 
+    console.error('❌ Server Error:', err.message);
+    
+    // ✅ Erro específico de CORS
+    if (err.message.includes('CORS')) {
+        return res.status(403).json({
+            error: 'CORS Error',
+            message: 'Origin não permitida',
+            allowedOrigins: ['vercel.app domains']
+        });
+    }
+    
+    res.status(500).json({
         error: 'Internal Server Error',
-        message: err.message 
+        message: process.env.NODE_ENV === 'development' ? err.message : 'Algo deu errado'
     });
 });
 
@@ -126,18 +166,15 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ Servidor rodando na porta ${PORT}`);
-    console.log(`🌐 Local: http://localhost:${PORT}`);
-    console.log(`🔓 CORS liberado para desenvolvimento`);
+    console.log(`🌐 Render URL: https://todo-list-2cfs.onrender.com`);
+    console.log(`🔗 Configurado para Vercel: *.vercel.app`);
+    console.log(`🍪 Cookies: secure=true, sameSite=none`);
 });
 
-// ===== VARIÁVEIS DE AMBIENTE PARA RENDER =====
-
+// ===== VARIÁVEIS PARA RENDER =====
 /*
-Adicione no painel do Render:
-
-NODE_ENV=development
-DATABASE_URL=sua_string_do_railway
-JWT_SECRET=seu_jwt_secret
-SESSION_SECRET=seu_session_secret
-FRONTEND_URL=http://127.0.0.1:5500
+NODE_ENV=production
+DATABASE_URL=sua_string_railway
+SESSION_SECRET=seu_secret
+FRONTEND_URL=https://todo-list-puce-eight-85.vercel.app
 */
