@@ -1,15 +1,22 @@
 // api.js
 
 const getBaseUrl = () => {
-    if(typeof window !== 'undefined') {
-        return process.env.NODE_ENV === 'production' 
-        ? 'https://todo-list-2cfs.onrender.com' 
-        : 'http://localhost:3000';
+    // No browser (cliente)
+    if (typeof window !== 'undefined') {
+        // Verifica se está em produção pelo hostname
+        const isProduction = window.location.hostname !== 'localhost' && 
+                            window.location.hostname !== '127.0.0.1';
+        
+        return isProduction 
+            ? 'https://todo-list-2cfs.onrender.com'  // Sua URL do Render
+            : 'http://localhost:3000';
     } else {
-        return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+        // Servidor (Node.js/SSR) - aqui process.env funciona
+        return typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_API_URL 
+            ? process.env.NEXT_PUBLIC_API_URL 
+            : 'http://localhost:3000';
     }
-}
-
+};
 const baseUrl = getBaseUrl();
 
 
