@@ -23,16 +23,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ✅ CORS simplificado (mesmo domínio)
 const corsOptions = {
     origin:  function (origin, callback) {
-        const allowdOrigins = [
-            'http://localhost:3000',
-            'https://todo-list-puce-eight-85.vercel.app/',
-            process.env.FRONTEND_URL
-        ];
-        if (allowdOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
+        const allowdOrigins = [process.env.FRONTEND_URL];
+if (!origin || allowdOrigins.includes(origin)) {
+    callback(null, true);
+} else {
+    callback(new Error('Not allowed by CORS'));
+}
     },
     credentials: true,
     optionsSuccessStatus: 200,
@@ -68,21 +64,6 @@ app.get('/health', (req, res) => {
     });
 });
 
-app.get('/api/test-db', async (req, res) => {
-    try {
-        const isConnected = await testConnection();
-        res.status(200).json({ 
-            database: isConnected ? 'Connected' : 'Disconnected',
-            timestamp: new Date().toISOString()
-        });
-    } catch (error) {
-        res.status(500).json({ 
-            error: 'Database test failed', 
-            message: error.message 
-        });
-    }
-});
-
 // Rotas
 app.use(router);
 app.use((err, req, res, next)=>{
@@ -95,7 +76,7 @@ app.use((err, req, res, next)=>{
 app.use(errorController.notFound);
 app.use(errorHandler)
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const URL_RENDER = process.env.NEXT_PUBLIC_API_URL;
 app.listen(PORT, () => {
     console.log(`Server is running on port http://localhost:${PORT}/`);

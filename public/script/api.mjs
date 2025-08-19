@@ -117,17 +117,4 @@ export async function updateSubtaskApi(id, status, title = null) {
         throw new Error('Erro ao atualizar tarefa');
     }
 }
-export async function testApiConnection() {
-    try {
-        const response = await fetch(`${BASE_URL}/health`, {
-            method: 'GET',
-            credentials: 'include'
-        });
-        return response.ok;
-    } catch (error) {
-        console.error('API connection test failed:', error);
-        return false;
-    }
-}
-
 
