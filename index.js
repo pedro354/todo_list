@@ -22,22 +22,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // configurações para o cors
 // ✅ CORS simplificado (mesmo domínio)
 const corsOptions = {
-    origin:  function (origin, callback) {
-        const allowdOrigins = [process.env.FRONTEND_URL];
-if (!origin || allowdOrigins.includes(origin)) {
-    callback(null, true);
-} else {
-    callback(new Error('Not allowed by CORS'));
-}
-    },
-    credentials: true,
-    optionsSuccessStatus: 200,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowHeaders: ['Content-Type', 'Authorization', 'Cookie']
+  origin: process.env.FRONTEND_URL || "http://127.0.0.1:5500", // ou onde roda seu HTML
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
-
 
 // middlewares
 app.use(express.json({ limit: '10mb' }));

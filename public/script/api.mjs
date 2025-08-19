@@ -1,75 +1,39 @@
-// api.js
-
-const getBaseUrl = () => {
-    // No browser (cliente)
-    if (typeof window !== 'undefined') {
-        // Verifica se está em produção pelo hostname
-        const isProduction = window.location.hostname !== 'localhost' && 
-                            window.location.hostname !== '127.0.0.1';
-        
-        return isProduction 
-            ? 'https://todo-list-2cfs.onrender.com'  // Sua URL do Render
-            : 'http://localhost:3000';
-    } else {
-        // Servidor (Node.js/SSR) - aqui process.env funciona
-        return typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_API_URL 
-            ? process.env.NEXT_PUBLIC_API_URL 
-            : 'http://localhost:3000';
-    }
-};
-const baseUrl = getBaseUrl();
-
+// Define a URL fixa do backend (Render)
+const baseUrl = 
+    window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+        ? "http://localhost:3000"  // dev local
+        : "https://todo-list-2cfs.onrender.com"; // produção no Render
 
 async function apiRequest(endpoint, options = {}) {
-    const url = `${baseUrl}/${endpoint}`;
+    const url = `${baseUrl}${endpoint}`;
 
     const defaultOptions = {
         credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
+        headers: { 'Content-Type': 'application/json' }
+    };
 
-    const config = {...defaultOptions, ...options};
+    const config = { ...defaultOptions, ...options };
 
     try {
-        console.log('making request to', url);
+        console.log('➡️ Fazendo request para', url);
         const response = await fetch(url, config);
-        console.log('response status', response.status);
+        console.log('⬅️ Status da resposta', response.status);
 
-        if(response.status === 204){
-            return [];
-        }
+        if (response.status === 204) return [];
+
         const contentType = response.headers.get('Content-Type');
         if (!contentType || !contentType.includes('application/json')) {
-            throw new Error(`Expected JSON, got ${contentType}`);
+            throw new Error(`Esperava JSON, veio ${contentType}`);
         }
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
-            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+            const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido' }));
+            throw new Error(errorData.message || `HTTP error ${response.status}`);
         }
 
-        const data = await response.json();
-        console.log('✅ Response data:', data);
-        return data;
-        
+        return await response.json();
     } catch (error) {
-        console.error('❌ API Request failed:', error);
-        
-        // Se for erro de rede, tenta novamente uma vez
-        if (error.message.includes('fetch')) {
-            console.log('🔄 Retrying request...');
-            try {
-                const retryResponse = await fetch(url, config);
-                if (retryResponse.ok) {
-                    return await retryResponse.json();
-                }
-            } catch (retryError) {
-                console.error('❌ Retry failed:', retryError);
-            }
-        }
-        
+        console.error('❌ Erro na API:', error);
         throw error;
     }
 }
