@@ -4,6 +4,7 @@ const TaskModel = require("../models/TaskModel")
 const taskApiController = {
     getTasks: async (req, res) => {
         try {
+            
             const tasks = await TaskModel.findAllTasks()
             res.status(200).json(tasks)
         } catch (error) {

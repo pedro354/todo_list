@@ -3,7 +3,6 @@ const authMiddleware = require('../../middlewares/authMiddleware');
 const taskApiController = require('../../controllers/taskApiController');
 
 const router = express.Router();
-router.use(authMiddleware)
 router.get('/tasks', taskApiController.getTasks)
 router.post('/tasks/create', taskApiController.createTask)
 router.put('/tasks/subtasks/:id', taskApiController.update);

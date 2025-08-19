@@ -1,25 +1,21 @@
 require('dotenv').config();
 const { Pool } = require('pg');
 
-let connectionString = process.env.DATABASE_URL;
-
-if(!connectionString){
-    if(process.env.NODE_ENV === 'production'){
-        connectionString = `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
-      } else {
-    // Quando estiver local, usa a pública
-    connectionString = `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
+function createConnectionString() {
+    if(process.env.DATABASE_URL) {
+        return process.env.DATABASE_URL;
     }
+    return `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
 }
 
 const pool = new Pool({
-    connectionString: connectionString,
-    ssl: process.env.NODE_ENV === 'production' ?  {
+    connectionString: createConnectionString(),
+    ssl: {
         rejectUnauthorized: false
-    } : false,
-    max: 10,
+    },  
+    max: 20,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000
+    connectionTimeoutMillis: 10000
 })
 
 async function query(queryString, params, callback) {
@@ -30,5 +26,14 @@ async function query(queryString, params, callback) {
 async function getClient() {
     return pool.connect(); // retorna uma promise 
 }
-
-module.exports = {query, getClient}
+async function testConnection() {
+    try {
+        const result = await query('SELECT NOW()');
+        console.log('✅ Database connection test successful:', result.rows[0]);
+        return true;
+    } catch (error) {
+        console.error('❌ Database connection test failed:', error);
+        return false;
+    }
+}
+module.exports = {query, getClient, testConnection}

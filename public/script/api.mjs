@@ -1,24 +1,78 @@
 // api.js
-export async function getTasksApi() {
-    try {
-    const res = await fetch(`/api/tasks`, {
-        method: 'GET',
+
+const getBaseUrl = () => {
+    if(typeof window !== 'undefined') {
+        return process.env.NODE_ENV === 'production' 
+        ? 'https://todo-list-2cfs.onrender.com' 
+        : 'http://localhost:3000';
+    } else {
+        return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    }
+}
+
+const baseUrl = getBaseUrl();
+
+
+async function apiRequest(endpoint, options = {}) {
+    const url = `${baseUrl}/${endpoint}`;
+
+    const defaultOptions = {
         credentials: 'include',
         headers: {
-         'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
-    });
-    if(res.status === 204){
-        return [];
     }
 
-    const contentType = res.headers.get('Content-Type');
-    if (!res.ok || !contentType.includes('application/json')) {
-        return null;
-    };
-    const data = await res.json();
-    return data;
+    const config = {...defaultOptions, ...options};
 
+    try {
+        console.log('making request to', url);
+        const response = await fetch(url, config);
+        console.log('response status', response.status);
+
+        if(response.status === 204){
+            return [];
+        }
+        const contentType = response.headers.get('Content-Type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error(`Expected JSON, got ${contentType}`);
+        }
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('✅ Response data:', data);
+        return data;
+        
+    } catch (error) {
+        console.error('❌ API Request failed:', error);
+        
+        // Se for erro de rede, tenta novamente uma vez
+        if (error.message.includes('fetch')) {
+            console.log('🔄 Retrying request...');
+            try {
+                const retryResponse = await fetch(url, config);
+                if (retryResponse.ok) {
+                    return await retryResponse.json();
+                }
+            } catch (retryError) {
+                console.error('❌ Retry failed:', retryError);
+            }
+        }
+        
+        throw error;
+    }
+}
+
+export async function getTasksApi() {
+    try {
+    const data = await apiRequest(`/api/tasks`, {
+        method: 'GET'
+    });
+    return data || [];
 
 } catch (error) {
         console.error('Erro ao obter tarefas:', error);
@@ -28,15 +82,10 @@ export async function getTasksApi() {
 
 export async function newTaskApi(task) {
     try {
-        const res = await fetch(`/api/lists/${task.listId}/tasks`, {
+        const data = await apiRequest(`/api/lists/${task.listId}/tasks`, {
             method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(task)
     });
-    const data = await res.json();
     return data;
     } catch (error) {
         console.error('Erro ao criar nova tarefa:', error);
@@ -51,19 +100,27 @@ export async function updateSubtaskApi(id, status, title = null) {
     }
    
     try {
-        const res = await fetch(`/api/tasks/subtasks/${id}`,{
+        const data = await apiRequest(`/api/tasks/subtasks/${id}`,{
             method: 'PUT',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         })
-        
-        const data = await res.json();
         return data;
     } catch (error) {
         console.error('Erro ao atualizar tarefa:', error);
         throw new Error('Erro ao atualizar tarefa');
     }
 }
-console.log("api do update: ", updateSubtaskApi);
+export async function testApiConnection() {
+    try {
+        const response = await fetch(`${BASE_URL}/health`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+        return response.ok;
+    } catch (error) {
+        console.error('API connection test failed:', error);
+        return false;
+    }
+}
+
 

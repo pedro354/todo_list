@@ -8,6 +8,7 @@ const messageHandler = require('./src/middlewares/messageHandler');
 const logger = require('./src/middlewares/logger');
 const errorController = require('./src/controllers/errorController');
 const errorHandler = require('./src/middlewares/errorHandler');
+const { testConnection } = require ('./database/db')
 
 // instanciando o servidor
 const app = express();
@@ -21,23 +22,67 @@ app.use(express.static(path.join(__dirname, 'public')));
 // configurações para o cors
 // ✅ CORS simplificado (mesmo domínio)
 const corsOptions = {
-    origin: true, // Permite mesmo domínio
+    origin:  function (origin, callback) {
+        const allowdOrigins = [
+            'http://localhost:3000',
+            'https://todo-list-puce-eight-85.vercel.app/',
+            process.env.FRONTEND_URL
+        ];
+        if (allowdOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
+    optionsSuccessStatus: 200,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Cookie']
 };
+
 app.use(cors(corsOptions));
 
+
 // middlewares
+app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 
 // configuração do cookie-session
 app.use(cookieSession({
     name: 'session',
-    keys: [process.env.SESSION_SECRET],
-    maxAge: 1000 * 60 * 60 * 24
+    keys: [process.env.SESSION_SECRET || 'fallback-secret'],
+    maxAge: 24 * 60 * 60 * 1000, // 24 horas
+    secure: process.env.NODE_ENV === 'production', 
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax' 
 }));
 app.use(messageHandler);
 app.use(logger);
+
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'OK', 
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV 
+    });
+});
+
+app.get('/api/test-db', async (req, res) => {
+    try {
+        const isConnected = await testConnection();
+        res.status(200).json({ 
+            database: isConnected ? 'Connected' : 'Disconnected',
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            error: 'Database test failed', 
+            message: error.message 
+        });
+    }
+});
+
 // Rotas
 app.use(router);
 app.use((err, req, res, next)=>{
