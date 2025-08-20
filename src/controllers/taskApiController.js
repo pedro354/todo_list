@@ -8,7 +8,7 @@ const taskApiController = {
             const tasks = await TaskModel.findAllTasks()
             res.status(200).json(tasks)
         } catch (error) {
-            res.status(400).json({ message: "Erro ao buscar tarefas" })
+            res.status(400).json({ message: "Erro ao buscar tarefas!" })
         }
     },
     createTask: async (req, res) => {
