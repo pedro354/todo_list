@@ -47,7 +47,7 @@ app.use((err, req, res, next)=>{
 app.use(errorController.notFound);
 app.use(errorHandler)
 
-const PORT = process.env.PORT;
+const PORT = process.env.DATABASE_URL || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}/`);
+    console.log(`Server is running on port ${PORT}`);
 });
