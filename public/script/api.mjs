@@ -1,7 +1,7 @@
 // api.js
 export async function getTasksApi() {
     try {
-    const res = await fetch('/api/tasks', {
+    const res = await fetch('/api/task', {
         
         method: 'GET',
         credentials: 'include',
