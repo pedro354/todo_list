@@ -2,17 +2,17 @@ const SubtaskModel = require("../models/SubtaskModel")
 const TaskModel = require("../models/TaskModel")
 
 const taskApiController = {
-    getTasks: async (req, res) => {
-        try {
-            
-            const tasks = await TaskModel.findAllTasks()
-            res.status(200).json(tasks)
-        } catch (error) {
-                    console.error("Erro detalhado ao buscar tarefas:", error);
-            res.status(400).json({ message: "Erro ao buscar tarefas!" })
-            
-        }
-    },
+getTasks: async (req, res) => {
+    try {
+        console.log("Rota /api/tasks acessada");
+        const tasks = await TaskModel.findAllTasks();
+        console.log("Tasks carregadas:", tasks);
+        res.status(200).json(tasks);
+    } catch (error) {
+        console.error("Erro detalhado ao buscar tarefas:", error);
+        res.status(400).json({ message: "Erro ao buscar tarefas!", error: error.message });
+    }
+},
     createTask: async (req, res) => {
         try {
             const { title, user_id } = req.body
