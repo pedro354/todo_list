@@ -9,6 +9,8 @@ const taskApiController = {
             res.status(200).json(tasks)
         } catch (error) {
             res.status(400).json({ message: "Erro ao buscar tarefas!" })
+            console.log("DATABASE_URL:", process.env.DATABASE_URL);
+
         }
     },
     createTask: async (req, res) => {
