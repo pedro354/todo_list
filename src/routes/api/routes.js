@@ -4,6 +4,7 @@ const taskApiController = require('../../controllers/taskApiController');
 
 const router = express.Router();
 router.get('/tasks', taskApiController.getTasks)
+console.log("DATABASE_URL na rota:", process.env.DATABASE_URL);
 router.post('/tasks/create', taskApiController.createTask)
 router.put('/tasks/subtasks/:id', taskApiController.update);
 router.delete('/tasks/:listId/:taskId', taskApiController.deleteTask);

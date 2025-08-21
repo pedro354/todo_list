@@ -8,7 +8,7 @@ export async function getTasksApi() {
         headers: {
          'Content-Type': 'application/json'
         }
-    });console.log("DATABASE_URL em api.mjs:", process.env.DATABASE_URL);
+    });
 
         const contentType = res.headers.get('Content-Type');
         if (!res.ok || !contentType.includes('application/json')) return null;
