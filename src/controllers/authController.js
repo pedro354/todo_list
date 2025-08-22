@@ -2,7 +2,8 @@ const UserModel = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const TaskModel = require('../models/TaskModel');
-const { validationEmail } = require('../../public/script/utls')
+const { validationEmail } = require('../../public/script/utls.mjs');
+
 const authController = {
 
     loginPage: (req, res) => {
