@@ -1,6 +1,7 @@
 // utls.js
-import dns from 'dns';
-export function validationEmail(dominio) {
+const dns = require("dns");
+
+function validationEmail(dominio) {
   const domainProhibited = ["email.com", "teste.com", "example.com"];
   if (domainProhibited.includes(dominio)) {
     return false;
@@ -16,3 +17,4 @@ export function validationEmail(dominio) {
   });
 }
 
+module.exports = { validationEmail };

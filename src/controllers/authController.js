@@ -2,7 +2,7 @@ const UserModel = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const TaskModel = require('../models/TaskModel');
-import { validationEmail } from ('../../public/script/utls.js');
+const { validationEmail } = require('../../public/script/utls.js');
 
 const authController = {
 
