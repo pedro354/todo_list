@@ -8,8 +8,8 @@ const userRoutes = require('./user/routes');
 
 
 router.use('/api', apiRoutes);
+router.use('/user', userRoutes);
 router.use('/', appRoutes);
 router.use('/auth', authRoutes);
-router.use('/user', userRoutes);
 module.exports = router;
 
