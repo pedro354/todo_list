@@ -48,9 +48,11 @@ const authController = {
             }
             const exists = await UserModel.findUserByEmail(email);
             console.log("Usuário já existe?", exists);
-
-            const dominio = email.split('@')[1];
-            const dominioValidate = await validationEmail(dominio);
+const validationEmail = (domain) => {
+    const validDomains = ['gmail.com', 'hotmail.com', 'outlook.com'];
+    return validDomains.includes(domain.toLowerCase());
+};
+            const dominioValidate = validationEmail(dominio);
             console.log("Validação do email:", dominioValidate);
             if (!dominioValidate) {
                 return res.render('pages/register', {
@@ -152,7 +154,7 @@ const authController = {
                 req.session.authenticated = true;
                 req.session.currentUser = {
                     id: 0,
-                    name: 'Convidado',
+                    username: 'Convidado',
                     email: null,
                     guest: true
                 }
