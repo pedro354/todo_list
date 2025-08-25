@@ -206,7 +206,7 @@ const authController = {
             console.log(req.session);
 
 
-            res.redirect(302, '/app');
+            res.redirect('/app');
 
         } catch (error) {
             console.log("Erro no login:", error);
