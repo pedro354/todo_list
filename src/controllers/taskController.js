@@ -2,15 +2,6 @@ const SubtaskModel = require("../models/SubtaskModel");
 const TaskModel = require("../models/TaskModel");
 
 const taskController = {
-    getApp: (req, res, next) => {
-          console.log('Entrou no controller da rota /app');
-  try {
-    res.render('app', { title: 'Minha To-Do App' });
-  } catch (error) {
-    console.error('Erro no render da view app.ejs:', error);
-    next(error);
-  }
-    },
 
     index: async (req, res) => {
         const user = req.session.currentUser;
@@ -26,7 +17,7 @@ const taskController = {
     create: async (req, res) => {
         const user = req.session.currentUser;
         // res.send('Página de criação de nova tarefa', { user });
-        res.render('/pages/create', { user })
+        res.render('pages/create', { user })
     },
     save: async (req, res) => { 
         try {
