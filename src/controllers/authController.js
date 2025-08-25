@@ -156,10 +156,19 @@ const authController = {
                     email: null,
                     guest: true
                 }
+                res.render('pages/app',
+                    {
+                        user: req.session.currentUser,
+                        tasks: [],
+                        message: {
+                            type: 'info',
+                            text: 'Você está logado como convidado. Suas tarefas não serão salvas permanentemente.'
+                        }
+                    }
+                )
                 console.log("tentando redirecionar", req.session);
                 console.log('Login como convidado realizado com sucesso!', req.session.currentUser);
-                
-                return res.redirect(302, 'app')
+                return;
             }
     
             // verificar se o usuário existe
