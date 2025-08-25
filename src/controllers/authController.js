@@ -166,8 +166,6 @@ const authController = {
                         }
                     }
                 )
-                console.log("tentando redirecionar", req.session);
-                console.log('Login como convidado realizado com sucesso!', req.session.currentUser);
                 return;
             }
     
@@ -217,9 +215,15 @@ const authController = {
             console.log("Login realizado com sucesso!");
             console.log(req.session);
 
-
-            res.redirect(302, '/app');
-
+            res.render('pages/app', {
+                user: req.session.currentUser,
+                tasks: await TaskModel.findTasksByUserId(user.id),
+                message: {
+                    type: 'success',
+                    text: 'Login realizado com sucesso!'
+                }
+            });
+            
         } catch (error) {
             console.log("Erro no login:", error);
             req.session.message = {
