@@ -217,13 +217,13 @@ const authController = {
 
             res.render('pages/app', {
                 user: req.session.currentUser,
-                tasks: await TaskModel.findTasksByUserId(user.id),
+                tasks: [],
                 message: {
                     type: 'success',
                     text: 'Login realizado com sucesso!'
                 }
             });
-            
+
         } catch (error) {
             console.log("Erro no login:", error);
             req.session.message = {
