@@ -25,8 +25,8 @@ const taskController = {
     },
     create: async (req, res) => {
         const user = req.session.currentUser;
-        res.send('Página de criação de nova tarefa', { user });
-        // res.render('pages/create', { user })
+        // res.send('Página de criação de nova tarefa', { user });
+        res.render('/pages/create', { user })
     },
     save: async (req, res) => { 
         try {
