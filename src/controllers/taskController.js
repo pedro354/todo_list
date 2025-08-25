@@ -38,7 +38,7 @@ const taskController = {
     }
     },
     show: async (req, res) => {
-        const taskId = req.params.taskId;
+        const taskId = parseInt(req.params.taskId, 10);
         const user = req.session.currentUser;
         const task = await TaskModel.findTaskById(taskId);
         const subtasks = await SubtaskModel.findSubtasksByTaskId(taskId);
@@ -80,7 +80,7 @@ const taskController = {
     },
     // deleta tarefa
     delete: async (req, res) => {
-        const { taskId } = req.params;
+const taskId = parseInt(req.params.taskId, 10);
         
         try {
             const tasks = await TaskModel.findTaskById(taskId);
@@ -97,7 +97,9 @@ const taskController = {
             }
         
         })
-        }
+        }console.log('Valor recebido para ID:', req.params.taskId);
+console.log('Tipo do ID:', typeof req.params.taskId);
+
     }
 
 }
