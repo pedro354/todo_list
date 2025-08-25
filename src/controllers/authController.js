@@ -156,7 +156,10 @@ const authController = {
                     email: null,
                     guest: true
                 }
-                return res.redirect(302, '/app')
+                console.log("tentando redirecionar", req.session);
+                console.log('Login como convidado realizado com sucesso!', req.session.currentUser);
+                
+                return res.redirect(302, 'app')
             }
     
             // verificar se o usuário existe
