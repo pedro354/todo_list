@@ -166,7 +166,7 @@ const authController = {
                         }
                     }
                 )
-                return;
+                res.redirect('/app', 302);
             }
     
             // verificar se o usuário existe
