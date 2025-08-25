@@ -1,16 +1,17 @@
 const SubtaskModel = require("../models/SubtaskModel");
 const TaskModel = require("../models/TaskModel");
-exports.getApp = (req, res, next) => {
-  console.log('Entrou no controller da rota /app');
+
+const taskController = {
+    getApp: (req, res, next) => {
+          console.log('Entrou no controller da rota /app');
   try {
     res.render('app', { title: 'Minha To-Do App' });
   } catch (error) {
     console.error('Erro no render da view app.ejs:', error);
     next(error);
   }
-};
 
-const taskController = {
+    },
 
     index: async (req, res) => {
         const user = req.session.currentUser;
