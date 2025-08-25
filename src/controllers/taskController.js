@@ -10,7 +10,6 @@ const taskController = {
     console.error('Erro no render da view app.ejs:', error);
     next(error);
   }
-
     },
 
     index: async (req, res) => {
