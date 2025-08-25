@@ -156,7 +156,7 @@ const authController = {
                     email: null,
                     guest: true
                 }
-                return res.redirect(302, 'pages/app')
+                return res.redirect('/app')
             }
     
             // verificar se o usuário existe
