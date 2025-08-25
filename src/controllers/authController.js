@@ -48,11 +48,9 @@ const authController = {
             }
             const exists = await UserModel.findUserByEmail(email);
             console.log("Usuário já existe?", exists);
-const validationEmail = (domain) => {
-    const validDomains = ['gmail.com', 'hotmail.com', 'outlook.com'];
-    return validDomains.includes(domain.toLowerCase());
-};
-            const dominioValidate = validationEmail(dominio);
+
+            const dominio = email.split('@')[1];
+            const dominioValidate = await validationEmail(dominio);
             console.log("Validação do email:", dominioValidate);
             if (!dominioValidate) {
                 return res.render('pages/register', {
@@ -158,7 +156,7 @@ const validationEmail = (domain) => {
                     email: null,
                     guest: true
                 }
-                return res.redirect(302, '/app')
+                return res.redirect(302, 'pages/app')
             }
     
             // verificar se o usuário existe
