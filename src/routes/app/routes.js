@@ -9,7 +9,6 @@ router.get('/', (req, res) => res.render('pages/home'));
 // tarefas
 // router.use(authMiddleware);
 router.get('/app', taskController.index);
-
 router.get('/app/create', taskController.create);
 router.post('/app/new-list-task', taskController.save);
 router.get('/app/:taskId', taskController.show);
