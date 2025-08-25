@@ -156,17 +156,7 @@ const authController = {
                     email: null,
                     guest: true
                 }
-                res.render('pages/app',
-                    {
-                        user: req.session.currentUser,
-                        tasks: [],
-                        message: {
-                            type: 'info',
-                            text: 'Você está logado como convidado. Suas tarefas não serão salvas permanentemente.'
-                        }
-                    }
-                )
-                res.redirect('/app', 302);
+                return res.redirect(302, '/app')
             }
     
             // verificar se o usuário existe
@@ -215,14 +205,8 @@ const authController = {
             console.log("Login realizado com sucesso!");
             console.log(req.session);
 
-            res.render('pages/app', {
-                user: req.session.currentUser,
-                tasks: [],
-                message: {
-                    type: 'success',
-                    text: 'Login realizado com sucesso!'
-                }
-            });
+
+            res.redirect(302, '/app');
 
         } catch (error) {
             console.log("Erro no login:", error);
