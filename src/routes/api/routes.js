@@ -9,7 +9,7 @@ router.put('/tasks/subtasks/:id', taskApiController.update);
 router.delete('/tasks/:listId/:taskId', taskApiController.deleteTask);
 router.delete('/tasks/:listId/:listId', taskApiController.deleteList);
 // No seu appRoutes ou diretamente no index.js
-app.get('/health', (req, res) => {
+router.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 // subtasks
