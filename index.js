@@ -43,8 +43,8 @@ app.use(errorController.notFound);
 app.use(errorHandler)
 
 
-app.listen(port, '0.0.0.0', () => {
 const port = process.env.PORT || 3000;
+app.listen(port, '0.0.0.0', () => {
     console.log(`✅ Server running on 0.0.0.0:${port}`);
 });
 
