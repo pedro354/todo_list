@@ -14,7 +14,7 @@ const app = express();
 
 // configurações
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views', 'pages'));
+app.set('views', path.join(__dirname, 'views'));
 // Servindo arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
