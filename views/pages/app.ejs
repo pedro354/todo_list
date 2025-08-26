@@ -21,7 +21,7 @@
                 <% if (!user.guest) { %>
                     <span>Bem vindo, <%= user.username || user.name %></span>
                     <% } else { %>
-                        <span>Bem vindo, <%= user.name %>!</span>
+                        <span>Bem vindo, <%= user.username %>!</span>
                         <% } %>
                         <form action="/auth/delete" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar sua conta?')">
                             <button class="deleteBtn" type="submit">Deletar Conta</button>
