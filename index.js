@@ -37,15 +37,15 @@ app.use(logger);
 
 // Rotas
 app.use(router);
-app.use((err, req, res, next)=>{
-    console.error('Error: ', err);
-    res.status(500).send('Internal Server Error');
-    
-})
 
 // Tratamento de erros
 app.use(errorController.notFound);
 app.use(errorHandler)
+app.use((err, req, res, next)=>{
+    console.error('Error: ', err);
+    res.status(500).send('Internal Server Error!');
+    
+})
 
 const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
