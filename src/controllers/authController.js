@@ -156,7 +156,14 @@ const authController = {
                     email: null,
                     guest: true
                 }
-                return res.redirect('/tasks')
+                return res.render('pages/app', {
+                    user: req.session.currentUser,
+                    tasks: [],
+                    message: {
+                        type: 'success',
+                        text: 'Login como convidado realizado com sucesso!'
+                    }
+                });
             }
     
             // verificar se o usuário existe
