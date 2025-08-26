@@ -6,14 +6,10 @@ const taskController = {
     index: async (req, res) => {
         const user = req.session.currentUser;
         const tasks = await TaskModel.findAllTasks();
-        res.render('/views/pages/app', {tasks, user})
+        res.send('Página de tarefas', { tasks, user });
+        // res.render('/views/pages/app', {tasks, user})
     },
 
-    read: async (req, res) => {
-        const user = req.session.currentUser;
-        const tasks = await TaskModel.findAllTasks();
-        res.render('pages/app', {tasks, user})
-    },
     create: async (req, res) => {
         const user = req.session.currentUser;
         // res.send('Página de criação de nova tarefa', { user });
