@@ -6,8 +6,7 @@ const taskController = {
     index: async (req, res) => {
         const user = req.session.currentUser;
         const tasks = await TaskModel.findAllTasks();
-        res.send('Página de tarefas', { tasks, user });
-        // res.render('/views/pages/app', {tasks, user})
+        res.redirect('/app', {tasks, user});
     },
 
     create: async (req, res) => {
