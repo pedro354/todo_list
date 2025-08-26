@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "sass": "sass public/scss/app.scss public/css/app.css --watch --style=compressed"
+    "sass": "sass public/scss/app.scss public/css/app.css --watch --style=compressed",
+      "build": "echo 'No build needed'"
   },
   "ignore": [
     "*.log",

@@ -14,9 +14,9 @@ const app = express();
 
 // configurações
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(process.cwd(), 'views'));
 // Servindo arquivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 // middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -42,6 +42,8 @@ app.use(router);
 app.use(errorController.notFound);
 app.use(errorHandler)
 
+console.log('Environment variables:', process.env);
+console.log('Running on:', process.env.NODE_ENV);
 
 const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
