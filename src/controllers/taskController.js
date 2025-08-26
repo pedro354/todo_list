@@ -1,3 +1,4 @@
+const e = require("express");
 const SubtaskModel = require("../models/SubtaskModel");
 const TaskModel = require("../models/TaskModel");
 
@@ -6,22 +7,13 @@ const taskController = {
     index: async (req, res) => {
         const user = req.session.currentUser;
         const tasks = await TaskModel.findAllTasks();
-        if(tasks.length === 0) {
-            return res.render('pages/app', {
-                tasks: [],
-                user,
-                message: {
-                    type: 'info',
-                    text: 'Nenhuma tarefa encontrada. Crie sua primeira tarefa!'
-                }
-            });
-        }
+        res.render('index.ejs', { tasks, user });
     },
 
     create: async (req, res) => {
         const user = req.session.currentUser;
         // res.send('Página de criação de nova tarefa', { user });
-        res.render('pages/create', { user })
+        res.render('create.ejs', { user })
     },
     save: async (req, res) => { 
         try {
