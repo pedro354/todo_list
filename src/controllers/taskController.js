@@ -6,7 +6,16 @@ const taskController = {
     index: async (req, res) => {
         const user = req.session.currentUser;
         const tasks = await TaskModel.findAllTasks();
-        res.redirect('/app', {tasks, user});
+        if(tasks.length === 0) {
+            return res.render('pages/app', {
+                tasks: [],
+                user,
+                message: {
+                    type: 'info',
+                    text: 'Nenhuma tarefa encontrada. Crie sua primeira tarefa!'
+                }
+            });
+        }
     },
 
     create: async (req, res) => {
