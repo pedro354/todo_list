@@ -18,7 +18,7 @@ index: async (req, res) => {
     create: async (req, res) => {
         const user = req.session.currentUser;
         // res.send('Página de criação de nova tarefa', { user });
-        res.render('create.ejs', { user })
+        res.render('pages/create', { user })
     },
     save: async (req, res) => { 
         try {
