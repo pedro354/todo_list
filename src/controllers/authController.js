@@ -152,13 +152,12 @@ const authController = {
                 req.session.authenticated = true;
                 req.session.currentUser = {
                     id: 0,
-                    username: 'Convidado',
+                    username: 'Convidado!',
                     email: null,
                     guest: true
                 }
                 return res.redirect('/app')
             }
-    
             // verificar se o usuário existe
             if (!email || !password) {
                 console.log("Campos faltando");
