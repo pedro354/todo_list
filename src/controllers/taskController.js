@@ -4,11 +4,16 @@ const TaskModel = require("../models/TaskModel");
 
 const taskController = {
 
-    index: async (req, res) => {
+index: async (req, res) => {
+    try {
         const user = req.session.currentUser;
-        const tasks = await TaskModel.findAllTasks();
-        res.render('pages/app.ejs', { user, tasks });
-    },
+        const tasks = await TaskModel.findTasksByUserId(user.id);
+        res.render('pages/app', { user, tasks });
+    } catch (error) {
+        console.error('Erro ao carregar tarefas:', error);
+        res.status(500).render('pages/500', { message: 'Erro ao carregar tarefas!' });
+    }
+},
 
     create: async (req, res) => {
         const user = req.session.currentUser;

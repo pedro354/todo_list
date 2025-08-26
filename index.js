@@ -14,22 +14,22 @@ const app = express();
 
 // configurações
 app.set('view engine', 'ejs');
-app.set('views', path.join('views'));
+app.set('views', path.join(__dirname, 'views'));
 // Servindo arquivos estáticos
-// middlewares
-app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// middlewares
+app.use(express.urlencoded({ extended: true }));
 
-
+app.set('trust proxy', 1); // necessário no render/vercel
 // configuração do cookie-session
 app.use(cookieSession({
     name: 'session',
     keys: [process.env.SESSION_SECRET || 'fallback-secret'],
-    maxAge: 24 * 60 * 60 * 1000, // 24 horas
-    secure: process.env.NODE_ENV === 'production', 
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax' 
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
 }));
 app.use(messageHandler);
 app.use(logger);
@@ -41,13 +41,15 @@ app.use(router);
 // Tratamento de erros
 app.use(errorController.notFound);
 app.use(errorHandler)
+
+
+app.listen(port, '0.0.0.0', () => {
+const port = process.env.PORT || 3000;
+    console.log(`✅ Server running on 0.0.0.0:${port}`);
+});
+
 app.use((err, req, res, next)=>{
     console.error('Error: ', err);
     res.status(500).send('Internal Server Error!');
     
-})
-
-const port = process.env.PORT || 3000;
-app.listen(port, '0.0.0.0', () => {
-    console.log(`✅ Server running on 0.0.0.0:${port}`);
 });
