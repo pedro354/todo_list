@@ -7,7 +7,7 @@ const taskController = {
     index: async (req, res) => {
         const user = req.session.currentUser;
         const tasks = await TaskModel.findAllTasks();
-        res.render('index.ejs', { tasks, user });
+        res.render('pages/app.ejs', { user, tasks });
     },
 
     create: async (req, res) => {
