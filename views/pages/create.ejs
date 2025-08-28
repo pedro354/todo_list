@@ -8,9 +8,9 @@
 <title>Criar Nova Lista | To-Do App</title>
 </head>
 
-<body>
+<body class="app">
     <%- include('../partials/header') %>
-    <main class="app">
+        <main class="app">  
                     <% if (message) { %>
                 <div class="alert msg <%= message.type %>">
                     <p>
@@ -18,7 +18,6 @@
                     </p>
                 </div>
                 <% } %>
-
             <div class="user">
             <% if (!user.guest) { %>
                 <span>Bem vindo, <%= user.username  %></span>

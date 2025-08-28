@@ -1,5 +1,5 @@
-import { getTasksApi } from './api.mjs';
-import { loader, message, messageHandler, tooglerStatus, typeText } from './dom.mjs';
+import { getTasksApi } from './api.js';
+import { loader, message, messageHandler, tooglerStatus, typeText } from './dom.js';
 
  async function renderTasks() {
     try {
