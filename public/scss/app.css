@@ -490,6 +490,7 @@ footer {
   width: 5rem;
   background-color: #b9b9b9;
   cursor: pointer;
+  font-size: revert;
 }
 .app .container-app #title:focus {
   border: solid 2px aqua;

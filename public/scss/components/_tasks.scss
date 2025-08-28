@@ -133,6 +133,7 @@
       width: 5rem;
       background-color: $gray-lighter;
       cursor: pointer;
+        font-size: revert;
     }
 
     #title:focus {
