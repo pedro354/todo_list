@@ -7,7 +7,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "sass": "sass public/scss/app.scss public/css/app.css --watch --style=compressed",
-      "build": "echo 'No build needed'"
+    "build": "echo 'No build needed'"
   },
   "ignore": [
     "*.log",
@@ -39,6 +39,7 @@
     "cors": "^2.8.5",
     "debug": "^4.4.0",
     "dotenv": "^17.2.1",
+    "dotenv-flow": "^4.1.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.1",

@@ -17,7 +17,7 @@ router.post('/app/:taskId', taskController.delete);
 // Subtarefas
 router.post('/app/:id/new-task', subtaskController.create);
 router.post('/app/:id/delete', subtaskController.delete);
-router.post('/app/:id/delete-all-subtasks', subtaskController.deleteAllFromTask);
+router.post('/app/:id/delete-all-subtask', subtaskController.deleteAllFromTask);
 
 module.exports = router;
 

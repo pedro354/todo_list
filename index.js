@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv-flow').config();
 const express = require('express');
 const cookieSession = require('cookie-session');
 const path = require('path');
@@ -21,8 +21,9 @@ app.use(express.static(path.join(process.cwd(), 'public')));
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 
-app.set('trust proxy', 1); // necessário no render/vercel
-// configuração do cookie-session
+app.set('trust proxy', 1); 
+
+// Configuração de sessão
 app.use(cookieSession({
     name: 'session',
     keys: [process.env.SESSION_SECRET || 'fallback-secret'],
@@ -41,9 +42,6 @@ app.use(router);
 // Tratamento de erros
 app.use(errorController.notFound);
 app.use(errorHandler)
-
-console.log('Environment variables:', process.env);
-console.log('Running on:', process.env.NODE_ENV);
 
 const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {

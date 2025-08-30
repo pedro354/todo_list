@@ -10,14 +10,12 @@
 
 <body class="app">
     <%- include('../partials/header') %>
-        <main class="app">  
-                    <% if (message) { %>
+        <main class="container-app">  
+            <% if (message) { %>
                 <div class="alert msg <%= message.type %>">
-                    <p>
-                        <%= message.text %>
-                    </p>
+                    <p><%= message.text %></p>
                 </div>
-                <% } %>
+            <% } %>
             <div class="user">
             <% if (!user.guest) { %>
                 <span>Bem vindo, <%= user.username  %></span>
@@ -25,8 +23,8 @@
                 <span>Olá, Convidado!</span>
                 <% } %>
             </div>
-        <div class="container-app mt-5">
             <h1>Criar nova Lista de Tarefas</h1>
+            <div class="mt-5">
             <form class="form" action="/app/new-list-task" method="post">
                 <div class="container-group">
                 <div class="content-create">

@@ -4,7 +4,7 @@
     <nav>
         <a class="btn-task" href="/app">Ver Tarefas</a>
         <a class="btn-task" href="/app/create">Criar Tarefa</a>
-        <form action="/auth/logout" method="post">
+        <form action="/auth/logout" method="post"       onsubmit="console.log('🚪 FORM LOGOUT SUBMETIDO!'); return true;">
             <button class="btn-logout" type="submit">Sair</button>
         </form>
     </nav>

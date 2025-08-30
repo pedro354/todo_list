@@ -226,21 +226,42 @@ const authController = {
     console.log('===== LOGOUT =====');
     console.log('Usuário antes do logout:', req.session.currentUser);
     
-    // Limpa toda a sessão
-    req.session.destroy((err) => {
-        if (err) {
-            console.error('Erro ao destruir sessão:', err);
-            return res.status(500).json({ error: 'Erro interno do servidor' });
-        }
+    try {
+        const userId = req.session?.currentUser?.id;
+
+        req.session.authenticated = false;
+        req.session.currentUser = null;
+
+        req.session = null;
+
+        console.log('Usuário após o logout:', req.session?.currentUser);
+
+        res.set({
+            'Cache-Control': 'no-store, no-cache, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+        })
+        console.log("Redirecionando para /auth/login");
+        res.redirect('/auth/login')
         
-        console.log('Sessão destruída com sucesso');
-        res.clearCookie('connect.sid')
-        res.redirect('/auth/login');
-    });
-    },
+    } catch (error) {
+        console.error('Erro durante o logout:', error);
+        res.status(500).send('Erro ao fazer logout!');
+        
+    }
+
+},
     deleteAccount: async (req, res) => {
         const userId = req.session.currentUser?.id;
+        const isGuest = req.session.currentUser?.guest;
 
+        if (isGuest) {
+            req.session.message = {
+                type: 'error',
+                text: 'Usuário convidado não pode excluir conta!'
+            }
+            return res.redirect('/auth/login');
+        }
         if (!userId) {
             req.session.message = {
                 type: 'error',

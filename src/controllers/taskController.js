@@ -40,6 +40,8 @@ index: async (req, res) => {
     }
     },
     show: async (req, res) => {
+
+            console.log(`📖 TaskController.show chamado com taskId: ${req.params.taskId}`);
         const taskId = parseInt(req.params.taskId, 10);
         const user = req.session.currentUser;
         const task = await TaskModel.findTaskById(taskId);
