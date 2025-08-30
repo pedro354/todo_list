@@ -17,12 +17,12 @@
                 </div>
             <% } %>
             <div class="user">
-            <% if (!user.guest) { %>
-                <span>Bem vindo, <%= user.username  %></span>
-            <% } else { %>
-                <span>Olá, Convidado!</span>
-                <% } %>
-            </div>
+                <% if (!user.guest) { %>
+                    <span>Bem vindo, <%= user.username || user.name %></span>
+                    <% } else { %>
+                        <span>Bem vindo, <%= user.username %>!</span>
+                        <% } %>
+                    </div>
             <h1>Criar nova Lista de Tarefas</h1>
             <div class="mt-5">
             <form class="form" action="/app/new-list-task" method="post">
