@@ -6,15 +6,15 @@ const authMiddleware = (req, res, next) => {
 
     const rotasPermitidas = ['/', '/login', '/auth/login', '/register', '/auth/register', '/app'];
 
-    if(rotasPermitidas.includes(req.path)) {
+    if (rotasPermitidas.includes(req.path)) {
         return next();
     }
 
     if (!req.session.authenticated) {
-    return res.status(401).render('errors/401', {
-        user: null,
-        message: { type: 'error', text: 'Não autorizado' }
-    });
+        return res.status(401).render('errors/401', {
+            user: null,
+            message: { type: 'error', text: 'Não autorizado' }
+        });
     }
 
     if (req.session.authenticated || req.session.currentUser?.guest) {

@@ -46,14 +46,14 @@ class UserModel {
         }
     }
 
-    static async createGuestUser(){
+    static async createGuestUser() {
         const client = await getClient();
         try {
             await client.query('BEGIN');
 
             // Verifica se o usuário já existe
             const exists = await query(`SELECT * FROM users WHERE email = 'guest@guest.com'`);
-            if(exists.rows.length > 0) return new UserModel(exists.rows[0]);
+            if (exists.rows.length > 0) return new UserModel(exists.rows[0]);
 
             const hashed = await bcrypt.hash('senhafake', 10);
             const result = await query(

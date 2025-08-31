@@ -21,7 +21,7 @@ app.use(express.static(path.join(process.cwd(), 'public')));
 // middlewares
 app.use(express.urlencoded({ extended: true }));
 
-app.set('trust proxy', 1); 
+app.set('trust proxy', 1);
 
 // Configuração de sessão
 app.use(cookieSession({
@@ -48,8 +48,8 @@ app.listen(port, '0.0.0.0', () => {
     console.log(`✅ Server running on 0.0.0.0:${port}`);
 });
 
-app.use((err, req, res, next)=>{
+app.use((err, req, res, next) => {
     console.error('Error: ', err);
     res.status(500).send('Internal Server Error!');
-    
+
 });

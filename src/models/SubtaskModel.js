@@ -2,7 +2,7 @@ const { query, getClient } = require("../../database/db");
 
 class SubtaskModel {
     // constructor que recebe um objeto com as propriedades do subtask
-    constructor(subtaskRow){
+    constructor(subtaskRow) {
         this.id = subtaskRow.id;
         this.title = subtaskRow.title;
         this.status = subtaskRow.status;
@@ -11,42 +11,42 @@ class SubtaskModel {
     }
     // Busca todos os subtasks de uma task
     static async findSubtasksById(id) {
-    const result = await query(
-        `SELECT * FROM subtasks WHERE id = $1`, [id])
+        const result = await query(
+            `SELECT * FROM subtasks WHERE id = $1`, [id])
         return result.rows.map(row => new SubtaskModel(row));
     }
     // Busca todos os subtasks por id da tarefa
     static async findSubtasksByTaskId(taskId) {
-    const result = await query(
-        `SELECT subtasks.* FROM subtasks
+        const result = await query(
+            `SELECT subtasks.* FROM subtasks
          JOIN task_subtasks ON subtasks.id = task_subtasks.subtask_id
          WHERE task_subtasks.task_id = $1`,
-        [taskId]
-    );
-    return result.rows.map(row => new SubtaskModel(row));
+            [taskId]
+        );
+        return result.rows.map(row => new SubtaskModel(row));
     }
     // Cria um subtask 
-    static async createSubtask({title, taskId, status}) {
+    static async createSubtask({ title, taskId, status }) {
         const client = await getClient();
 
         try {
-        await client.query(`BEGIN`);
+            await client.query(`BEGIN`);
 
-        const result = await query(
-            `INSERT INTO subtasks(title, status)
+            const result = await query(
+                `INSERT INTO subtasks(title, status)
             VALUES ($1, $2)
             RETURNING *`,
-            [title,status]
-        );
+                [title, status]
+            );
 
-        const subtaskId = result.rows[0];
+            const subtaskId = result.rows[0];
 
-        await query(
-            `INSERT INTO task_subtasks (task_id, subtask_id) VALUES ($1, $2)`,
-            [taskId, subtaskId.id]
-        );
-        await client.query(`COMMIT`);
-        return subtaskId;
+            await query(
+                `INSERT INTO task_subtasks (task_id, subtask_id) VALUES ($1, $2)`,
+                [taskId, subtaskId.id]
+            );
+            await client.query(`COMMIT`);
+            return subtaskId;
         } catch (error) {
             await client.query(`ROLLBACK`);
             throw error;
@@ -55,58 +55,58 @@ class SubtaskModel {
         }
     }
     // Atualiza um subtask
-    static async update(id, attributes ){
+    static async update(id, attributes) {
         const client = await getClient();
         try {
             await client.query(`BEGIN`);
 
-        const {rows} = await query(`SELECT * FROM subtasks WHERE id = $1;`, [id]);
-        if(!rows[0]) return null;
+            const { rows } = await query(`SELECT * FROM subtasks WHERE id = $1;`, [id]);
+            if (!rows[0]) return null;
 
-        const subtask = new SubtaskModel(rows[0]);
-        Object.assign(subtask, attributes);
+            const subtask = new SubtaskModel(rows[0]);
+            Object.assign(subtask, attributes);
 
-        const { rows: updateRows } = await query(
-            // title não atualiza, então ele vai retornar null na api
-            `UPDATE subtasks SET
+            const { rows: updateRows } = await query(
+                // title não atualiza, então ele vai retornar null na api
+                `UPDATE subtasks SET
             title = $1, 
             status = $2
             WHERE id = $3
             RETURNING *`,
-            [
-                subtask.title,
-                subtask.status,
-                subtask.id
-            ] 
-        );
+                [
+                    subtask.title,
+                    subtask.status,
+                    subtask.id
+                ]
+            );
 
-        await client.query(`COMMIT`);
-        return new SubtaskModel(updateRows[0]);
-    } catch (error) {
-        await client.query(`ROLLBACK`);
-        throw error;
-    } finally {
-        client.release();
-    }
+            await client.query(`COMMIT`);
+            return new SubtaskModel(updateRows[0]);
+        } catch (error) {
+            await client.query(`ROLLBACK`);
+            throw error;
+        } finally {
+            client.release();
+        }
     }
     // Deleta um subtask
     static async delete(subtaskId) {
         const client = await getClient();
         try {
-        await client.query(`BEGIN`);
+            await client.query(`BEGIN`);
 
-        const { rows } = await query(`
+            const { rows } = await query(`
             SELECT * FROM subtasks WHERE id = $1
         `, [subtaskId]);
 
-        if (!rows[0]) return null;
+            if (!rows[0]) return null;
 
-        // Primeiro remove da tabela intermediária
-        await query(`DELETE FROM task_subtasks WHERE subtask_id = $1`, [subtaskId]);
-        // Depois remove da subtasks
-        await query(`DELETE FROM subtasks WHERE id = $1`, [subtaskId]);
-        await client.query(`COMMIT`);
-        return rows[0];
+            // Primeiro remove da tabela intermediária
+            await query(`DELETE FROM task_subtasks WHERE subtask_id = $1`, [subtaskId]);
+            // Depois remove da subtasks
+            await query(`DELETE FROM subtasks WHERE id = $1`, [subtaskId]);
+            await client.query(`COMMIT`);
+            return rows[0];
         } catch (error) {
             await client.query(`ROLLBACK`);
             throw error;
@@ -119,16 +119,16 @@ class SubtaskModel {
         const client = await getClient();
         try {
             await client.query(`BEGIN`);
-        await query(`DELETE FROM task_subtasks WHERE task_id = $1`, [taskId]);
+            await query(`DELETE FROM task_subtasks WHERE task_id = $1`, [taskId]);
 
-        await query(`
+            await query(`
                 DELETE FROM subtasks
                 WHERE id NOT IN (
                 SELECT subtask_id FROM task_subtasks
                 )
             `);
-        await client.query(`COMMIT`);
-        return rows[0];
+            await client.query(`COMMIT`);
+            return rows[0];
         } catch (error) {
             await client.query(`ROLLBACK`);
             throw error;

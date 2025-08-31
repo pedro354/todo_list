@@ -5,21 +5,22 @@ const TaskModel = require('../models/TaskModel');
 const { validationEmail } = require('../../public/script/utls.js');
 
 const authController = {
-
+    // GET /auth/login
     loginPage: (req, res) => {
         const user = req.session.currentUser || null;
         res.render('pages/login', { user });
     },
+    // GET /auth/register
     registerPage: async (req, res) => {
         const message = await req.session.message;
         delete req.session.message;
         res.render('pages/register', { message });
     },
+    // GET /app
     index: async (req, res) => {
         if (!req.session.authenticated) {
             return res.redirect('/auth/login');
         }
-
         const user = req.session.currentUser;
         console.log("Usuário logado:", user);
         const message = req.session.message;
@@ -27,6 +28,7 @@ const authController = {
         const tasks = user.guest ? [] : await TaskModel.findTasksByUserId(user.id);
         res.render('pages/app', { user, tasks, message })
     },
+    // POST /auth/register
     register: async (req, res) => {
 
         try {
@@ -140,13 +142,13 @@ const authController = {
             });
         }
     },
-
+    // POST /auth/login
     login: async (req, res) => {
         console.log("Login recebido:", req.body);
         const { email, password, loginType } = req.body
 
         // Login como convidado
-        
+
         try {
             if (loginType === 'guest') {
                 req.session.authenticated = true;
@@ -217,40 +219,42 @@ const authController = {
 
         }
     },
+    // GET /auth/login
     loginForm: (req, res) => {
         console.log("Mensagem disponível na view:", res.locals.message);
         res.render('auth/login');
     },
-
+    // POST /auth/logout
     logout: (req, res) => {
-    console.log('===== LOGOUT =====');
-    console.log('Usuário antes do logout:', req.session.currentUser);
-    
-    try {
-        const userId = req.session?.currentUser?.id;
+        console.log('===== LOGOUT =====');
+        console.log('Usuário antes do logout:', req.session.currentUser);
 
-        req.session.authenticated = false;
-        req.session.currentUser = null;
+        try {
+            const userId = req.session?.currentUser?.id;
 
-        req.session = null;
+            req.session.authenticated = false;
+            req.session.currentUser = null;
 
-        console.log('Usuário após o logout:', req.session?.currentUser);
+            req.session = null;
 
-        res.set({
-            'Cache-Control': 'no-store, no-cache, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0'
-        })
-        console.log("Redirecionando para /auth/login");
-        res.redirect('/auth/login')
-        
-    } catch (error) {
-        console.error('Erro durante o logout:', error);
-        res.status(500).send('Erro ao fazer logout!');
-        
-    }
+            console.log('Usuário após o logout:', req.session?.currentUser);
 
-},
+            res.set({
+                'Cache-Control': 'no-store, no-cache, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            })
+            console.log("Redirecionando para /auth/login");
+            res.redirect('/auth/login')
+
+        } catch (error) {
+            console.error('Erro durante o logout:', error);
+            res.status(500).send('Erro ao fazer logout!');
+
+        }
+
+    },
+    // POST /auth/deleteAccount
     deleteAccount: async (req, res) => {
         const userId = req.session.currentUser?.id;
         const isGuest = req.session.currentUser?.guest;
@@ -276,10 +280,12 @@ const authController = {
             res.redirect('/auth/login?msg=deleted');
         });
     },
+    
     // GET /auth/forgetPassword
     forgetPasswordGET: (req, res) => {
         res.render('pages/forgetPassword', { message: null });
     },
+    // POST /auth/forgetPassword
     forgetPasswordPOST: (req, res) => {
         const { email } = req.body;
 
@@ -292,6 +298,7 @@ const authController = {
         req.session.recoveryEmail = email;
         res.redirect('/auth/resetPassword');
     },
+    // GET /auth/resetPassword
     resetPasswordGET: (req, res) => {
         const email = req.session.recoveryEmail;
         if (!email) {
@@ -299,6 +306,7 @@ const authController = {
         }
         res.render('pages/resetPassword', { email, message: null });
     },
+    // POST /auth/resetPassword
     resetPasswordPOST: (req, res) => {
         const { email, password, confirmPassword } = req.body;
 
