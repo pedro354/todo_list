@@ -405,7 +405,6 @@ footer {
 }
 .app .container-app .list-group {
   width: 100%;
-  background-color: #414141;
   border-radius: 0.5rem;
   margin: inherit;
 }
@@ -417,6 +416,7 @@ footer {
   align-items: center;
   padding: 1rem;
   color: #e4e4e4;
+  margin: 0.5rem auto;
 }
 .app .container-app .deleteBtn {
   padding: 10px 16px;
