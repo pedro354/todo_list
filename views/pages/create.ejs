@@ -1,35 +1,30 @@
-<!-- Criação de tarefas -->
-<!-- Página de lista de tarefas -->
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/app.css">
 <title>Criar Nova Lista | To-Do App</title>
 </head>
 
-<body>
+<body class="app">
     <%- include('../partials/header') %>
-    <main class="app">
-                    <% if (message) { %>
+        <main class="container-app">  
+            <% if (message) { %>
                 <div class="alert msg <%= message.type %>">
-                    <p>
-                        <%= message.text %>
-                    </p>
+                    <p><%= message.text %></p>
                 </div>
-                <% } %>
-
+            <% } %>
             <div class="user">
-            <% if (!user.guest) { %>
-                <span>Bem vindo, <%= user.username  %></span>
-            <% } else { %>
-                <span>Olá, Convidado!</span>
-                <% } %>
-            </div>
-        <div class="container-app mt-5">
+                <% if (!user.guest) { %>
+                    <span>Bem vindo, <%= user.username || user.name %></span>
+                    <% } else { %>
+                        <span>Bem vindo, <%= user.username %>!</span>
+                        <% } %>
+                    </div>
             <h1>Criar nova Lista de Tarefas</h1>
+            <div class="mt-5">
             <form class="form" action="/app/new-list-task" method="post">
                 <div class="container-group">
                 <div class="content-create">
@@ -45,7 +40,7 @@
 
             </div>
         </main>
-        <script type="module" src="/script/app.js" defer></script>
+        <script type="module" src="/script/app.mjs" defer ></script>
         <%- include('../partials/footer') %>
 </body>
 

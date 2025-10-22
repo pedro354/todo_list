@@ -1,0 +1,51 @@
+.error-page,
+#error-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #121212;
+  color: #fff;
+  padding: 2rem;
+  text-align: center;
+  animation: fadeInUp 1s ease-in-out;
+}
+.error-page h1,
+#error-page h1 {
+  font-size: 6rem;
+  margin-bottom: 1rem;
+  color: #3498db;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+.error-page h2, .error-page h3,
+#error-page h2,
+#error-page h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+.error-page p,
+#error-page p {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+.error-page .btn,
+#error-page .btn {
+  background-color: rgb(95.3179916318, 173.9790794979, 226.6820083682);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  transition: background 0.3s;
+}
+.error-page .btn:hover,
+#error-page .btn:hover {
+  background: rgb(33.1380753138, 125.1882845188, 186.8619246862);
+}/*# sourceMappingURL=error.css.map */

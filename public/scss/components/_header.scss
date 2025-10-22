@@ -35,7 +35,7 @@ header {
   border: none; /* Remove borda padrão do button */
   padding: 5px 0px;
   font-weight: 100;
-  color: inherit; /* Herda cor do pai */
+  color: $text-color; /* Herda cor do pai */
   font-size: inherit; /* Herda tamanho da fonte */
   font-family: inherit; /* Herda fonte */
   cursor: pointer; /* Mostra que é clicável */

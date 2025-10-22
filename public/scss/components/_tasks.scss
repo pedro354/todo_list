@@ -37,7 +37,7 @@
 
     .list-group {
       width: 100%;
-      background-color: $bg-task;
+      // background-color: $bg-task;
       border-radius: 0.5rem;
       margin: inherit;
     }
@@ -50,6 +50,7 @@
       align-items: center;
       padding: 1rem;
       color: $text-color;
+        margin: 0.5rem auto;
     }
 
     .deleteBtn {
@@ -133,6 +134,7 @@
       width: 5rem;
       background-color: $gray-lighter;
       cursor: pointer;
+        font-size: revert;
     }
 
     #title:focus {

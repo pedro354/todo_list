@@ -2,13 +2,13 @@
 <html lang="pt-BR">
 <head>
   <!-- <link rel="preload" href="/css/app.css" as="style" onload="this.onload=null;this.rel='stylesheet'"> -->
-<link rel="preload" href="/css/app.css" as="style">
+<!-- <link rel="preload" href="/css/app.css" as="style"> -->
 <link rel="stylesheet" href="/css/app.css">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <noscript> <link rel="stylesheet"  href="/css/app.css"></noscript>
+  <noscript>   <link rel="stylesheet" href="../../../public/css/app.css"></noscript>
   <title>To-Do App | Login</title>
 </head>
 
@@ -32,8 +32,7 @@
 
                       <div class="actions">
                         <div class="middle-actions">
-                          <a href="/auth/register">Registrar-se</a>
-                          <span>/</span>
+                          <a href="/auth/register">Registrar-se / </a>
                           <a href="/auth/forgetPassword">Esqueceu a senha?</a>
 
                         </div>
@@ -44,6 +43,7 @@
                     </form>
               </div>
     </div>
+        <script type="module" src="/script/app.mjs" defer ></script>
 
     <%- include('../partials/footer') %>
 

@@ -21,11 +21,13 @@
                 <% if (!user.guest) { %>
                     <span>Bem vindo, <%= user.username || user.name %></span>
                     <% } else { %>
-                        <span>Bem vindo, <%= user.name %>!</span>
+                        <span>Bem vindo, <%= user.username %>!</span>
                         <% } %>
+                        <% if (!user.guest) { %>
                         <form action="/auth/delete" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar sua conta?')">
                             <button class="deleteBtn" type="submit">Deletar Conta</button>
                         </form>
+                        <% } %>
                     </div>
                     
                     <h1 class="text">Lista de Tarefas</h1>
@@ -53,9 +55,7 @@
                     </button>
                 </div>  
         </main>
-        <script type="module" src="script/app.js" defer >
-            
-        </script>
+        <script type="module" src="/script/app.mjs"></script>
         
         <%- include('../partials/footer') %>
 

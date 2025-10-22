@@ -1,21 +1,28 @@
 {
   "name": "todo-list",
-  "version": "1.0.0",
-  "main": "script.js",
-  
-  
+  "version": "2.0.0",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "node server.js",
-    "dev": "nodemon server.js",
-    "sass": "sass public/scss/app.scss public/css/app.css --watch --style=compressed"
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "sass": "sass public/scss/app.scss public/css/app.css --watch --style=compressed",
+    "build": "echo 'No build needed'"
   },
-  "ignore": ["*.log", "logs/*", "temp/*", "uploads/*", "*.db", "*.sqlite"],
+  "ignore": [
+    "*.log",
+    "logs/*",
+    "temp/*",
+    "uploads/*",
+    "*.db",
+    "*.sqlite"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "vercel": "^41.7.8"
   },
   "dependencies": {
     "animate.css": "^4.1.1",
@@ -27,8 +34,12 @@
     "braces": "^3.0.3",
     "chokidar": "^3.6.0",
     "concat-map": "^0.0.1",
+    "connect-pg-simple": "^10.0.0",
+    "cookie-session": "^2.1.1",
+    "cors": "^2.8.5",
     "debug": "^4.4.0",
     "dotenv": "^17.2.1",
+    "dotenv-flow": "^4.1.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
