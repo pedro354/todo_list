@@ -150,24 +150,31 @@ const authController = {
         // Login como convidado
 
         try {
-            if (loginType === 'guest') {
-                req.session.authenticated = true;
-                req.session.currentUser = {
-                    id: 0,
-                    username: 'Convidado',
-                    email: null,
-                    guest: true
-                }
-                return res.redirect('/app')
-            }
-            // verificar se o usuário existe
-            if (!email || !password) {
-                console.log("Campos faltando");
-                return res.render('pages/login', {
-                    user: null,
-                    message: { type: 'error', text: 'Todos os campos são obrigatórios!' }
-                });
-            }
+if (loginType === 'guest') {
+    console.log("Login como convidado solicitado!", req.session.currentUser);
+
+    // busca o usuário convidado direto no banco
+    const guestUser = await UserModel.findUserByEmail('guest@todo.app');
+
+    if (!guestUser) {
+        console.error("Usuário convidado não encontrado no banco!");
+        return res.render('pages/login', {
+            user: null,
+            message: { type: 'error', text: 'Usuário convidado não configurado!' }
+        });
+    }
+
+    req.session.authenticated = true;
+    req.session.currentUser = {
+        id: guestUser.id,
+        username: guestUser.username,
+        email: guestUser.email,
+        guest: true
+    };
+
+    console.log("Sessão de convidado iniciada:", req.session.currentUser);
+    return res.redirect('/app');
+}
 
             const user = await UserModel.findUserByEmail(email);
             console.log("Usuário encontrado:", user);
