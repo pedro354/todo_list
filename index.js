@@ -1,7 +1,6 @@
 require('dotenv-flow').config();
 const express = require('express');
-const session = require('express-session');
-const pgSession = require('connect-pg-simple')(session);
+const cookieSession = require('cookie-session');
 const path = require('path');
 const router = require('./src/routes');
 const messageHandler = require('./src/middlewares/messageHandler');
@@ -11,56 +10,34 @@ const errorHandler = require('./src/middlewares/errorHandler');
 
 const app = express();
 
-// Configurações
+// configs
 app.set('view engine', 'ejs');
 app.set('views', path.join(process.cwd(), 'views'));
 app.use(express.static(path.join(process.cwd(), 'public')));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); // Importante para API
 
-// Trust proxy (necessário para HTTPS no Render)
+// middlewares
+app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', 1);
 
-// ===== CONFIGURAÇÃO DE SESSÃO COM SUPABASE =====
-app.use(session({
-    store: new pgSession({
-        conString: process.env.DATABASE_URL,
-        tableName: 'user_sessions',
-        createTableIfMissing: true // Cria a tabela automaticamente
-    }),
-    secret: process.env.SESSION_SECRET || 'seu-secret-aqui-mude-isso',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 24 * 60 * 60 * 1000, // 24 horas
-        secure: process.env.NODE_ENV === 'production', // true em produção (HTTPS)
-        httpOnly: true,
-        sameSite: 'lax' // Mudei de 'none' para 'lax'
-    }
+// session
+app.use(cookieSession({
+    name: 'session',
+    keys: [process.env.SESSION_SECRET || 'fallback-secret'],
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
 }));
 
 app.use(messageHandler);
 app.use(logger);
 
-// Rotas
+// routes
 app.use(router);
 
-// Tratamento de erros
+// errors
 app.use(errorController.notFound);
 app.use(errorHandler);
 
-// Error handler global
-app.use((err, req, res, next) => {
-    console.error('❌ Erro:', err);
-    res.status(500).json({ 
-        error: 'Internal Server Error',
-        message: process.env.NODE_ENV === 'development' ? err.message : undefined
-    });
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, '0.0.0.0', () => {
-    console.log(`✅ Server running on 0.0.0.0:${port}`);
-    console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`🔐 Session store: PostgreSQL (Supabase)`);
-});
+// exportar p/ vercel funcionar
+module.exports = app;

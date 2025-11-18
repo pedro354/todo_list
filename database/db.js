@@ -5,7 +5,7 @@ const { Pool } = require('pg');
 const isProduction = process.env.NODE_ENV === 'production';
 // Configuração da conexão com o banco de dados
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: process.env.DATABASE_URL || process.env.DATABASE_URL_LOCAL,
     ssl: isProduction ? { rejectUnauthorized: false } : false,
 })
 // função para executar queries no banco de dados
