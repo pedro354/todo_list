@@ -21,12 +21,12 @@ app.set('trust proxy', 1);
 
 // session
 app.use(cookieSession({
-    name: 'session',
-    keys: [process.env.SESSION_SECRET || 'fallback-secret'],
+    name: "session",
+    keys: [process.env.SESSION_SECRET],
     maxAge: 24 * 60 * 60 * 1000,
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,     // 🔥 obrigatório no vercel
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    sameSite: "none"  // 🔥 obrigatório no vercel para cookie cross-site
 }));
 
 app.use(messageHandler);

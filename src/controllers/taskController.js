@@ -5,6 +5,8 @@ const TaskModel = require("../models/TaskModel");
 const taskController = {
 
     index: async (req, res) => {
+        console.log("Sessão na rota /app:", req.session);
+
         try {
             const user = req.session.currentUser;
             const tasks = await TaskModel.findTasksByUserId(user.id);
