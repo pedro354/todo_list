@@ -1,4 +1,6 @@
-require('dotenv-flow').config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require('express');
 const cookieSession = require('cookie-session');
 const path = require('path');
