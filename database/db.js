@@ -3,11 +3,15 @@ require('dotenv-flow').config();
 const { Pool } = require('pg');
 // conexão com o banco de dados 
 const isProduction = process.env.NODE_ENV === 'production';
+import postgres from 'postgres'
+
+
 // Configuração da conexão com o banco de dados
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL || process.env.DATABASE_URL_LOCAL,
     ssl: isProduction ? { rejectUnauthorized: false } : false,
 })
+const sql = postgres(connectionString)
 // função para executar queries no banco de dados
 async function query(queryString, params, callback) {
     return pool.query(queryString, params, callback);
@@ -18,4 +22,4 @@ async function getClient() {
     return pool.connect(); // retorna uma promise 
 }
 
-module.exports = {query, getClient}
+module.exports = {query, getClient, sql}

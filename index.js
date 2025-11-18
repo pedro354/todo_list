@@ -26,9 +26,9 @@ app.use(cookieSession({
     name: "session",
     keys: [process.env.SESSION_SECRET],
     maxAge: 24 * 60 * 60 * 1000,
-    secure: true,     // 🔥 obrigatório no vercel
+secure: process.env.NODE_ENV === "production",
+sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     httpOnly: true,
-    sameSite: "none"  // 🔥 obrigatório no vercel para cookie cross-site
 }));
 
 app.use(messageHandler);
