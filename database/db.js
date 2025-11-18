@@ -1,4 +1,3 @@
-require('dotenv-flow').config({ silent: true });
 const { Pool } = require("pg");
 
 // Configuração geral

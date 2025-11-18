@@ -1,8 +1,6 @@
 console.log("🚀 App iniciando no Render...");
+require('dotenv-flow').config({ silent: true });
 
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
 const express = require('express');
 const cookieSession = require('cookie-session');
 const path = require('path');

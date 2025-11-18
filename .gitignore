@@ -1,6 +1,6 @@
+node_modules/
 # Arquivos sensíveis e configs locais
-.env
-.env.local
+.env*
 
 # Logs
 logs
