@@ -1,3 +1,5 @@
+console.log("🚀 App iniciando no Render...");
+
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -40,6 +42,13 @@ app.use(router);
 // errors
 app.use(errorController.notFound);
 app.use(errorHandler);
+process.on("uncaughtException", (err) => {
+  console.error("❌ Erro fatal:", err);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.error("❌ Promessa rejeitada sem catch:", err);
+});
 
 // exportar p/ vercel funcionar
 module.exports = app;
