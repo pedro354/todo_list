@@ -16,3 +16,4 @@ async function getClient() {
 }
 
 module.exports = { query, getClient, pool };
+
