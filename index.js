@@ -9,6 +9,7 @@ const messageHandler = require('./src/middlewares/messageHandler');
 const logger = require('./src/middlewares/logger');
 const errorController = require('./src/controllers/errorController');
 const errorHandler = require('./src/middlewares/errorHandler');
+const cors = require("cors");
 
 const app = express();
 
@@ -21,12 +22,17 @@ app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', 1);
 
+app.use(cors({
+    origin: ["https://todoolists.vercel.app"],
+    credentials: true
+})); 
+
 // session
 app.use(cookieSession({
     name: "session",
     keys: [process.env.SESSION_SECRET],
     maxAge: 24 * 60 * 60 * 1000,
-secure: process.env.NODE_ENV === "production",
+secure: process.env.NODE_ENV === "production" || true ,
 sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     httpOnly: true,
 }));
