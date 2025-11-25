@@ -1,7 +1,7 @@
 {
   "version": 2,
   "builds": [
-    { "src": "index.js", "use": "@vercel/node" }
+    { "todo_list": "index.js", "use": "@vercel/node" }
   ],
   "routes": [
     {
