@@ -16,13 +16,13 @@ const authMiddleware = (req, res, next) => {
             message: { type: 'error', text: 'Não autorizado' }
         });
     }
-    if (!sessionUser && !localStorage.getItem("guestUser")) {
-    localStorage.setItem("guestUser", JSON.stringify({
-        id: "guest",
-        name: "Convidado",
-        guest: true
-    }));
-}
+//     if (!sessionUser && !localStorage.getItem("guestUser")) {
+//     localStorage.setItem("guestUser", JSON.stringify({
+//         id: "guest",
+//         name: "Convidado",
+//         guest: true
+//     }));
+// }
 
     if (req.session.authenticated || req.session.currentUser?.guest) {
         const token = req.session.token;
