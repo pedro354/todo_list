@@ -69,17 +69,22 @@
     }
     .task{
         border-radius: 10px!important;
+            font-size: 12px;
     }
     .user{
-        font-size: 1.5rem;
-        text-align: center!important;
-        font-family: cursive, sans-serif;
+    font-size: 0.8rem;
+    text-align: center!important;
+    font-family: cursive, sans-serif;
+    justify-content: center;
+    width: 100%;
     }
     }
 
 }
 
-
+.task-title {
+  display: flex;
+}
 @media screen and (max-width: 500px), (max-width: 400px) {
 
     header{
@@ -91,7 +96,7 @@
         text-align: center;
     }
     .user{
-        font-size: 1.5rem;
+        font-size: 15px;
         text-align: center!important;
         font-family: cursive, sans-serif;
     }

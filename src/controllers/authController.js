@@ -145,36 +145,36 @@ const authController = {
     // POST /auth/login
     login: async (req, res) => {
         console.log("Login recebido:", req.body);
+
         const { email, password, loginType } = req.body
 
         // Login como convidado
 
         try {
-if (loginType === 'guest') {
-    console.log("Login como convidado solicitado!", req.session.currentUser);
+            if (loginType === 'guest') {
+                console.log("Login como convidado solicitado!");
 
-    // busca o usuário convidado direto no banco
-    const guestUser = await UserModel.findUserByEmail('guest@todo.app');
+                const guestUser = await UserModel.findUserByEmail('guest@todo.app');
 
-    if (!guestUser) {
-        console.error("Usuário convidado não encontrado no banco!");
-        return res.render('pages/login', {
-            user: null,
-            message: { type: 'error', text: 'Usuário convidado não configurado!' }
-        });
-    }
+                if (!guestUser) {
+                    console.error("Usuário convidado não encontrado no banco!");
+                    return res.render('pages/login', {
+                        user: null,
+                        message: { type: 'error', text: 'Usuário convidado não configurado!' }
+                    });
+                }
 
-    req.session.authenticated = true;
-    req.session.currentUser = {
-        id: guestUser.id,
-        username: guestUser.username,
-        email: guestUser.email,
-        guest: true
-    };
+                req.session.authenticated = true;
+                req.session.currentUser = {
+                    id: guestUser.id,
+                    username: guestUser.username,
+                    email: guestUser.email,
+                    guest: true
+                };
 
-    console.log("Sessão de convidado iniciada:", req.session.currentUser);
-    return res.redirect('/app');
-}
+                console.log("Sessão de convidado iniciada:", req.session.currentUser);
+                return res.redirect('/app');
+            }
 
             const user = await UserModel.findUserByEmail(email);
             console.log("Usuário encontrado:", user);
@@ -287,7 +287,7 @@ if (loginType === 'guest') {
             res.redirect('/auth/login?msg=deleted');
         });
     },
-    
+
     // GET /auth/forgetPassword
     forgetPasswordGET: (req, res) => {
         res.render('pages/forgetPassword', { message: null });

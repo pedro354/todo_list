@@ -12,6 +12,7 @@
   gap: 1rem;
   justify-content: end;
   align-items: center;
+    font-size: 15px;
 }
 .mt-5 {
   margin: 1rem auto;
@@ -82,13 +83,12 @@
 
 
     .btn-normal {
-      background-color: #444;
       color: $text-color;
       margin-top: 1rem;
       width: 100%;
       border-radius: 0.5rem;
       border: none;
-
+        background: linear-gradient(90deg,rgb(81, 22, 242) 0%, rgb(162, 27, 255) 100%);
     }
 
     .btn-new-task {
@@ -125,7 +125,7 @@
       border-radius: 1rem 0 0 1rem;
     }
     .text{
-      text-align: left;
+      text-align: center;
     }
     .addTaskBtn {
       border: none;

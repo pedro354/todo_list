@@ -379,6 +379,7 @@ footer {
   gap: 1rem;
   justify-content: end;
   align-items: center;
+  font-size: 15px;
 }
 
 .mt-5 {
@@ -442,12 +443,12 @@ footer {
   font-family: "cursive";
 }
 .app .container-app .btn-normal {
-  background-color: #444;
   color: #e4e4e4;
   margin-top: 1rem;
   width: 100%;
   border-radius: 0.5rem;
   border: none;
+  background: linear-gradient(90deg, rgb(81, 22, 242) 0%, rgb(162, 27, 255) 100%);
 }
 .app .container-app .btn-new-task {
   color: inherit;
@@ -481,7 +482,7 @@ footer {
   border-radius: 1rem 0 0 1rem;
 }
 .app .container-app .text {
-  text-align: left;
+  text-align: center;
 }
 .app .container-app .addTaskBtn {
   border: none;
@@ -937,13 +938,20 @@ html, body {
   }
   .app .task {
     border-radius: 10px !important;
+    font-size: 12px;
   }
   .app .user {
-    font-size: 1.5rem;
+    font-size: 0.8rem;
     text-align: center !important;
     font-family: cursive, sans-serif;
+    justify-content: center;
+    width: 100%;
   }
 }
+.task-title {
+  display: flex;
+}
+
 @media screen and (max-width: 500px), (max-width: 400px) {
   header {
     padding: 10px;
@@ -954,7 +962,7 @@ html, body {
     text-align: center;
   }
   .user {
-    font-size: 1.5rem;
+    font-size: 15px;
     text-align: center !important;
     font-family: cursive, sans-serif;
   }
